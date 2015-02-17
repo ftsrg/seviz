@@ -1,0 +1,45 @@
+[INCLUDE=bootstrap]
+Title      : SEViz - a tool for visualizing symbolic execution
+Css        : nav-example.css
+~Col       : .col-lg-4
+
+~ Begin Container
+~ Masthead
+
+### SEViz -- a tool for visualizing symbolic execution {.text-muted}
+
+* [Home](index.html)
+* [User manual](manual.html)
+* {.active} [Downloads](#)
+* [Source](source.html)
+* [Contact](contact.html)
+{.nav .nav-justified}
+~ 
+
+
+~ Begin Row
+# Downloads
+
+The downloaded file is a zip archive, which contains the following folders, that are corresponding to the three components.
+
+* **monitoring:** the monitoring library for Smart Unit Tests (formerly Pex).
+* **viewer:** the visualization component.
+* **vsextension:** extension for Visual Studio, which maps source code to execution tree nodes.
+
+[Click here to download the binaries (.zip 687,9 kb)](binaries.zip){.btn .btn-lg .btn-success html-role=button}
+
+**NOTE:** Besides these binaries, further libraries are needed to use the tool. See details in the [manual](manual.html).
+{.text-danger}
+
+Our tool uses the following external libraries.
+
+* [Dot2Wpf](http://www.codeproject.com/Articles/18870/Dot-WPF-a-WPF-control-for-viewing-Dot-graphs)
+* [Ionic.Zip](http://dotnetzip.codeplex.com/)
+
+~ End Row
+
+~ Footer
+&copy; BME MIT Fault Tolerant Systems Research Group, 2015
+~
+
+~ End Container

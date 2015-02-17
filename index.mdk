@@ -1,0 +1,56 @@
+[INCLUDE=bootstrap]
+Title      : SEViz - a tool for visualizing symbolic execution
+Css        : nav-example.css
+~Col       : .col-lg-4
+
+~ Begin Container
+~ Masthead
+
+### SEViz -- a tool for visualizing symbolic execution {.text-muted}
+
+* {.active} [Home](#)
+* [User manual](manual.html)
+* [Downloads](downloads.html)
+* [Source](source.html)
+* [Contact](contact.html)
+{.nav .nav-justified}
+~ 
+
+~ Jumbotron
+# Visualizing symbolic execution
+SEViz (Symbolic Execution Visualizer) helps test and software engineers developing better
+tests by visualizing symbolic execution-based test generation.
+
+SEViz is an open source tool,
+and currently works with Microsoft Smart Unit Tests and Visual Studio 2015.
+{.lead}
+
+[Download SEViz here](downloads.html){.btn .btn-lg .btn-success html-role=button}
+~
+
+~ Begin Row
+## Description
+Our prototype tool, SEViz, visualizes the symbolic executions in a form of a symbolic execution tree. The tool consists of three main components.
+
+* The first one **monitors the execution** of the [Smart Unit Tests](https://msdn.microsoft.com/en-us/library/dn823749%28v=vs.140%29.aspx) (formerly [Pex](http://research.microsoft.com/en-us/projects/pex/)) and saves all of its
+collected data.
+* The second component, the viewer **visualizes the collected data** and enables interactive analysis on it.
+* The last component **connects the symbolic execution tree and the source code under test** with a two-way mapping.
+
+
+
+~ End Row
+
+~ Begin Row
+## Development History
+
+* **02/09/2015:** First release.
+
+~ End Row
+
+
+~ Footer
+&copy; BME MIT Fault Tolerant Systems Research Group, 2015
+~
+
+~ End Container

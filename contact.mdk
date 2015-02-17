@@ -1,0 +1,56 @@
+[INCLUDE=bootstrap]
+Title      : SEViz - a tool for visualizing symbolic execution
+Css        : nav-example.css
+~Col       : .col-lg-4
+
+~ Begin Container
+~ Masthead
+
+### SEViz -- a tool for visualizing symbolic execution {.text-muted}
+
+* [Home](index.html)
+* [User manual](manual.html)
+* [Downloads](downloads.html)
+* [Source](source.html)
+* {.active} [Contact](#)
+{.nav .nav-justified}
+~ 
+# Contact
+~ Begin Row
+
+~ Center
+### David Honfi
+david.honfi (AT) inf.mit.bme.hu
+
+### Zoltan Micskei
+micskeiz (AT) mit.bme.hu
+
+### Andras Voros
+vori (AT) mit.bme.hu
+
+~
+
+~ End Row
+
+
+~ Begin Row 
+
+~ Center { padding-top=5ex }
+[![ftsrg-logo]](https://inf.mit.bme.hu/en)
+
+[![bme_logo_nagy]](http://www.bme.hu/?language=en)
+
+
+[bme_logo_nagy]: http://www.bme.hu/sites/default/files/mediakit/bme_logo_nagy.jpg "Budapest University of Technology and Economics" { width=200px  }
+
+[ftsrg-logo]: https://raw.githubusercontent.com/FTSRG/templates/master/logos/ftsrg-logo.png "Fault Tolerant Systems Research Group" { width=200px;  }
+
+~
+
+~ End Row
+
+~ Footer
+&copy; BME MIT Fault Tolerant Systems Research Group, 2015
+~
+
+~ End Container

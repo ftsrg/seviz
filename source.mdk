@@ -1,0 +1,42 @@
+[INCLUDE=bootstrap]
+Title      : SEViz - a tool for visualizing symbolic execution
+Css        : nav-example.css
+~Col       : .col-lg-4
+
+~ Begin Container
+~ Masthead
+
+### SEViz -- a tool for visualizing symbolic execution {.text-muted}
+
+* [Home](index.html)
+* [User manual](manual.html)
+* [Downloads](#)
+* {.active} [Source](#)
+* [Contact](contact.html)
+{.nav .nav-justified}
+~ 
+
+
+~ Begin Row
+# Source code
+
+Currently, the source code of our tool is available through this site. We are planning the _publishing to GitHub_.
+
+The archive, which can be downloaded below, contains the following three solutions.
+
+* **SEViz.Monitoring:** This contains the sources of the monitoring component for Pex.
+* **SEViz.Viewer:** A WPF solution of the viewer, which can visualize the symbolic execution tree.
+* **SEViz.VSExtension:** The Visual Studio extension solution, which provides the mapping between the source code and the visualization.
+
+[Click here to download the sources (.zip 4,266 mb)](https://github.com/FTSRG/seviz/archive/master.zip){.btn .btn-lg .btn-success html-role=button}
+
+**NOTE:** To be able to compile the sources, some referenced libraries are needed, which are **not included** in these projects. See details in the [manual](manual.html).
+{.text-danger}
+
+~ End Row
+
+~ Footer
+&copy; BME MIT Fault Tolerant Systems Research Group, 2015
+~
+
+~ End Container
