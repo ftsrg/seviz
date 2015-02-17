@@ -10,7 +10,7 @@ Css        : nav-example.css
 
 * [Home](index.html)
 * [User manual](manual.html)
-* [Downloads](#)
+* [Downloads](downloads.html)
 * {.active} [Source](#)
 * [Contact](contact.html)
 {.nav .nav-justified}
