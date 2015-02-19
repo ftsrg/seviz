@@ -28,7 +28,7 @@ The archive, which can be downloaded below, contains the following three solutio
 * **SEViz.Viewer:** A WPF solution of the viewer, which can visualize the symbolic execution tree.
 * **SEViz.VSExtension:** The Visual Studio extension solution, which provides the mapping between the source code and the visualization.
 
-[Click here to download the sources (.zip 4,266 mb)](https://github.com/FTSRG/seviz/archive/master.zip){.btn .btn-lg .btn-success html-role=button}
+[Click here to download the sources (.zip from GitHub)](https://github.com/FTSRG/seviz/archive/master.zip){.btn .btn-lg .btn-success html-role=button}
 
 **NOTE:** To be able to compile the sources, some referenced libraries are needed, which are **not included** in these projects. See details in the [manual](manual.html).
 {.text-danger}
