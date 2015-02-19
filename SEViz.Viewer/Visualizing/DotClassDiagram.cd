@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="Rodemeyer.Visualizing.GraphElement">
+    <Position X="3.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GraphElement.cs</FileName>
+      <HashCode>BAAEAACAAAAAACAIEAAAAIAAAAAAAAgAAAAIIAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rodemeyer.Visualizing.DotParser">
+    <Position X="6.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DotParser.cs</FileName>
+      <HashCode>AABAAQAAIAgAAAACAAAQgAAgAAAAAQEAIIABAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rodemeyer.Visualizing.DotViewer">
+    <Position X="0.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DotViewer.xaml.cs</FileName>
+      <HashCode>AAJEgAKIAAQhAAQIUAAAgBAACQAIACAAAAAAAAJAAAE=</HashCode>
+    </TypeIdentifier>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+  </Class>
+  <Class Name="Rodemeyer.Visualizing.GraphLoader">
+    <Position X="9.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GraphLoader.cs</FileName>
+      <HashCode>AAJEgACAAIQhAAQAUAAAAAAACAAIAAgAAAAAQAAAIAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+</ClassDiagram>

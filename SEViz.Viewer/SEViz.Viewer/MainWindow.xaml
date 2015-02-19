@@ -1,0 +1,169 @@
+﻿<Window x:Class="SEViz.Viewer.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:r="clr-namespace:Rodemeyer.Visualizing;assembly=Rodemeyer.Visualizing"
+    Title="SEViz - Symbolic Execution Visualization" MinWidth="1024" MinHeight="650" Height="650" Width="1024" WindowStartupLocation="CenterScreen" Background="AliceBlue"
+        xmlns:ctr="clr-namespace:LoadingPanelSample.Controls"
+    >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <!--<RowDefinition Height="18*"></RowDefinition>-->
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+
+        </Grid>
+        <Grid  Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <r:DotViewer x:Name="MyDotViewer" Grid.Column="1"></r:DotViewer>
+
+            <!--<StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="6">-->
+
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Center"  Grid.Column="0"  Height="Auto" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition ></RowDefinition>
+                </Grid.RowDefinitions>
+                <!--<TextBlock>
+            Mouse wheel zooms<LineBreak/>
+            Right drag scrolls<LineBreak/>
+            Left click selects<LineBreak/>
+            Nodes have tooltips
+          </TextBlock>-->
+                <Button  Command="Open" VerticalAlignment="Top" Margin="10,0,10,0" Grid.Row="0">
+                    <StackPanel Orientation="Horizontal">
+                    <Image Stretch="None" Source="Resources\openHs.png"></Image>
+                    <TextBlock Margin="5,0,0,0">Open a SEViz file</TextBlock>
+                    </StackPanel>
+                    <Button.ToolTip>Opens a graph file</Button.ToolTip>
+                </Button>
+                <Button  VerticalAlignment="Top" Command="Print" Margin="10,0,10,0" Grid.Row="1" >
+                    <StackPanel Orientation="Horizontal">
+                    <Image Stretch="None" Source="Resources\PrintHS.png"></Image>
+                        <TextBlock Margin="5,0,0,0">Print the graph</TextBlock>
+                    </StackPanel>
+                    <Button.ToolTip>Prints the current graph</Button.ToolTip>
+                        
+                </Button>
+                <Button VerticalAlignment="Top" Margin="10,0,10,0" Click="ButtonConnectDisconnect_Click" Name="btnVS" Grid.Row="2">
+                    Connect to Visual Studio
+                    <Button.ToolTip>Connect to Visual Studio</Button.ToolTip>
+                </Button>
+                <Button VerticalAlignment="Top" Margin="10,0,10,0" Click="ButtonVS_Click" Grid.Row="3">
+                    Map to code
+                    <Button.ToolTip>Maps the currently selected nodes to code in Visual Studio</Button.ToolTip>
+                </Button>
+                <Button VerticalAlignment="Top" Margin="10,0,10,0" Click="ButtonPC_Click" Grid.Row="4">
+                    About SEViz
+                    <Button.ToolTip>Some details of the tool</Button.ToolTip>
+                </Button>
+                <TabControl Grid.Row="5" Margin="0,40,0,0">
+                    <TabItem Header="Runs" Visibility="Collapsed" Name="tabiRuns">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <ListBox  Name="lbRuns" ItemsSource="{Binding}" MouseDoubleClick="lbRuns_MouseDoubleClick"  Grid.Row="0">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Name="tbRunNum" Text="{Binding Path=Number}"></TextBlock>
+                                            <TextBlock Margin="10,0,0,0">Was test generated? <TextBlock Name="tbTestGenerated" Text="{Binding Path=TestGenerated}"></TextBlock></TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Details" Visibility="Collapsed" Name="tabiDetails">
+                        <ScrollViewer Padding="0,0,0,0" HorizontalScrollBarVisibility="Auto" Background="Transparent">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+
+                                </Grid.RowDefinitions>
+
+                                <StackPanel  VerticalAlignment="Center" >
+                                    
+                                    <TextBlock Padding="5,0,5,0" FontSize="12"  FontWeight="Bold"   Name="tbNodeNum" >NODE ?
+                                    </TextBlock>
+                                    
+                                    <TextBlock Padding="5,0,5,0" FontSize="12"   Name="tbMethod" VerticalAlignment="Center" FontFamily="Consolas">Method name
+                                            <TextBlock.ToolTip>
+                                                <ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}" Visibility="Visible">
+                                                    <TextBlock Name="tbttMethod" />
+                                                </ToolTip>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
+                                        <TextBlock Padding="5,0,5,0" FontSize="12"  Name="tbSource"  VerticalAlignment="Center" FontFamily="Consolas" >Source code mapping
+                                            <TextBlock.ToolTip>
+                                                <ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}" Visibility="Visible">
+                                                    <TextBlock Name="tbttSource" />
+                                                </ToolTip>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
+                                    </StackPanel>
+                        
+                                <Border   Grid.Row="1" >
+                                    <StackPanel  Margin="5,10,5,10" >
+                                        <TextBlock FontWeight="Bold" FontSize="12" VerticalAlignment="Bottom" >Path condition</TextBlock>
+                                        <TextBlock Name="tbLiterals" FontSize="12" FontFamily="Consolas" VerticalAlignment="Center" >
+                    Some literals go here
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Border>
+                                <Border   Grid.Row="2" >
+                                    <StackPanel Grid.Row="2"  >
+                                        <TextBlock FontWeight="Bold" FontSize="12" VerticalAlignment="Bottom" Margin="5,10,5,0">Generated test code</TextBlock>
+                                        <TextBox Background="Transparent"
+         BorderThickness="0"
+         IsReadOnly="True"
+         TextWrapping="Wrap" Name="tbMethodCode" FontSize="12" FontFamily="Consolas" Margin="5,0,5,0" VerticalAlignment="Center">
+                                            No test was generated here.
+                                        </TextBox>
+                                    </StackPanel>
+                                </Border>
+                                <StackPanel Grid.Row="3"  >
+                                    <TextBlock FontWeight="Bold" FontSize="12" VerticalAlignment="Bottom" Margin="5,10,5,0">Reason of exhaust</TextBlock>
+                                    <TextBlock Name="tbExhaustedReason" FontSize="12" FontFamily="Consolas" Margin="5,00,5,10" VerticalAlignment="Center">
+                    N/A
+                                    </TextBlock>
+                                    <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,10,0" Click="ButtonPC_Click" Width="200">
+                                        Open in new window
+                                        <Button.ToolTip>Shows the path condition of the currently selected node</Button.ToolTip>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+
+                    </TabItem>
+                </TabControl>
+            </Grid>
+
+
+        </Grid>
+        <Grid VerticalAlignment="Bottom">
+            <ctr:LoadingPanel x:Name="loadingPanel"
+                        IsLoading="{Binding PanelLoading}"
+                        Message="{Binding PanelMainMessage}"
+                        SubMessage="{Binding PanelSubMessage}" 
+                        ClosePanelCommand="{Binding PanelCloseCommand}" />
+        </Grid>
+    </Grid>
+</Window>
