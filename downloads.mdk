@@ -26,7 +26,7 @@ The downloaded file is a zip archive, which contains the following folders, that
 * **viewer:** the visualization component.
 * **vsextension:** extension for Visual Studio, which maps source code to execution tree nodes.
 
-[Click here to download the binaries (.zip 686,7 kb)](binaries.zip){.btn .btn-lg .btn-success html-role=button}
+[Click here to download the binaries (v0.5-alpha, .zip 686,7 kb)](https://github.com/FTSRG/seviz/releases/download/v0.5-alpha/binaries.zip){.btn .btn-lg .btn-success html-role=button}
 
 **NOTE:** Besides these binaries, further libraries are needed to use the tool. See details in the [manual](manual.html).
 {.text-danger}
