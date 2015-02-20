@@ -23,7 +23,7 @@ Css        : nav-example.css
 
 * .NET version 4.0 or later. [Download &raquo;](http://www.microsoft.com/en-us/download/details.aspx?id=30653)
 * Visual Studio 2015 Ultimate Preview or later, with Smart Unit Tests (formerly known as Pex) included. [Download &raquo;](http://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs.aspx) 
-* GraphViz version 2.38 or later. [Download &raquo;](http://www.graphviz.org/Download..php)
+* GraphViz version 2.38 or later. [Download &raquo;](http://www.graphviz.org/Download.php)
 
 ### Installation
 
