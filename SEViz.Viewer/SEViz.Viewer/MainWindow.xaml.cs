@@ -201,14 +201,11 @@ namespace SEViz.Viewer
 
         public void FindAndSelectNodeByCodeLocation(string text)
         {
-            MessageBox.Show(text);
-
             var docUrl = text.Split('|')[0];
             StringBuilder b = new StringBuilder();
             b.Append(char.ToLower(docUrl[0]));
             b.Append(docUrl.Skip(1).ToArray());
-            docUrl = b.ToString();
-            docUrl = docUrl.Replace(@"\\", @"\");
+            docUrl = b.ToString().ToLower();
 
             var lineNumberStart = text.Split('|')[1];
             var lineNumberBottom = text.Split('|')[2];
