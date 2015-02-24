@@ -26,6 +26,8 @@ and currently works with Microsoft Smart Unit Tests and Visual Studio 2015.
 {.lead}
 
 [Download SEViz here](downloads.html){.btn .btn-lg .btn-success html-role=button}
+<span data-line="1;out/bootstrap.mdk:22"></span>
+<a href="https://vimeo.com/120420508" class="btn btn-lg btn-success" target="_blank" role="button">Watch tutorial video</a>
 ~
 
 ~ Begin Row
