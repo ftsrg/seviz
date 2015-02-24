@@ -19,6 +19,10 @@ Css        : nav-example.css
 ~ Begin Row
 ## User manual
 
+~ Center
+<iframe src="//player.vimeo.com/video/120420508" width="600" height="338" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+~
+
 ### Requirements
 
 * .NET version 4.0 or later. [Download &raquo;](http://www.microsoft.com/en-us/download/details.aspx?id=30653)
