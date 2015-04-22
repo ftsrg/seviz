@@ -4,12 +4,10 @@
  * SEViz is a tool, which can support the test generation process by
  * visualizing the symbolic execution in a directed graph.
  *
- * Budapest University of Technology and Economics (BME)
- *
  * Authors: Dávid Honfi <david.honfi@inf.mit.bme.hu>, Zoltán Micskei
  * <micskeiz@mit.bme.hu>, András Vörös <vori@mit.bme.hu>
  * 
- * All rights reserved.
+ * Copyright 2015 Budapest University of Technology and Economics (BME)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
