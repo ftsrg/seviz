@@ -1,0 +1,29 @@
+[INCLUDE=bootstrap]
+Title      : SEViz - a tool for visualizing symbolic execution
+Css        : nav-example.css
+~Col       : .col-lg-4
+
+~ Begin Container
+~ Masthead
+
+### SEViz -- a tool for visualizing symbolic execution {.text-muted}
+
+* [Home](index.html)
+* [User manual](manual.html)
+* {.active} [Examples](examples.html)
+* [Downloads](downloads.html)
+* [Source](source.html)
+* [Contact](#)
+{.nav .nav-justified}
+~ 
+# Examples
+~ Begin Row
+
+~ End Row
+
+
+~ Footer
+&copy; BME MIT Fault Tolerant Systems Research Group, 2015
+~
+
+~ End Container

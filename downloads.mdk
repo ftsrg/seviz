@@ -10,6 +10,7 @@ Css        : nav-example.css
 
 * [Home](index.html)
 * [User manual](manual.html)
+* [Examples](examples.html)
 * {.active} [Downloads](#)
 * [Source](source.html)
 * [Contact](contact.html)
