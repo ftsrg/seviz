@@ -610,51 +610,35 @@
 <div class="masthead" data-line="1;out/bootstrap.mdk:1">
 <h3 id="sec-seviz----a-tool-for-visualizing-symbolic-execution" class="text-muted" data-line="1;out/bootstrap.mdk:3" ><span data-line="1;out/bootstrap.mdk:3"></span>SEViz<span data-line="1;out/bootstrap.mdk:3"></span> <span data-line="1;out/bootstrap.mdk:3"></span>&#8211;<span data-line="1;out/bootstrap.mdk:3"></span> a tool for visualizing symbolic execution</h3>
 <ul class="ul list-star nav nav-justified compact" data-line="1;out/bootstrap.mdk:5">
-<li class="li ul-li list-star-li nav-li nav-justified-li compact-li active" data-line="1;out/bootstrap.mdk:5"><span data-line="1;out/bootstrap.mdk:5"></span><a href="#" class="localref">Home</a><span data-line="1;out/bootstrap.mdk:5"></span>
+<li class="li ul-li list-star-li nav-li nav-justified-li compact-li" data-line="1;out/bootstrap.mdk:5"><span data-line="1;out/bootstrap.mdk:5"></span><a href="index.html">Home</a><span data-line="1;out/bootstrap.mdk:5"></span>
 </li>
 <li class="li ul-li list-star-li nav-li nav-justified-li compact-li" data-line="1;out/bootstrap.mdk:6"><span data-line="1;out/bootstrap.mdk:6"></span><a href="manual.html">User manual</a><span data-line="1;out/bootstrap.mdk:6"></span>
 </li>
-<li class="li ul-li list-star-li nav-li nav-justified-li compact-li" data-line="1;out/bootstrap.mdk:7"><span data-line="1;out/bootstrap.mdk:7"></span><a href="examples.html">Examples</a><span data-line="1;out/bootstrap.mdk:7"></span>
+<li class="li ul-li list-star-li nav-li nav-justified-li compact-li active" data-line="1;out/bootstrap.mdk:7"><span data-line="1;out/bootstrap.mdk:7"></span><a href="examples.html">Examples</a><span data-line="1;out/bootstrap.mdk:7"></span>
 </li>
 <li class="li ul-li list-star-li nav-li nav-justified-li compact-li" data-line="1;out/bootstrap.mdk:8"><span data-line="1;out/bootstrap.mdk:8"></span><a href="downloads.html">Downloads</a><span data-line="1;out/bootstrap.mdk:8"></span>
 </li>
 <li class="li ul-li list-star-li nav-li nav-justified-li compact-li" data-line="1;out/bootstrap.mdk:9"><span data-line="1;out/bootstrap.mdk:9"></span><a href="source.html">Source</a><span data-line="1;out/bootstrap.mdk:9"></span>
 </li>
-<li class="li ul-li list-star-li nav-li nav-justified-li compact-li" data-line="1;out/bootstrap.mdk:10"><span data-line="1;out/bootstrap.mdk:10"></span><a href="contact.html">Contact</a></li></ul></div>
-<div class="jumbotron" data-line="1;out/bootstrap.mdk:14"><h1 id="sec-visualizing-symbolic-execution"  data-line="1;out/bootstrap.mdk:15"  style="bookmark:Visualizing symbolic execution"><span data-line="1;out/bootstrap.mdk:15"></span>Visualizing symbolic execution</h1>
-<p data-line="1;out/bootstrap.mdk:16"><span data-line="1;out/bootstrap.mdk:16"></span>SEViz (Symbolic Execution Visualizer) helps test and software engineers developing better
-tests by visualizing symbolic execution-based test generation.
-</p>
-<p class="lead indent" data-line="1;out/bootstrap.mdk:19"><span data-line="1;out/bootstrap.mdk:19"></span>SEViz is an open source tool,
-and currently works with Microsoft Smart Unit Tests and Visual Studio 2015.
-</p>
-<p class="indent" data-line="1;out/bootstrap.mdk:23"><span data-line="1;out/bootstrap.mdk:23"></span><a href="downloads.html" class="btn btn-lg btn-success" role="button">Download SEViz here</a><span data-line="1;out/bootstrap.mdk:23"></span>
-<span data-line="1;out/bootstrap.mdk:24"></span><span data-line="1;out/bootstrap.mdk:22"><span data-line="1;out/bootstrap.mdk:24"></span></span><span data-line="1;out/bootstrap.mdk:24"></span>
-<span data-line="1;out/bootstrap.mdk:25"></span><a href="https://vimeo.com/120420508" class="btn btn-lg btn-success" target="_blank" role="button"><span data-line="1;out/bootstrap.mdk:25"></span>Watch tutorial video<span data-line="1;out/bootstrap.mdk:25"></span></a><span data-line="1;out/bootstrap.mdk:25"></span>
-<span data-line="1;out/bootstrap.mdk:26"></span><a href="http://mit.bme.hu/~micskeiz/papers/honfi-voros-micskei-icst2015-tool.pdf" class="btn btn-lg btn-success" target="_blank" role="button"><span data-line="1;out/bootstrap.mdk:26"></span>Read paper<span data-line="1;out/bootstrap.mdk:26"></span></a></p></div>
-<div class="row" data-line="4"><h2 id="sec-description"  data-line="5"  style="bookmark:Description"><span data-line="5"></span>Description</h2>
-<p data-line="6"><span data-line="6"></span>Our prototype tool, SEViz, visualizes the symbolic executions in a form of a symbolic execution tree. The tool consists of three main components.
-</p>
-<ul class="ul list-star compact" data-line="8">
-<li class="li ul-li list-star-li compact-li" data-line="8"><span data-line="8"></span>The first one <span data-line="8"></span><strong>monitors the execution</strong><span data-line="8"></span> of the<span data-line="8"></span>&nbsp;<a href="https://msdn.microsoft.com/en-us/library/dn823749%28v=vs.140%29.aspx">Smart Unit Tests</a><span data-line="8"></span> (formerly<span data-line="8"></span>&nbsp;<a href="http://research.microsoft.com/en-us/projects/pex/">Pex</a><span data-line="8"></span>) and saves all of its
-collected data.
-</li>
-<li class="li ul-li list-star-li compact-li" data-line="10"><span data-line="10"></span>The second component, the viewer <span data-line="10"></span><strong>visualizes the collected data</strong><span data-line="10"></span> and enables interactive analysis on it.
-</li>
-<li class="li ul-li list-star-li compact-li" data-line="11"><span data-line="11"></span>The last component <span data-line="11"></span><strong>connects the symbolic execution tree and the source code under test</strong><span data-line="11"></span> with a two-way mapping.
-</li></ul>
+<li class="li ul-li list-star-li nav-li nav-justified-li compact-li" data-line="1;out/bootstrap.mdk:10"><span data-line="1;out/bootstrap.mdk:10"></span><a href="#" class="localref">Contact</a></li></ul></div><h1 id="sec-examples"  data-line="1;out/bootstrap.mdk:13"  style="bookmark:Examples"><span data-line="1;out/bootstrap.mdk:13"></span>Examples</h1>
+<div class="row" data-line="1;out/bootstrap.mdk:14">
 
-<p data-line="13"><span data-line="13"></span>For an overview of the tool see the following paper:
+<p data-line="1;out/bootstrap.mdk:16"><span data-line="1;out/bootstrap.mdk:16"></span>We included some examples to try the features of SEViz.
+</p><h2 id="sec-1-sevizdemos"  data-line="1;out/bootstrap.mdk:18"  style="bookmark:1. SEViz.Demos"><span data-line="1;out/bootstrap.mdk:18"></span>1. SEViz.Demos</h2>
+<p data-line="1;out/bootstrap.mdk:20"><span data-line="1;out/bootstrap.mdk:20"></span><a href="https://github.com/FTSRG/seviz/tree/master/Examples/SEViz.Demos" class="btn btn-lg btn-success" role="button">Download SEViz.Demos</a><span data-line="1;out/bootstrap.mdk:20"></span>
+</p><h3 id="sec-11-description" data-line="1;out/bootstrap.mdk:22" ><span data-line="1;out/bootstrap.mdk:22"></span>1.1 Description</h3>
+<p data-line="1;out/bootstrap.mdk:23"><span data-line="1;out/bootstrap.mdk:23"></span>Currently, only this project is available for download (SEViz.Demos).
+</p><h3 id="sec-12-example-outputs" data-line="1;out/bootstrap.mdk:25" ><span data-line="1;out/bootstrap.mdk:25"></span>1.2 Example outputs</h3>
+<div class="center align-center" data-line="2">
+
+<p data-line="4"><span data-line="4"></span><img src="https://raw.githubusercontent.com/FTSRG/seviz/master/Examples/SEViz.Demos/Output/IfBranching.png" title="IfBranching" alt="seviz_ifbranching" data-path="https://raw.githubusercontent.com/FTSRG/seviz/master/Examples/SEViz.Demos/Output/IfBranching.png" data-linkid="seviz_ifbranching" style="width:auto;max-width:80%"><span data-line="4"></span>
 </p>
-<p class="indent" data-line="15"><span data-line="15"></span>D. Honfi, A. Vörös, Z. Micskei: SEViz: A Tool for Visualizing Symbolic Execution, In Proc. of IEEE Int. Conf. on Software Testing,
-Verification and Validation (ICST), Tool Track, Graz, Austria, 13-17 April 2015, to appear.
-</p></div>
-<div class="row" data-line="20"><h2 id="sec-development-history"  data-line="21"  style="bookmark:Development History"><span data-line="21"></span>Development History</h2>
-<ul class="ul list-star compact" data-line="23">
-<li class="li ul-li list-star-li compact-li" data-line="23"><span data-line="23"></span><strong>02/09/2015:</strong><span data-line="23"></span> First release.
-</li></ul></div>
-<div class="footer" data-line="28">
-<p data-line="29"><span data-line="29"></span>&#169;<span data-line="29"></span> BME MIT Fault Tolerant Systems Research Group, 2015</p></div></div>
+<p class="indent" data-line="7"><span data-line="7"></span><img src="https://raw.githubusercontent.com/FTSRG/seviz/master/Examples/SEViz.Demos/Output/SwitchBranching.png" title="SwitchBranching" alt="seviz_switchbranching" data-path="https://raw.githubusercontent.com/FTSRG/seviz/master/Examples/SEViz.Demos/Output/SwitchBranching.png" data-linkid="seviz_switchbranching" style="width:auto;max-width:80%"><span data-line="7"></span>
+</p>
+<p class="indent" data-line="10"><span data-line="10"></span><img src="https://raw.githubusercontent.com/FTSRG/seviz/master/Examples/SEViz.Demos/Output/ForLoop_30_runs/ForLoop.png" title="ForLoop" alt="seviz_ForLoop" data-path="https://raw.githubusercontent.com/FTSRG/seviz/master/Examples/SEViz.Demos/Output/ForLoop_30_runs/ForLoop.png" data-linkid="seviz_forloop" style="width:auto;max-width:80%"><span data-line="10"></span>
+</p></div></div>
+<div class="footer" data-line="16">
+<p data-line="17"><span data-line="17"></span>&#169;<span data-line="17"></span> BME MIT Fault Tolerant Systems Research Group, 2015</p></div></div>
 <div class="logomadoko block" style="text-align:right;font-size:xx-small;margin-top:4em"><span data-line="1;out/bootstrap.mdk:1"></span>Created with&nbsp;<a href="https://www.madoko.net">Madoko.net</a>.</div></div><span data-line=""></span>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
