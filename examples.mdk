@@ -19,6 +19,28 @@ Css        : nav-example.css
 # Examples
 ~ Begin Row
 
+We included some examples to try the features of SEViz.
+
+## 1. SEViz.Demos 
+
+[Download SEViz.Demos](https://github.com/FTSRG/seviz/tree/master/Examples/SEViz.Demos){.btn .btn-lg .btn-success html-role=button}
+
+### 1.1 Description
+Currently, only this project is available for download (SEViz.Demos).
+
+### 1.2 Example outputs
+
+~ Center
+
+![seviz_ifbranching]
+[seviz_ifbranching]:https://raw.githubusercontent.com/FTSRG/seviz/master/Examples/SEViz.Demos/Output/IfBranching.png "IfBranching" { width=auto max-width=80% }
+
+![seviz_switchbranching]
+[seviz_switchbranching]: https://raw.githubusercontent.com/FTSRG/seviz/master/Examples/SEViz.Demos/Output/SwitchBranching.png "SwitchBranching" { width=auto max-width=80% }
+
+![seviz_ForLoop]
+[seviz_ForLoop]:https://raw.githubusercontent.com/FTSRG/seviz/master/Examples/SEViz.Demos/Output/ForLoop_30_runs/ForLoop.png "ForLoop" { width=auto max-width=80% }
+~
 ~ End Row
 
 
