@@ -15,7 +15,7 @@ Css        : nav-example.css
 * [Source](source.html)
 * [Contact](contact.html)
 {.nav .nav-justified}
-~ 
+~
 
 ~ Jumbotron
 # Visualizing symbolic execution
@@ -23,7 +23,7 @@ SEViz (Symbolic Execution Visualizer) helps test and software engineers developi
 tests by visualizing symbolic execution-based test generation.
 
 SEViz is an open source tool,
-and currently works with Microsoft Smart Unit Tests and Visual Studio 2015.
+and currently works with Microsoft IntelliTest and Visual Studio 2015.
 {.lead}
 
 [Download SEViz here](downloads.html){.btn .btn-lg .btn-success html-role=button}
@@ -36,7 +36,7 @@ and currently works with Microsoft Smart Unit Tests and Visual Studio 2015.
 ## Description
 Our prototype tool, SEViz, visualizes the symbolic executions in a form of a symbolic execution tree. The tool consists of three main components.
 
-* The first one **monitors the execution** of the [Smart Unit Tests](https://msdn.microsoft.com/en-us/library/dn823749%28v=vs.140%29.aspx) (formerly [Pex](http://research.microsoft.com/en-us/projects/pex/)) and saves all of its
+* The first one **monitors the execution** of the [IntelliTest](https://msdn.microsoft.com/en-us/library/dn823749%28v=vs.140%29.aspx) (formerly [Pex](http://research.microsoft.com/en-us/projects/pex/)) and saves all of its
 collected data.
 * The second component, the viewer **visualizes the collected data** and enables interactive analysis on it.
 * The last component **connects the symbolic execution tree and the source code under test** with a two-way mapping.
@@ -44,7 +44,7 @@ collected data.
 For an overview of the tool see the following paper:
 
 D. Honfi, A. Vörös, Z. Micskei: SEViz: A Tool for Visualizing Symbolic Execution, In Proc. of IEEE Int. Conf. on Software Testing,
-Verification and Validation (ICST), Tool Track, Graz, Austria, 13-17 April 2015, to appear.
+Verification and Validation (ICST), Tool Track, Graz, Austria, 13-17 April 2015, DOI: 10.1109/ICST.2015.7102631.
 
 ~ End Row
 

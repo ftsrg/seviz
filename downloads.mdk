@@ -15,7 +15,7 @@ Css        : nav-example.css
 * [Source](source.html)
 * [Contact](contact.html)
 {.nav .nav-justified}
-~ 
+~
 
 
 ~ Begin Row
@@ -23,7 +23,7 @@ Css        : nav-example.css
 
 The downloaded file is a zip archive, which contains the following folders, that are corresponding to the three components.
 
-* **monitoring:** the monitoring library for Smart Unit Tests (formerly Pex).
+* **monitoring:** the monitoring library for IntelliTest (formerly Pex).
 * **viewer:** the visualization component.
 * **vsextension:** extension for Visual Studio, which maps source code to execution tree nodes.
 
