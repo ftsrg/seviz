@@ -1,4 +1,4 @@
-# Symbolic Execution VisualIZer (SEViz)
+# Symbolic Execution VisualiZer (SEViz)
 
 SEViz is a tool for visualizing symbolic execution-based test generation.
 
