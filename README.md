@@ -2,14 +2,13 @@
 
 SEViz is a tool for visualizing symbolic execution-based test generation.
 
-SEViz can enhance test generation for *complex programs* by visually presenting the information required to quickly
-identify modifications that enable the generation of further test inputs and increase coverage.
+SEViz can enhance test generation for *complex programs* by visually presenting the information required to quickly identify modifications that enable the generation of further test inputs and increase coverage.
 
 SEViz can also be used in *education* and training by showing the process and result of symbolic execution in a step-by-step manner on simpler programs.
 
 The source code of the project consists of the following three projects:
 
-* `SEViz.Monitoring`: captures information about the test generation of Visual Studio's [Smart Unit Tests](https://msdn.microsoft.com/en-us/library/dn823749.aspx) (formerly [Pex](http://research.microsoft.com/en-us/projects/pex/)),
+* `SEViz.Monitoring`: captures information about the test generation of Visual Studio's [IntelliTest](https://msdn.microsoft.com/en-us/library/dn823749.aspx) (formerly [Pex](http://research.microsoft.com/en-us/projects/pex/)),
 * `SEViz.VSExtension`: an extension for Visual Studio that links source code instructions to the visualization,
 * `SEViz.Viewer`: a program to interactively visualize the captured test generation process.
 
