@@ -54,11 +54,18 @@ namespace SEViz.Integration.Model
 
         public string Status { get; private set; }
 
+        public HashSet<SENode> CollapsedSubtreeNodes { get; private set; }
+
+        public HashSet<SEEdge> CollapsedSubtreeEdges { get; private set; }
+
         #endregion
 
         public SENode(int id, string pathCondition, string methodName, Tuple<string, int> sourceCodeMapping, string generatedTestCode, string status)
         {
             // TODO implement constructor for SENode
+            Id = id;
+            CollapsedSubtreeNodes = new HashSet<SENode>();
+            CollapsedSubtreeEdges = new HashSet<SEEdge>();
         }
 
     }

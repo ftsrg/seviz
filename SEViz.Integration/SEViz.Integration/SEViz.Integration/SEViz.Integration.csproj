@@ -62,6 +62,7 @@
       <DependentUpon>ViewerWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewerWindowPackage.cs" />
+    <Compile Include="ViewModel\SEGraphViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
@@ -72,8 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
-    <Content Include="Libs\GraphSharp.Controls.dll" />
-    <Content Include="Libs\GraphSharp.dll" />
+    <Content Include="Libs\GraphSharp.Controls.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Libs\GraphSharp.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\ViewerWindowCommand.png" />
     <Content Include="Resources\ViewerWindowPackage.ico" />
     <Content Include="stylesheet.css" />
@@ -93,6 +98,14 @@
     </Reference>
     <Reference Include="EnvDTE90, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="GraphSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=934323c81b53a6cc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\GraphSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphSharp.Controls, Version=1.0.5711.26204, Culture=neutral, PublicKeyToken=1297afff828148ea, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\GraphSharp.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.CSharp" />
@@ -203,6 +216,10 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="WPFExtensions, Version=1.0.3437.34043, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFExtensions.1.0.0\lib\WPFExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="ViewerWindowControl.xaml">

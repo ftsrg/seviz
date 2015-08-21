@@ -9,6 +9,7 @@ namespace SEViz.Integration
     using System;
     using System.Runtime.InteropServices;
     using Microsoft.VisualStudio.Shell;
+    using System.Windows.Media;
 
     /// <summary>
     /// This class implements the tool window exposed by this package and hosts a user control.
@@ -30,7 +31,6 @@ namespace SEViz.Integration
         public ViewerWindow() : base(null)
         {
             this.Caption = "ViewerWindow";
-
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
             // the object returned by the Content property.
