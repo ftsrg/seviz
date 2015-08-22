@@ -1,3 +1,6 @@
+# Important information on current status
+SEViz is currently under development, which includes the integration into Visual Studio 2015 in order to have seamless collaboration and functionality. The project `SEViz.Integration` contains the Visual Studio extension that is currently under development. This means that the information described below will be outdated soon, since the `Viewer` and the `VSExtension` projects are merged into this integration project. More information is coming very soon.
+
 # Symbolic Execution VisualiZer (SEViz)
 
 SEViz is a tool for visualizing symbolic execution-based test generation.
