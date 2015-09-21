@@ -7,6 +7,8 @@
              xmlns:controls="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls" 
              xmlns:model="clr-namespace:SEViz.Integration.Model"
              xmlns:viewModel="clr-namespace:SEViz.Integration.ViewModel"
+             xmlns:res="clr-namespace:SEViz.Integration.Resources"
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -14,6 +16,7 @@
              Name="MyToolWindow">
     
     <UserControl.Resources>
+        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
@@ -26,7 +29,7 @@
 	xmlns:model="clr-namespace:SEViz.Integration.Model">
 
                     <converters:EdgeRouteToPathConverter x:Key="RouteToPathConverter" />
-
+                    
                     <SolidColorBrush x:Key="HighlightedVertexBorderBrush" Color="Transparent" />
                     <SolidColorBrush x:Key="HighlightedVertexBackgroundBrush" Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}" />
                     <SolidColorBrush x:Key="HighlightedVertexForegroundBrush" Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}" />
@@ -55,15 +58,19 @@
                         <Setter Property="attachedBehaviours:DragBehaviour.IsDragEnabled" Value="False"/>
                         <Setter Property="attachedBehaviours:DragBehaviour.X" Value="{Binding Path=(controls:GraphCanvas.X), Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
                         <Setter Property="attachedBehaviours:DragBehaviour.Y" Value="{Binding Path=(controls:GraphCanvas.Y), Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
-                        <Setter Property="Background" Value="#FFE3E3E3"/>
                         <Setter Property="BorderThickness" Value="1,1,1,1"/>
                         <Setter Property="Padding" Value="10,5,10,5"/>
                         <Setter Property="BorderBrush" Value="#FF393939"/>
                         <Style.Triggers>
                             <Trigger Property="controls:GraphElementBehaviour.IsHighlighted" Value="True">
-                                <Setter Property="BorderBrush" Value="{StaticResource HighlightedVertexBorderBrush}"/>
-                                <Setter Property="Background" Value="{StaticResource HighlightedVertexBackgroundBrush}"/>
-                                <Setter Property="Foreground" Value="{StaticResource HighlightedVertexForegroundBrush}"/>
+                                <!--<Setter Property="BorderBrush" Value="{StaticResource HighlightedVertexBorderBrush}"/>
+                                --><Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="0" Color="Blue" Opacity="1" BlurRadius="10" />
+                                    </Setter.Value>
+                                </Setter>
+                                <!--<Setter Property="Background" Value="{StaticResource HighlightedVertexBackgroundBrush}"/>-->
+                                <!--<Setter Property="Foreground" Value="{StaticResource HighlightedVertexForegroundBrush}"/>-->
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -93,7 +100,7 @@
     </UserControl.Resources>
     <Grid>
     <zoom:ZoomControl Grid.Column="1" Grid.ColumnSpan="2">
-            <viewModel:SEGraphViewModel x:Name="GraphControl" />
+            <viewModel:SEGraphLayout x:Name="GraphControl" />
     </zoom:ZoomControl>
     </Grid>
 </UserControl>
