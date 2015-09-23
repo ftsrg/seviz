@@ -1,5 +1,4 @@
 ﻿using GraphSharp.Controls;
-using SEViz.Integration.Helpers;
 using SEViz.Integration.Model;
 using SEViz.Integration.Resources;
 using System;
@@ -16,13 +15,9 @@ namespace SEViz.Integration.ViewModel
 {
     public class SEGraphLayout : GraphLayout<SENode, SEEdge, SEGraph>
     {
-        public SEGraphLayout()
-        {
-            
-        }   
     }
 
-    public class SEGraphViewModel :  INotifyPropertyChanged
+    public class SEGraphViewModel
     {
         #region Properties
 
@@ -30,7 +25,7 @@ namespace SEViz.Integration.ViewModel
         public SEGraph Graph
         {
             get { return _graph; }
-            set { SetProperty(ref _graph, value); }
+            set { _graph = value; }
         }
         #endregion
 
@@ -39,33 +34,7 @@ namespace SEViz.Integration.ViewModel
             LoadGraph(null);
         }
 
-        #region Notify property change
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] String propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            this.OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler eventHandler = this.PropertyChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-
-        #endregion
 
         public void LoadGraph(SEGraph graph)
         {
@@ -88,12 +57,6 @@ namespace SEViz.Integration.ViewModel
             // TODO ending sample graph
             
             Graph = graph;
-            /*
-            // Permanent layouting, no option to alter it
-            LayoutAlgorithmType = "EfficientSugiyama";
-
-            HighlightAlgorithmType = "Simple";
-            */
         }
     }
 }

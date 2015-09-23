@@ -35,11 +35,6 @@ namespace SEViz.Integration
         /// </summary>
         public ViewerWindowControl()
         {
-
-            Assembly.Load("WPFExtensions, Version=1.0.3437.34043, Culture=neutral, PublicKeyToken=null");
-            Assembly.Load(AssemblyName.GetAssemblyName("GraphSharp.Controls.dll"));
-            Assembly.Load(AssemblyName.GetAssemblyName("GraphSharp.dll"));
-
             InitializeComponent();
             
             DataContext = new SEGraphViewModel();
@@ -47,13 +42,6 @@ namespace SEViz.Integration
             GraphControl.LayoutAlgorithmType = "EfficientSugiyama";
             GraphControl.HighlightAlgorithmType = "Simple";
             GraphControl.Graph = ((SEGraphViewModel)DataContext).Graph;
-
-            /*
-            GraphControl.Graph.VertexUnhidden += (v) =>
-            {
-                DecorateVertex(v);
-            };
-            */
 
             DecorateGraph();
         }
@@ -131,22 +119,7 @@ namespace SEViz.Integration
                 currentSubtreeRoot.CollapsedSubtreeEdges.Clear();
 
                 currentSubtreeRoot.Expand();
-                var bw = new BackgroundWorker();
-                bw.DoWork += (p1, p2) => {
-                    
-                    Thread.Sleep(5000);
-
-                };
-                bw.RunWorkerCompleted += (p1, p2) =>
-                {
-                    DecorateGraph();
-                    GraphControl.Relayout();
-                    GraphControl.ContinueLayout();
-                    
-                    
-                };
                 DecorateGraph();
-                //bw.RunWorkerAsync();
             }
             
         }
