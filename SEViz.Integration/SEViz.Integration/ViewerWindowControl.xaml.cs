@@ -69,11 +69,16 @@ namespace SEViz.Integration
             
         }
 
-
+        /// <summary>
+        /// Handles left clicks.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event args.</param>
         private void Node_OnClick(object sender, RoutedEventArgs e)
         {
             var node = (sender as VertexControl).Vertex as SENode;
             IVsWindowFrame frame = null;
+
             if (frame == null)
             {
                 var shell = _parent.GetVsService(typeof(SVsUIShell)) as IVsUIShell;
@@ -85,14 +90,18 @@ namespace SEViz.Integration
                     ref guidPropertyBrowser, out frame);
                 }
             }
+
             if (frame != null)
             {
                 frame.Show();
             }
+
             var selContainer = new SelectionContainer();
             var items = new List<SENode>();
+
             items.Add(node);
             selContainer.SelectedObjects = items;
+
             ITrackSelection track = _parent.GetVsService(typeof(STrackSelection)) as ITrackSelection;
             if (track != null)
             {
@@ -103,13 +112,15 @@ namespace SEViz.Integration
             {
                 lastSelection.Deselect();
             }
+
             node.Select();
             DecorateVerticesBackground();
+
             lastSelection = node;
         }
 
         /// <summary>
-        /// Handles doubleclick
+        /// Handles right clicks.
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event args.</param>
@@ -123,12 +134,14 @@ namespace SEViz.Integration
             if (currentSubtreeRoot.CollapsedSubtreeNodes.Count == 0)
             {
                 // In order to revert to original color!
-                if (currentSubtreeRoot.IsSelected) currentSubtreeRoot.Deselect();
-                DecorateVertexBackground(currentSubtreeRoot);
+                if (currentSubtreeRoot.IsSelected)
+                {
+                    currentSubtreeRoot.Deselect();
+                    DecorateVertexBackground(currentSubtreeRoot);
+                }
+
                 // Collapsing
-
                 // If there are edges going out of it
-
                 var search = new BreadthFirstSearchAlgorithm<SENode, SEEdge>(GraphControl.Graph);
                 search.SetRootVertex(currentSubtreeRoot);
                 search.FinishVertex += BFS_FinishVertex;
@@ -153,7 +166,6 @@ namespace SEViz.Integration
             }
             else
             {
-                
                 // Expanding
                 foreach (var vertex in ((sender as VertexControl).Vertex as SENode).CollapsedSubtreeNodes)
                 {
@@ -162,8 +174,8 @@ namespace SEViz.Integration
 
                 currentSubtreeRoot.CollapsedSubtreeNodes.Clear();
 
-                
                 GraphControl.Graph.UnhideEdges(((sender as VertexControl).Vertex as SENode).CollapsedSubtreeEdges);
+
                 currentSubtreeRoot.CollapsedSubtreeEdges.Clear();
 
                 currentSubtreeRoot.Expand();
