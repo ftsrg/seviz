@@ -235,7 +235,7 @@ namespace GraphSharp.Controls
         {
             VertexControls[vertex] = control;
             control.RootCanvas = this;
-            Children.Add(control);
+            if (!Children.Contains(control)) { Children.Add(control); }
             control.InvalidateMeasure();
             SetHighlightProperties(vertex, control);
             RunCreationTransition(control);

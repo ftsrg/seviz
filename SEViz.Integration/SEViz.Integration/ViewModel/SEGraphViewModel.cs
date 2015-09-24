@@ -15,6 +15,7 @@ namespace SEViz.Integration.ViewModel
 {
     public class SEGraphLayout : GraphLayout<SENode, SEEdge, SEGraph>
     {
+    
     }
 
     public class SEGraphViewModel

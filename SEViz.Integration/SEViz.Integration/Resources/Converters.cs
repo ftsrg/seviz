@@ -24,6 +24,8 @@ namespace SEViz.Integration.Resources
                     return Colors.White;
                 case SENode.NodeColor.Indigo:
                     return Colors.Indigo;
+                case SENode.NodeColor.Blue:
+                    return Colors.RoyalBlue;
                 default:
                     return Colors.White;
             }

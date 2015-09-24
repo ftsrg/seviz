@@ -21,6 +21,9 @@ namespace SEViz.Integration
     using System.Threading;
     using System.ComponentModel;
     using System;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
+    using System.Windows.Media.Effects;
 
     /// <summary>
     /// Interaction logic for ViewerWindowControl.
@@ -28,13 +31,16 @@ namespace SEViz.Integration
     public partial class ViewerWindowControl : UserControl
     {
 
+        private SENode lastSelection;
         private SENode currentSubtreeRoot;
+        private ViewerWindow _parent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewerWindowControl"/> class.
         /// </summary>
-        public ViewerWindowControl()
+        public ViewerWindowControl(ViewerWindow parent)
         {
+            _parent = parent;
             InitializeComponent();
             
             DataContext = new SEGraphViewModel();
@@ -43,25 +49,63 @@ namespace SEViz.Integration
             GraphControl.HighlightAlgorithmType = "Simple";
             GraphControl.Graph = ((SEGraphViewModel)DataContext).Graph;
 
-            DecorateGraph();
+            DecorateVerticesBackground();
         }
 
-        private void DecorateGraph()
+        private void DecorateVerticesBackground()
         {
             foreach(var v in GraphControl.Graph.Vertices)
             {
-                if(GraphControl.GetVertexControl(v) != null)
-                    GraphControl.GetVertexControl(v).Background = new SolidColorBrush(Converters.SevizColorToWpfColor(v.Color));
+                DecorateVertexBackground(v);
             }
         }
 
-        private void DecorateVertex(SENode v)
+        private void DecorateVertexBackground(SENode v)
         {
-            if (GraphControl.GetVertexControl(v) == null)
+            if (GraphControl.GetVertexControl(v) != null)
             {
                 GraphControl.GetVertexControl(v).Background = new SolidColorBrush(Converters.SevizColorToWpfColor(v.Color));
             }
             
+        }
+
+
+        private void Node_OnClick(object sender, RoutedEventArgs e)
+        {
+            var node = (sender as VertexControl).Vertex as SENode;
+            IVsWindowFrame frame = null;
+            if (frame == null)
+            {
+                var shell = _parent.GetVsService(typeof(SVsUIShell)) as IVsUIShell;
+                if (shell != null)
+                {
+                    var guidPropertyBrowser = new
+                    Guid(ToolWindowGuids.PropertyBrowser);
+                    shell.FindToolWindow((uint)__VSFINDTOOLWIN.FTW_fForceCreate,
+                    ref guidPropertyBrowser, out frame);
+                }
+            }
+            if (frame != null)
+            {
+                frame.Show();
+            }
+            var selContainer = new SelectionContainer();
+            var items = new List<SENode>();
+            items.Add(node);
+            selContainer.SelectedObjects = items;
+            ITrackSelection track = _parent.GetVsService(typeof(STrackSelection)) as ITrackSelection;
+            if (track != null)
+            {
+                track.OnSelectChange(selContainer);
+            }
+
+            if (lastSelection != null)
+            {
+                lastSelection.Deselect();
+            }
+            node.Select();
+            DecorateVerticesBackground();
+            lastSelection = node;
         }
 
         /// <summary>
@@ -71,13 +115,16 @@ namespace SEViz.Integration
         /// <param name="e">The event args.</param>
         [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "Sample code")]
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Default event handler naming pattern")]
-        private void Node_OnDoubleClick(object sender, RoutedEventArgs e)
+        private void Node_OnRightClick(object sender, RoutedEventArgs e)
         {
             
             currentSubtreeRoot = ((sender as VertexControl).Vertex as SENode);
             
             if (currentSubtreeRoot.CollapsedSubtreeNodes.Count == 0)
             {
+                // In order to revert to original color!
+                if (currentSubtreeRoot.IsSelected) currentSubtreeRoot.Deselect();
+                DecorateVertexBackground(currentSubtreeRoot);
                 // Collapsing
 
                 // If there are edges going out of it
@@ -99,13 +146,14 @@ namespace SEViz.Integration
                         }
 
                         currentSubtreeRoot.Collapse();
-                        DecorateGraph();
+                        DecorateVerticesBackground();
                     }
                 };
                 search.Compute();
             }
             else
             {
+                
                 // Expanding
                 foreach (var vertex in ((sender as VertexControl).Vertex as SENode).CollapsedSubtreeNodes)
                 {
@@ -119,7 +167,8 @@ namespace SEViz.Integration
                 currentSubtreeRoot.CollapsedSubtreeEdges.Clear();
 
                 currentSubtreeRoot.Expand();
-                DecorateGraph();
+                
+                DecorateVerticesBackground();
             }
             
         }
