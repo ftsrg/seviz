@@ -42,11 +42,11 @@ namespace SEViz.Integration.Model
         
         internal NodeColor Color { get; private set; }
 
-        internal NodeShape Shape { get; private set; }
+        public NodeShape Shape { get; private set; }
 
         internal NodeBorder Border { get; private set; }
         
-        public bool IsSelected { get; private set; }
+        internal bool IsSelected { get; private set; }
 
         #endregion
 
@@ -93,7 +93,7 @@ namespace SEViz.Integration.Model
 
         #endregion
 
-        public SENode(int id, string pathCondition, string methodName, Tuple<string, int> sourceCodeMapping, string generatedTestCode, string status)
+        public SENode(int id, string pathCondition, string methodName, Tuple<string, int> sourceCodeMapping, string generatedTestCode, string status, bool solverCall)
         {
             // TODO implement constructor for SENode
             Id = id;
@@ -102,6 +102,7 @@ namespace SEViz.Integration.Model
             Color = NodeColor.White;
             originalColors.Push(NodeColor.White);
             IsSelected = false;
+            Shape = (solverCall) ?  NodeShape.Ellipse : NodeShape.Rectangle;
         }
 
         #region Public methods

@@ -45,11 +45,14 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type controls:VertexControl}">
-                                    <Border Background="{TemplateBinding Background}" 
-							BorderBrush="{TemplateBinding BorderBrush}" 
-							BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="5,5,5,5"
-							Padding="{TemplateBinding Padding}">
+                                    <Border Name="nodeBorder" Background="{TemplateBinding Background}" 
+							        BorderBrush="{TemplateBinding BorderBrush}" 
+							        BorderThickness="{TemplateBinding BorderThickness}"
+    
+                                    CornerRadius="{Binding Path=ActualHeight, ElementName=nodeBorder}" 
+                                   
+
+                                    Padding="{TemplateBinding Padding}">
                                         <ContentPresenter Content="{TemplateBinding Vertex}"/>
                                     </Border>
                                 </ControlTemplate>
@@ -63,6 +66,26 @@
                         <Setter Property="Padding" Value="10,5,10,5"/>
                         <Setter Property="BorderBrush" Value="#FF393939"/>
                         <Style.Triggers>
+                            <!-- IF NODE SHAPE IS RECTANGLE -->
+                            <DataTrigger Binding="{Binding Path=(model:SENode.Shape)}" Value="1">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type controls:VertexControl}">
+                                            <Border Name="nodeBorder" Background="{TemplateBinding Background}" 
+							        BorderBrush="{TemplateBinding BorderBrush}" 
+							        BorderThickness="{TemplateBinding BorderThickness}"
+    
+                                    CornerRadius="0" 
+                                   
+
+                                    Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter Content="{TemplateBinding Vertex}"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+
                             <Trigger Property="controls:GraphElementBehaviour.IsHighlighted" Value="True">
                                 <!--<Setter Property="BorderBrush" Value="{StaticResource HighlightedVertexBorderBrush}"/>
                                 --><Setter Property="Effect">
