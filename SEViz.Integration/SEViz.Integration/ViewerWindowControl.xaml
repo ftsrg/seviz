@@ -26,9 +26,14 @@
 	xmlns:controls="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls" 
 	xmlns:converters="clr-namespace:GraphSharp.Converters;assembly=GraphSharp.Controls"
 	xmlns:attachedBehaviours="clr-namespace:GraphSharp.AttachedBehaviours;assembly=GraphSharp.Controls"
-	xmlns:model="clr-namespace:SEViz.Integration.Model">
+	xmlns:model="clr-namespace:SEViz.Integration.Model"
+                    xmlns:helpers="clr-namespace:SEViz.Integration.Helpers.Converters">
 
+                    <!-- Converters -->
                     <converters:EdgeRouteToPathConverter x:Key="RouteToPathConverter" />
+                    <helpers:NodeBorderToBorderPaddingConverter x:Key="NodeBorderToBorderPaddingConverter" />
+                    <helpers:NodeBorderToBorderThicknessConverter x:Key="NodeBorderToBorderThicknessConverter" />
+                    
                     
                     <SolidColorBrush x:Key="HighlightedVertexBorderBrush" Color="Transparent" />
                     <SolidColorBrush x:Key="HighlightedVertexBackgroundBrush" Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}" />
@@ -45,15 +50,22 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type controls:VertexControl}">
-                                    <Border Name="nodeBorder" Background="{TemplateBinding Background}" 
-							        BorderBrush="{TemplateBinding BorderBrush}" 
-							        BorderThickness="{TemplateBinding BorderThickness}"
-    
-                                    CornerRadius="{Binding Path=ActualHeight, ElementName=nodeBorder}" 
-                                   
-
-                                    Padding="{TemplateBinding Padding}">
-                                        <ContentPresenter Content="{TemplateBinding Vertex}"/>
+                                    <Border Name="outerBorder"
+                                                    Background="{TemplateBinding Background}" 
+							                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                CornerRadius="{Binding Path=ActualHeight, ElementName=nodeBorder}" 
+                                                BorderThickness="{Binding Path=(model:SENode.Border),Converter={StaticResource NodeBorderToBorderThicknessConverter}}"
+                                                Padding="{Binding Path=(model:SENode.Border),Converter={StaticResource NodeBorderToBorderPaddingConverter}}">
+                                        <!-- The last two transforms the double border -->
+                                        <Border Name="nodeBorder"
+                                                        Background="{TemplateBinding Background}" 
+                                                        BorderBrush="{TemplateBinding BorderBrush}" 
+							                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="{Binding Path=ActualHeight, ElementName=nodeBorder}" 
+                                                        Padding="{TemplateBinding Padding}"
+                                                        >
+                                            <ContentPresenter Content="{TemplateBinding Vertex}"/>
+                                        </Border>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -62,7 +74,7 @@
                         <Setter Property="attachedBehaviours:DragBehaviour.IsDragEnabled" Value="False"/>
                         <Setter Property="attachedBehaviours:DragBehaviour.X" Value="{Binding Path=(controls:GraphCanvas.X), Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
                         <Setter Property="attachedBehaviours:DragBehaviour.Y" Value="{Binding Path=(controls:GraphCanvas.Y), Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
-                        <Setter Property="BorderThickness" Value="1,1,1,1"/>
+                        <Setter Property="BorderThickness" Value="1,1,1,1"/> <!-- Be careful: NodeBorderConverters should be rewritten too. -->
                         <Setter Property="Padding" Value="10,5,10,5"/>
                         <Setter Property="BorderBrush" Value="#FF393939"/>
                         <Style.Triggers>
@@ -71,15 +83,22 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type controls:VertexControl}">
-                                            <Border Name="nodeBorder" Background="{TemplateBinding Background}" 
-							        BorderBrush="{TemplateBinding BorderBrush}" 
-							        BorderThickness="{TemplateBinding BorderThickness}"
-    
-                                    CornerRadius="0" 
-                                   
-
-                                    Padding="{TemplateBinding Padding}">
-                                                <ContentPresenter Content="{TemplateBinding Vertex}"/>
+                                            <Border Name="outerBorder"
+                                                    Background="{TemplateBinding Background}" 
+							                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                CornerRadius="0"
+                                                BorderThickness="{Binding Path=(model:SENode.Border),Converter={StaticResource NodeBorderToBorderThicknessConverter}}"
+                                                Padding="{Binding Path=(model:SENode.Border),Converter={StaticResource NodeBorderToBorderPaddingConverter}}">
+                                                <!-- The last two transforms the double border -->
+                                                <Border Name="nodeBorder"
+                                                        Background="{TemplateBinding Background}" 
+                                                        BorderBrush="{TemplateBinding BorderBrush}" 
+							                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="0" 
+                                                        Padding="{TemplateBinding Padding}"
+                                                        >
+                                                    <ContentPresenter Content="{TemplateBinding Vertex}"/>
+                                                </Border>
                                             </Border>
                                         </ControlTemplate>
                                     </Setter.Value>

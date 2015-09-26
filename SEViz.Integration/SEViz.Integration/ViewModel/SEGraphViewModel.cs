@@ -44,7 +44,7 @@ namespace SEViz.Integration.ViewModel
 
             for (int i = 0; i < 8; i++)
             {
-                var n = new SENode(i, null, null, null, null, null, (i==4 || i==1) ? true : false);
+                var n = new SENode(i, null, null, (i==4 || i==2) ? new Tuple<string, int>("teszt",0) : null, null, null, (i==4 || i==1) ? true : false);
                 graph.AddVertex(n);
             }
 

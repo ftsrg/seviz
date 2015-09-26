@@ -44,7 +44,7 @@ namespace SEViz.Integration.Model
 
         public NodeShape Shape { get; private set; }
 
-        internal NodeBorder Border { get; private set; }
+        public NodeBorder Border { get; private set; }
         
         internal bool IsSelected { get; private set; }
 
@@ -103,6 +103,7 @@ namespace SEViz.Integration.Model
             originalColors.Push(NodeColor.White);
             IsSelected = false;
             Shape = (solverCall) ?  NodeShape.Ellipse : NodeShape.Rectangle;
+            Border = (sourceCodeMapping == null) ? NodeBorder.Single : NodeBorder.Double;
         }
 
         #region Public methods

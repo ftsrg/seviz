@@ -51,6 +51,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Converters\NodeBorderToBorderPaddingConverter.cs" />
+    <Compile Include="Helpers\Converters\NodeBorderToBorderThicknessConverter.cs" />
     <Compile Include="Model\GraphModel.cs" />
     <Compile Include="Model\SEEdge.cs" />
     <Compile Include="Model\SEGraph.cs" />
@@ -225,7 +227,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Helpers\" />
     <Folder Include="Libs\" />
   </ItemGroup>
   <ItemGroup>
