@@ -32,7 +32,6 @@ namespace SEViz.Integration
     public partial class ViewerWindowControl : UserControl
     {
 
-        private SENode lastSelection;
         private SENode currentSubtreeRoot;
         private ViewerWindow _parent;
 
@@ -51,6 +50,16 @@ namespace SEViz.Integration
             GraphControl.Graph = ((SEGraphViewModel)DataContext).Graph;
 
             DecorateVerticesBackground();
+        }
+
+        private void SelectNodes(List<SENode> nodes)
+        {
+            DeselectAll();
+            foreach(var n in nodes)
+            {
+                n.Select();
+            }
+            DecorateVerticesBackground();   
         }
 
         private void DeselectAll()
@@ -153,6 +162,17 @@ namespace SEViz.Integration
 
                 // Collapsing
                 // If there are edges going out of it
+                IEnumerable<SEEdge> edges = null;
+                if(GraphControl.Graph.TryGetOutEdges(currentSubtreeRoot,out edges))
+                {
+                    if(edges.Count() == 0)
+                    {
+                        // Has no out edges --> leaf node --> select the nodes of the matching run of the leaf node
+                        var vm = (SEGraphViewModel)DataContext;
+                        SelectNodes(vm.Data.Runs[currentSubtreeRoot]);
+                    }
+                }
+
                 var search = new BreadthFirstSearchAlgorithm<SENode, SEEdge>(GraphControl.Graph);
                 search.SetRootVertex(currentSubtreeRoot);
                 search.FinishVertex += BFS_FinishVertex;
@@ -173,6 +193,7 @@ namespace SEViz.Integration
                         DecorateVerticesBackground();
                     }
                 };
+
                 search.Compute();
             }
             else
@@ -203,14 +224,13 @@ namespace SEViz.Integration
             IEnumerable<SEEdge> edges = null;
             if(GraphControl.Graph.TryGetOutEdges(vertex,out edges))
             {
-                foreach (var edge in edges)
+                if (edges.Count() > 0)
                 {
-                    currentSubtreeRoot.CollapsedSubtreeEdges.Add(edge);
+                    foreach (var edge in edges)
+                    {
+                        currentSubtreeRoot.CollapsedSubtreeEdges.Add(edge);
+                    }
                 }
-            }
-            else
-            {
-                // Has no out edges --> leaf node
             }
 
             if (!currentSubtreeRoot.Equals(vertex))

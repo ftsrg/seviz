@@ -28,19 +28,29 @@ namespace SEViz.Integration.ViewModel
             get { return _graph; }
             set { _graph = value; }
         }
+
+        public SEData Data { get; private set; }
+
         #endregion
 
         public SEGraphViewModel()
         {
-            LoadGraph(null);
+            var data = new SEData();
+            
+            LoadGraph(null,data);
+
+            // Adding runs to the leaf nodes
+            data.Runs.Add(Graph.Vertices.ElementAt(3),new List<SENode>() { Graph.Vertices.ElementAt(2),Graph.Vertices.ElementAt(3),Graph.Vertices.ElementAt(1),Graph.Vertices.ElementAt(0) });
         }
 
 
 
-        public void LoadGraph(SEGraph graph)
+        public void LoadGraph(SEGraph graph, SEData data)
         {
             // TODO starting sample graph
             graph = new SEGraph();
+
+            Data = data;
 
             for (int i = 0; i < 8; i++)
             {
