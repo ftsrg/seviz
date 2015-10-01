@@ -17,5 +17,7 @@ namespace SEViz.Integration.Model
 
         //public SEGraphLayout Layout { get; private set; }
         public SEGraph Graph { get; private set; }
+
+        public SEData Data { get; private set; }
     }
 }

@@ -24,6 +24,7 @@ namespace SEViz.Integration
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using System.Windows.Media.Effects;
+    using System.Windows.Input;
 
     /// <summary>
     /// Interaction logic for ViewerWindowControl.
@@ -50,6 +51,14 @@ namespace SEViz.Integration
             GraphControl.Graph = ((SEGraphViewModel)DataContext).Graph;
 
             DecorateVerticesBackground();
+        }
+
+        private void DeselectAll()
+        {
+            foreach(var v in GraphControl.Graph.Vertices)
+            {
+                v.Deselect();
+            }
         }
 
         private void DecorateVerticesBackground()
@@ -108,15 +117,17 @@ namespace SEViz.Integration
                 track.OnSelectChange(selContainer);
             }
 
-            if (lastSelection != null)
+            if ((Keyboard.Modifiers & ModifierKeys.Control) > 0)
             {
-                lastSelection.Deselect();
+                // If control is pressed then to nothing
+            } else
+            {
+                DeselectAll();
             }
 
             node.Select();
             DecorateVerticesBackground();
-
-            lastSelection = node;
+            
         }
 
         /// <summary>

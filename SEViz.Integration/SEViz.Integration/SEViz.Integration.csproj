@@ -54,6 +54,7 @@
     <Compile Include="Helpers\Converters\NodeBorderToBorderPaddingConverter.cs" />
     <Compile Include="Helpers\Converters\NodeBorderToBorderThicknessConverter.cs" />
     <Compile Include="Model\GraphModel.cs" />
+    <Compile Include="Model\SEData.cs" />
     <Compile Include="Model\SEEdge.cs" />
     <Compile Include="Model\SEGraph.cs" />
     <Compile Include="Model\SENode.cs" />
