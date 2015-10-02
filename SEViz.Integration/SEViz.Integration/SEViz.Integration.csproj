@@ -226,9 +226,7 @@
       <ManifestResourceName>VSPackage</ManifestResourceName>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Libs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Graph#.Controls\GraphSharp.Controls.csproj">
       <Project>{90d874f2-486e-477e-93a9-ffa6fc92a2f4}</Project>

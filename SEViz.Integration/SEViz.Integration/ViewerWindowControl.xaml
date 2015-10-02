@@ -57,6 +57,18 @@
                                                 BorderThickness="{Binding Path=(model:SENode.Border),Converter={StaticResource NodeBorderToBorderThicknessConverter}}"
                                                 Padding="{Binding Path=(model:SENode.Border),Converter={StaticResource NodeBorderToBorderPaddingConverter}}">
                                         <!-- The last two transforms the double border -->
+                                        <Border.ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" FontSize="14" Margin="0,0,0,5" Text="{Binding Path=(model:SENode.IncrementalPathCondition)}"></TextBlock>
+                                                <TextBlock Text="{Binding Path=(model:SENode.MethodName)}" />
+                                                <TextBlock Text="{Binding Path=(model:SENode.SourceCodeMappingString)}"></TextBlock>
+                                                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                                                <WrapPanel>
+
+                                                    <TextBlock FontStyle="Italic">See Properties for details.</TextBlock>
+                                                </WrapPanel>
+                                            </StackPanel>
+                                        </Border.ToolTip>
                                         <Border Name="nodeBorder"
                                                         Background="{TemplateBinding Background}" 
                                                         BorderBrush="{TemplateBinding BorderBrush}" 
@@ -84,12 +96,24 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type controls:VertexControl}">
                                             <Border Name="outerBorder"
-                                                    Background="{TemplateBinding Background}" 
+                                                    Background="{TemplateBinding Background}"
 							                    BorderBrush="{TemplateBinding BorderBrush}"
                                                 CornerRadius="0"
                                                 BorderThickness="{Binding Path=(model:SENode.Border),Converter={StaticResource NodeBorderToBorderThicknessConverter}}"
                                                 Padding="{Binding Path=(model:SENode.Border),Converter={StaticResource NodeBorderToBorderPaddingConverter}}">
                                                 <!-- The last two transforms the double border -->
+                                                <Border.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontWeight="Bold" FontSize="14" Margin="0,0,0,5" Text="{Binding Path=(model:SENode.IncrementalPathCondition)}"></TextBlock>
+                                                        <TextBlock Text="{Binding Path=(model:SENode.MethodName)}" />
+                                                        <TextBlock Text="{Binding Path=(model:SENode.SourceCodeMappingString)}"></TextBlock>
+                                                        <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                                                        <WrapPanel>
+                                                            
+                                                            <TextBlock FontStyle="Italic">See Properties for details.</TextBlock>
+                                                        </WrapPanel>
+                                                    </StackPanel>
+                                                </Border.ToolTip>
                                                 <Border Name="nodeBorder"
                                                         Background="{TemplateBinding Background}" 
                                                         BorderBrush="{TemplateBinding BorderBrush}" 

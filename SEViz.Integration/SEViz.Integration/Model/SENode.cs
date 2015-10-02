@@ -72,10 +72,12 @@ namespace SEViz.Integration.Model
         [Description("Fully qualified name of the method that contains this node")]
         public string MethodName { get; private set; }
 
+        internal Tuple<string, int> SourceCodeMapping { get; private set; }
+
         [Category("Node details")]
         [DisplayName("Source code mapping")]
         [Description("Aprroximation of the place in the source code")]
-        public Tuple<string, int> SourceCodeMapping { get; set; }
+        public string SourceCodeMappingString { get; private set; }
 
         [Category("Node details")]
         [DisplayName("Generated test code")]
@@ -104,6 +106,10 @@ namespace SEViz.Integration.Model
             IsSelected = false;
             Shape = (solverCall) ?  NodeShape.Ellipse : NodeShape.Rectangle;
             Border = (sourceCodeMapping == null) ? NodeBorder.Single : NodeBorder.Double;
+
+            IncrementalPathCondition = "a > 0";
+            MethodName = "Mymethod.Foo";
+            SourceCodeMappingString = @"D:\Example\example.txt:30";
         }
 
         #region Public methods
