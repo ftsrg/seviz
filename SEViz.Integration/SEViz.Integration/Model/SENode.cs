@@ -42,8 +42,14 @@ namespace SEViz.Integration.Model
         
         internal NodeColor Color { get; private set; }
 
+        [Category("Node appearance")]
+        [DisplayName("Shape (solver calls)")]
+        [Description("Shape of the node determines if the node triggered a constraint solver call. If yes, the shape is an ellipse, otherwise it is a rectangle.")]
         public NodeShape Shape { get; private set; }
 
+        [Category("Node appearance")]
+        [DisplayName("Border (source mapping)")]
+        [Description("Border of the node determines if the node has exact source code location mapping. If yes, the border is doubled, otherwise the border is single.")]
         public NodeBorder Border { get; private set; }
         
         internal bool IsSelected { get; private set; }
@@ -54,39 +60,39 @@ namespace SEViz.Integration.Model
 
         [Category("Node details")]
         [DisplayName("Id")]
-        [Description("Identifier of the node indicating its place in execution order")]
+        [Description("Identifier of the node indicating its place in execution order.")]
         public int Id { get; private set; }
 
         [Category("Node details")]
         [DisplayName("Path condition")]
-        [Description("Full form of the path condition that contains all constraints from the start")]
+        [Description("Full form of the path condition that contains all constraints from the start.")]
         public string PathCondition { get; private set; }
 
         [Category("Node details")]
         [DisplayName("Incremental path condition")]
-        [Description("Incremental form of the path condition, compared to its parent node")]
+        [Description("Incremental form of the path condition, compared to its parent node.")]
         public string IncrementalPathCondition { get; private set; }
 
         [Category("Node details")]
         [DisplayName("Method name")]
-        [Description("Fully qualified name of the method that contains this node")]
+        [Description("Fully qualified name of the method that contains this node.")]
         public string MethodName { get; private set; }
 
         internal Tuple<string, int> SourceCodeMapping { get; private set; }
 
         [Category("Node details")]
         [DisplayName("Source code mapping")]
-        [Description("Aprroximation of the place in the source code")]
+        [Description("Aprroximation of the place in the source code.")]
         public string SourceCodeMappingString { get; private set; }
 
         [Category("Node details")]
         [DisplayName("Generated test code")]
-        [Description("The generated source code if it is a leaf node and a test was generated (e.g., not a duplicate)")]
+        [Description("The generated source code if it is a leaf node and a test was generated (e.g., not a duplicate).")]
         public string GenerateTestCode { get; private set; }
 
         [Category("Node details")]
         [DisplayName("Node status")]
-        [Description("Status of the node indicating whether there are remaining uncovered branches starting from this node")]
+        [Description("Status of the node indicating whether there are remaining uncovered branches starting from this node.")]
         public string Status { get; private set; }
 
         internal HashSet<SENode> CollapsedSubtreeNodes { get; private set; }
