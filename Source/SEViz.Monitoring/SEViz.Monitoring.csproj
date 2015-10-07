@@ -33,27 +33,37 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\SEViz.Monitoring\SEViz.Monitoring\Libs\Ionic.Zip.dll</HintPath>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.ExtendedReflection, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Programs\VS2015Preview\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.ExtendedReflection.dll</HintPath>
+      <HintPath>..\..\..\..\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.ExtendedReflection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ExtendedReflection.Reasoning">
-      <HintPath>..\..\..\..\..\..\..\Programs\VS2015Preview\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.ExtendedReflection.Reasoning.dll</HintPath>
+      <HintPath>..\..\..\..\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.ExtendedReflection.Reasoning.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Pex, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Programs\VS2015Preview\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.Pex.exe</HintPath>
+      <HintPath>..\..\..\..\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.Pex.exe</HintPath>
     </Reference>
     <Reference Include="Microsoft.Pex.Framework, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Programs\VS2015Preview\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.Pex.Framework.dll</HintPath>
+      <HintPath>..\..\..\..\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.Pex.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SEViz.Common">
+      <HintPath>..\..\SEViz.Integration\SEViz.Common\bin\Debug\SEViz.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -63,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Components\PexExecutionNodeStorageComponent.cs" />
     <Compile Include="Components\PexRunAndTestStorageComponent.cs" />
+    <Compile Include="Helpers\CommunicationHelper.cs" />
     <Compile Include="Packages\PexGraphBuilderPackage.cs" />
     <Compile Include="Packages\PexGraphBuilderPackageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
