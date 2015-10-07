@@ -74,8 +74,8 @@
     <Compile Include="Components\PexExecutionNodeStorageComponent.cs" />
     <Compile Include="Components\PexRunAndTestStorageComponent.cs" />
     <Compile Include="Helpers\CommunicationHelper.cs" />
-    <Compile Include="Packages\PexGraphBuilderPackage.cs" />
-    <Compile Include="Packages\PexGraphBuilderPackageHelper.cs" />
+    <Compile Include="PexPackages\PexGraphBuilderPackage.cs" />
+    <Compile Include="PexPackages\PexGraphBuilderPackageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
