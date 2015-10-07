@@ -25,6 +25,8 @@ namespace SEViz.Integration
     using Microsoft.VisualStudio.Shell.Interop;
     using System.Windows.Media.Effects;
     using System.Windows.Input;
+    using Common;
+    using Common.Model;
 
     /// <summary>
     /// Interaction logic for ViewerWindowControl.
@@ -136,6 +138,8 @@ namespace SEViz.Integration
 
             node.Select();
             DecorateVerticesBackground();
+
+           //SEGraph.Serialize(GraphControl.Graph, @"D:\graph.graphml");
             
         }
 

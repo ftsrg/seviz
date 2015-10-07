@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphSharp", "Graph#\GraphS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphSharp.Controls", "Graph#.Controls\GraphSharp.Controls.csproj", "{90D874F2-486E-477E-93A9-FFA6FC92A2F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEViz.Common", "SEViz.Common\SEViz.Common.csproj", "{2E7BB5B1-612C-495D-ACFF-701DC23C4059}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,12 @@ Global
 		{90D874F2-486E-477E-93A9-FFA6FC92A2F4}.DebugWithoutPlugins|Any CPU.Build.0 = DebugWithoutPlugins|Any CPU
 		{90D874F2-486E-477E-93A9-FFA6FC92A2F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90D874F2-486E-477E-93A9-FFA6FC92A2F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E7BB5B1-612C-495D-ACFF-701DC23C4059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E7BB5B1-612C-495D-ACFF-701DC23C4059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E7BB5B1-612C-495D-ACFF-701DC23C4059}.DebugWithoutPlugins|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E7BB5B1-612C-495D-ACFF-701DC23C4059}.DebugWithoutPlugins|Any CPU.Build.0 = Debug|Any CPU
+		{2E7BB5B1-612C-495D-ACFF-701DC23C4059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E7BB5B1-612C-495D-ACFF-701DC23C4059}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

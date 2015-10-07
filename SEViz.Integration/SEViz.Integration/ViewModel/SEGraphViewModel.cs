@@ -1,4 +1,6 @@
 ﻿using GraphSharp.Controls;
+using SEViz.Common;
+using SEViz.Common.Model;
 using SEViz.Integration.Model;
 using SEViz.Integration.Resources;
 using System;
@@ -48,13 +50,14 @@ namespace SEViz.Integration.ViewModel
         public void LoadGraph(SEGraph graph, SEData data)
         {
             // TODO starting sample graph
+            
             graph = new SEGraph();
 
             Data = data;
 
             for (int i = 0; i < 8; i++)
             {
-                var n = new SENode(i, null, null, (i==4 || i==2) ? new Tuple<string, int>("teszt",0) : null, null, null, (i==4 || i==1) ? true : false);
+                var n = new SENode(i, null, null, null, null, null, (i==4 || i==1) ? true : false);
                 graph.AddVertex(n);
             }
 
@@ -68,6 +71,8 @@ namespace SEViz.Integration.ViewModel
             // TODO ending sample graph
             
             Graph = graph;
+           
+            //Graph = SEGraph.Deserialize(@"D:\graph.graphml");
         }
     }
 }

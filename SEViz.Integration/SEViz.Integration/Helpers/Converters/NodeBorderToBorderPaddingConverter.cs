@@ -1,4 +1,6 @@
-﻿using SEViz.Integration.Model;
+﻿using SEViz.Common;
+using SEViz.Common.Model;
+using SEViz.Integration.Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

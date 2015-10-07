@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:zoom="clr-namespace:GraphSharp.Controls.Zoom;assembly=GraphSharp.Controls"
              xmlns:controls="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls" 
-             xmlns:model="clr-namespace:SEViz.Integration.Model"
+             xmlns:model="clr-namespace:SEViz.Common.Model;assembly=SEViz.Common"
              xmlns:viewModel="clr-namespace:SEViz.Integration.ViewModel"
              xmlns:res="clr-namespace:SEViz.Integration.Resources"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
@@ -26,7 +26,7 @@
 	xmlns:controls="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls" 
 	xmlns:converters="clr-namespace:GraphSharp.Converters;assembly=GraphSharp.Controls"
 	xmlns:attachedBehaviours="clr-namespace:GraphSharp.AttachedBehaviours;assembly=GraphSharp.Controls"
-	xmlns:model="clr-namespace:SEViz.Integration.Model"
+	xmlns:model="clr-namespace:SEViz.Common.Model;assembly=SEViz.Common"
                     xmlns:helpers="clr-namespace:SEViz.Integration.Helpers.Converters">
 
                     <!-- Converters -->

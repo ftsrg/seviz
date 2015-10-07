@@ -9,7 +9,7 @@
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
@@ -54,9 +54,6 @@
     <Compile Include="Helpers\Converters\NodeBorderToBorderPaddingConverter.cs" />
     <Compile Include="Helpers\Converters\NodeBorderToBorderThicknessConverter.cs" />
     <Compile Include="Model\SEData.cs" />
-    <Compile Include="Model\SEEdge.cs" />
-    <Compile Include="Model\SEGraph.cs" />
-    <Compile Include="Model\SENode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Converters.cs" />
     <Compile Include="ViewerWindow.cs" />
@@ -231,6 +228,10 @@
     <ProjectReference Include="..\Graph#.Controls\GraphSharp.Controls.csproj">
       <Project>{90d874f2-486e-477e-93a9-ffa6fc92a2f4}</Project>
       <Name>GraphSharp.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SEViz.Common\SEViz.Common.csproj">
+      <Project>{2e7bb5b1-612c-495d-acff-701dc23c4059}</Project>
+      <Name>SEViz.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
