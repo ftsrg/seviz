@@ -51,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Converters\EdgeColorToForegroundColorConverter.cs" />
     <Compile Include="Helpers\Converters\NodeBorderToBorderPaddingConverter.cs" />
     <Compile Include="Helpers\Converters\NodeBorderToBorderThicknessConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

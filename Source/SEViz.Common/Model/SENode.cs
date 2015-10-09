@@ -194,9 +194,8 @@ namespace SEViz.Common.Model
         public void Select()
         {
             IsSelected = true;
-            NodeColor o;
-            if (originalColors.Count == 1) o = originalColors.Peek();
-            else o = originalColors.Pop();
+            NodeColor o = originalColors.Peek();
+            //else o = originalColors.Pop();
             if (o != NodeColor.Blue)
             {
                 originalColors.Push(Color);

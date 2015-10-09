@@ -59,7 +59,7 @@ namespace SEViz.Integration.ViewModel
                 graph.AddVertex(n);
             }
 
-            graph.AddEdge(new SEEdge(0, graph.Vertices.ElementAt(0), graph.Vertices.ElementAt(1)));
+            graph.AddEdge(new SEEdge(0, graph.Vertices.ElementAt(0), graph.Vertices.ElementAt(1)) { Color = SEEdge.EdgeColor.Red });
             graph.AddEdge(new SEEdge(1, graph.Vertices.ElementAt(1), graph.Vertices.ElementAt(2)));
             graph.AddEdge(new SEEdge(2, graph.Vertices.ElementAt(2), graph.Vertices.ElementAt(3)));
             graph.AddEdge(new SEEdge(3, graph.Vertices.ElementAt(2), graph.Vertices.ElementAt(4)));

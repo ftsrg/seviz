@@ -53,9 +53,9 @@ namespace SEViz.Integration
             DecorateVerticesBackground();
         }
 
-        private void SelectNodes(List<SENode> nodes)
+        private void SelectNodesVisually(List<SENode> nodes)
         {
-            DeselectAll();
+            DeselectAllVisually();
             foreach(var n in nodes)
             {
                 n.Select();
@@ -63,12 +63,14 @@ namespace SEViz.Integration
             DecorateVerticesBackground();   
         }
 
-        private void DeselectAll()
+        private void DeselectAllVisually()
         {
             foreach(var v in GraphControl.Graph.Vertices)
             {
-                v.Deselect();
+                if(v.IsSelected)
+                v.Deselect();      
             }
+            DecorateVerticesBackground();
         }
 
         private void DecorateVerticesBackground()
@@ -88,14 +90,8 @@ namespace SEViz.Integration
             
         }
 
-        /// <summary>
-        /// Handles left clicks.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event args.</param>
-        private void Node_OnClick(object sender, RoutedEventArgs e)
+        private void SelectNodeWithProperties(SENode node)
         {
-            var node = (sender as VertexControl).Vertex as SENode;
             IVsWindowFrame frame = null;
 
             if (frame == null)
@@ -130,16 +126,32 @@ namespace SEViz.Integration
             if ((Keyboard.Modifiers & ModifierKeys.Control) > 0)
             {
                 // If control is pressed then to nothing
-            } else
+            }
+            else
             {
-                DeselectAll();
+                DeselectAllVisually();
             }
 
+            
+        }
+
+        private void VisuallySelectNode(SENode node)
+        {
             node.Select();
             DecorateVerticesBackground();
+        }
 
-           //SEGraph.Serialize(GraphControl.Graph, @"D:\graph.graphml");
-            
+        /// <summary>
+        /// Handles left clicks.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event args.</param>
+        private void Node_OnClick(object sender, RoutedEventArgs e)
+        {
+            var node = (sender as VertexControl).Vertex as SENode;
+            SelectNodeWithProperties(node);
+            VisuallySelectNode(node);
+
         }
 
         public List<SENode> GetNodesOfRun(string runId)
@@ -177,7 +189,7 @@ namespace SEViz.Integration
                     {
                         // Has no out edges --> leaf node --> select the nodes of the matching run of the leaf node
                         var vm = (SEGraphViewModel)DataContext;
-                        SelectNodes(GetNodesOfRun(currentSubtreeRoot.Runs));
+                        SelectNodesVisually(GetNodesOfRun(currentSubtreeRoot.Runs));
                     }
                 }
 
@@ -196,7 +208,7 @@ namespace SEViz.Integration
                         {
                             GraphControl.Graph.HideVertex(node);
                         }
-
+                        SelectNodeWithProperties(currentSubtreeRoot);
                         currentSubtreeRoot.Collapse();
                         DecorateVerticesBackground();
                     }
@@ -243,6 +255,7 @@ namespace SEViz.Integration
 
             if (!currentSubtreeRoot.Equals(vertex))
             {
+                vertex.Deselect();
                 currentSubtreeRoot.CollapsedSubtreeNodes.Add(vertex);
                 
             }

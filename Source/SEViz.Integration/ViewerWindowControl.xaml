@@ -33,7 +33,7 @@
                     <converters:EdgeRouteToPathConverter x:Key="RouteToPathConverter" />
                     <helpers:NodeBorderToBorderPaddingConverter x:Key="NodeBorderToBorderPaddingConverter" />
                     <helpers:NodeBorderToBorderThicknessConverter x:Key="NodeBorderToBorderThicknessConverter" />
-                    
+                    <helpers:EdgeColorToForegroundColorConverter x:Key="EdgeColorToForegroundColorConverter" />
                     
                     <SolidColorBrush x:Key="HighlightedVertexBorderBrush" Color="Transparent" />
                     <SolidColorBrush x:Key="HighlightedVertexBackgroundBrush" Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}" />
@@ -145,21 +145,9 @@
                     </Style>
 
                     <Style TargetType="{x:Type controls:EdgeControl}">
-                        <Setter Property="controls:GraphElementBehaviour.HighlightTrigger"
-                Value="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" />
-                        <Setter Property="Foreground" Value="Silver" />
-                        <Style.Triggers>
-                            <Trigger Property="controls:GraphElementBehaviour.IsHighlighted"
-                     Value="True">
-                                <Setter Property="Foreground"
-                        Value="Silver" />
-                            </Trigger>
-                            <Trigger Property="controls:GraphElementBehaviour.IsSemiHighlighted"
-                     Value="True">
-                                <Setter Property="Foreground"
-                        Value="Silver" />
-                            </Trigger>
-                        </Style.Triggers>
+                        
+                        <Setter Property="Foreground" Value="{Binding Path=(model:SEEdge.Color),Converter={StaticResource EdgeColorToForegroundColorConverter}}" />
+                        
                     </Style>
                 </ResourceDictionary>
 
