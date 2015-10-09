@@ -1,7 +1,6 @@
 ﻿using GraphSharp.Controls;
 using SEViz.Common;
 using SEViz.Common.Model;
-using SEViz.Integration.Model;
 using SEViz.Integration.Resources;
 using System;
 using System.Collections.Generic;
@@ -31,29 +30,28 @@ namespace SEViz.Integration.ViewModel
             set { _graph = value; }
         }
 
-        public SEData Data { get; private set; }
-
         #endregion
 
         public SEGraphViewModel()
         {
-            var data = new SEData();
             
-            LoadGraph(null,data);
+            
+            LoadGraph(null);
 
-            // Adding runs to the leaf nodes
-            data.Runs.Add(Graph.Vertices.ElementAt(3),new List<SENode>() { Graph.Vertices.ElementAt(2),Graph.Vertices.ElementAt(3),Graph.Vertices.ElementAt(1),Graph.Vertices.ElementAt(0) });
+
+            // Adding runs to a set of nodes
+            foreach (var v in Graph.Vertices) v.Runs = "";
+            Graph.Vertices.ElementAt(3).Runs = "1";  Graph.Vertices.ElementAt(2).Runs = "1";  Graph.Vertices.ElementAt(1).Runs = "1"; Graph.Vertices.ElementAt(0).Runs = "1";
         }
 
 
 
-        public void LoadGraph(SEGraph graph, SEData data)
+        public void LoadGraph(SEGraph graph)
         {
             // TODO starting sample graph
             
             graph = new SEGraph();
 
-            Data = data;
 
             for (int i = 0; i < 8; i++)
             {

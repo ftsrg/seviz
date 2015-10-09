@@ -126,6 +126,13 @@ namespace SEViz.Common.Model
         [XmlAttribute("status")]
         public string Status { get; set; }
 
+        [Category("Node details")]
+        [DisplayName("Execution runs")]
+        [Description("The list of executions that this node was involved in.")]
+        [ReadOnly(true)]
+        [XmlAttribute("runs")]
+        public string Runs { get; set; }
+
         internal HashSet<SENode> CollapsedSubtreeNodes { get; private set; }
 
         internal HashSet<SEEdge> CollapsedSubtreeEdges { get; private set; }

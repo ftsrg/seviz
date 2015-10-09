@@ -14,7 +14,6 @@ namespace SEViz.Integration
     using System.Windows.Controls;
     using System.Windows.Media;
     using GraphSharp.Controls;
-    using Model;
     using QuickGraph.Algorithms.Search;
     using System.Collections.Generic;
     using Resources;
@@ -143,6 +142,11 @@ namespace SEViz.Integration
             
         }
 
+        public List<SENode> GetNodesOfRun(string runId)
+        {
+            return GraphControl.Graph.Vertices.Where(v => v.Runs.Split(';').Contains(runId)).ToList();
+        }
+
         /// <summary>
         /// Handles right clicks.
         /// </summary>
@@ -173,7 +177,7 @@ namespace SEViz.Integration
                     {
                         // Has no out edges --> leaf node --> select the nodes of the matching run of the leaf node
                         var vm = (SEGraphViewModel)DataContext;
-                        SelectNodes(vm.Data.Runs[currentSubtreeRoot]);
+                        SelectNodes(GetNodesOfRun(currentSubtreeRoot.Runs));
                     }
                 }
 

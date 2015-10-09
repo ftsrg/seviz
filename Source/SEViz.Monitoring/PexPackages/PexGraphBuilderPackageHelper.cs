@@ -235,28 +235,20 @@ namespace SEViz.Monitoring.PexPackages
             
             
             var shell = (IVsUIShell)prov.GetService(typeof(SVsUIShell));
-            var cmdSvc = (OleMenuCommandService)prov.GetService(typeof(OleMenuCommandService));
-
-            using(var w = new StreamWriter(@"D:\debuggg.txt",true))
-            {
-                if (cmdSvc == null) w.WriteLine("cmdsvc is null");
-            }
-
-            cmdSvc.GlobalInvoke(new CommandID(new Guid("58d15630-1a1f-4a3c-890a-99d1faa69970"), 0x0100));
-            /*
+         
+            
             IVsWindowFrame frame = null;
             if (shell != null)
             {
 
                 var guidSeviz = new Guid("531b782e-c65a-44c8-a902-1a43ae3f568a");
                 shell.FindToolWindow((uint)__VSFINDTOOLWIN.FTW_fForceCreate, ref guidSeviz, out frame);
-                
             }
 
             if(frame != null)
             {
                 frame.Show();
-            }*/
+            }
             
             // Waiting GraphViz to complete... TODO
             Thread.Sleep(5000);
