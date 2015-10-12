@@ -152,9 +152,11 @@ namespace SEViz.Common.Model
             Shape = (solverCall) ?  NodeShape.Ellipse : NodeShape.Rectangle;
             Border = (sourceCodeMapping == null) ? NodeBorder.Single : NodeBorder.Double;
 
+            Runs = "";
+            PathCondition = "";
             IncrementalPathCondition = "a > 0";
             MethodName = "Mymethod.Foo";
-            SourceCodeMappingString = @"D:\Example\example.txt:30";
+            SourceCodeMappingString = @"D:\debug.cs:5";
         }
 
         #region Public methods

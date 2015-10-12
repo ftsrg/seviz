@@ -26,6 +26,7 @@ namespace SEViz.Integration
     using System.Windows.Input;
     using Common;
     using Common.Model;
+    using EnvDTE;
 
     /// <summary>
     /// Interaction logic for ViewerWindowControl.
@@ -134,7 +135,7 @@ namespace SEViz.Integration
                 frame.Show();
             }
 
-            var selContainer = new SelectionContainer();
+            var selContainer = new Microsoft.VisualStudio.Shell.SelectionContainer();
             var items = new List<SENode>();
 
             items.Add(node);
@@ -164,6 +165,22 @@ namespace SEViz.Integration
             DecorateVerticesBackground();
         }
 
+        private void MapNodesToSourceLinesBookmarks(SENode node)
+        {
+            var dte = _parent.GetVsService(typeof(SDTE)) as EnvDTE.DTE;
+            var fileUrl = node.SourceCodeMappingString.Split(':')[0] + ":" + node.SourceCodeMappingString.Split(':')[1];
+            var line = node.SourceCodeMappingString.Split(':')[2];
+            var window = dte.ItemOperations.OpenFile(fileUrl);
+            if (window != null)
+            {
+                window.Activate();
+                var selection = window.Selection as TextSelection;
+                selection.GotoLine(int.Parse(line), true);
+                var objectEditPoint = selection.ActivePoint.CreateEditPoint();
+                objectEditPoint.SetBookmark();
+            }
+        }
+
         /// <summary>
         /// Handles left clicks.
         /// </summary>
@@ -172,9 +189,14 @@ namespace SEViz.Integration
         private void Node_OnClick(object sender, RoutedEventArgs e)
         {
             var node = (sender as VertexControl).Vertex as SENode;
-            SelectNodeWithProperties(node);
-            VisuallySelectNode(node);
-
+            if (!node.IsSelected)
+            {
+                SelectNodeWithProperties(node);
+                VisuallySelectNode(node);
+            } else
+            {
+                MapNodesToSourceLinesBookmarks(node);
+            }
         }
 
         public List<SENode> GetNodesOfRun(string runId)
@@ -246,11 +268,9 @@ namespace SEViz.Integration
                 {
                     GraphControl.Graph.UnhideVertex(vertex);
                 }
-
                 currentSubtreeRoot.CollapsedSubtreeNodes.Clear();
 
                 GraphControl.Graph.UnhideEdges(((sender as VertexControl).Vertex as SENode).CollapsedSubtreeEdges);
-
                 currentSubtreeRoot.CollapsedSubtreeEdges.Clear();
 
                 currentSubtreeRoot.Expand();

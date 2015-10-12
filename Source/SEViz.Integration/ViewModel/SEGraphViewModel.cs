@@ -40,7 +40,6 @@ namespace SEViz.Integration.ViewModel
 
 
             // Adding runs and pcs to a set of nodes
-            foreach (var v in Graph.Vertices) { v.Runs = ""; v.PathCondition = ""; }
             Graph.Vertices.ElementAt(3).Runs = "1";  Graph.Vertices.ElementAt(2).Runs = "1";  Graph.Vertices.ElementAt(1).Runs = "1"; Graph.Vertices.ElementAt(0).Runs = "1";
         }
 
