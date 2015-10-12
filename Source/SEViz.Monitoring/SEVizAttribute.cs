@@ -10,6 +10,11 @@ using Microsoft.Pex.Engine.ComponentModel;
 using Microsoft.ExtendedReflection.Metadata.Names;
 using System.IO;
 using SEViz.Common.Model;
+using Microsoft.VisualStudio.Shell.Interop;
+using SEViz.Monitoring.Helpers;
+using System.Management;
+using System.Diagnostics;
+using Microsoft.VisualStudio.Shell;
 
 namespace SEViz.Monitoring
 {
@@ -77,10 +82,42 @@ namespace SEViz.Monitoring
 
         public void AfterExploration(IPexExplorationComponent host, object data)
         {
-            using (var w = new StreamWriter(@"D:\debug.txt", true))
+            // Checking if temporary SEViz folder exists
+            if(!Directory.Exists(Path.GetTempPath()+"SEViz"))
             {
-                w.WriteLine("after_explore");
+                Directory.CreateDirectory(Path.GetTempPath() + "SEViz");
             }
+
+            // Getting the temporary folder
+            var tempDir = Path.GetTempPath() + "SEViz";
+
+            // Serializing the graph into graphml
+            SEGraph.Serialize(Graph, tempDir);
+
+            // Getting the process id of the parent devenv.exe instance
+            var myId = Process.GetCurrentProcess().Id;
+            var query = string.Format("SELECT ParentProcessId FROM Win32_Process WHERE ProcessId = {0}", myId);
+            var search = new ManagementObjectSearcher("root\\CIMV2", query);
+            var results = search.Get().GetEnumerator();
+            results.MoveNext();
+            var queryObj = results.Current;
+            var parentId = (uint)queryObj["ParentProcessId"];
+            var dte = CommunicationHelper.GetDTEByProcessId(Convert.ToInt32(parentId));
+
+            // Getting the Visual Studio Service Provider and the shell
+            var prov = new ServiceProvider(dte as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
+            var shell = (IVsUIShell)prov.GetService(typeof(SVsUIShell));
+
+            IVsWindowFrame frame = null;
+            if (shell != null)
+            {
+                // Finding the SEViz window
+                var guidSeviz = new Guid("531b782e-c65a-44c8-a902-1a43ae3f568a");
+                shell.FindToolWindow((uint)__VSFINDTOOLWIN.FTW_fForceCreate, ref guidSeviz, out frame);
+            }
+
+            // Opening the SEViz window
+            if (frame != null) frame.Show();
         }
 
         #endregion
