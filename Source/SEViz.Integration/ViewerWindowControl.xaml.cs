@@ -53,6 +53,29 @@ namespace SEViz.Integration
             DecorateVerticesBackground();
         }
 
+        public void FindAndSelectNodesByLocation(string location, int startLine, int endLine)
+        {
+            var foundedNodes = new List<SENode>();
+            for (int i = startLine; i <= endLine; i++)
+            {
+                var match = GraphControl.Graph.Vertices.Where(v => v.PathCondition.Contains(location + ":" + i.ToString())).FirstOrDefault();
+                if(match != null) foundedNodes.Add(match);
+            }
+            if(foundedNodes.Count > 0)
+            {
+                SelectNodesVisually(foundedNodes);
+            } else
+            {
+                VsShellUtilities.ShowMessageBox(
+                    ViewerWindowCommand.Instance.ServiceProvider,
+                    "No nodes found for the selected source lines.",
+                    "SEViz information",
+                    OLEMSGICON.OLEMSGICON_INFO,
+                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            }
+        }
+
         private void SelectNodesVisually(List<SENode> nodes)
         {
             DeselectAllVisually();

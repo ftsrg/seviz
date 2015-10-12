@@ -1,5 +1,5 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="ViewerWindowCommand.cs" company="Company">
+// <copyright file="ShowInSEVizCommand.cs" company="Company">
 //     Copyright (c) Company.  All rights reserved.
 // </copyright>
 //------------------------------------------------------------------------------
@@ -9,24 +9,23 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using System.IO;
 
 namespace SEViz.Integration
 {
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class ViewerWindowCommand
+    internal sealed class ShowInSEVizCommand
     {
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = 0x0100;
+        public const int CommandId = 256;
 
         /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
-        public static readonly Guid CommandSet = new Guid("58d15630-1a1f-4a3c-890a-99d1faa69970");
+        public static readonly Guid CommandSet = new Guid("74e2d6a0-87e9-4492-86f4-c78b36274c1f");
 
         /// <summary>
         /// VS Package that provides this command, not null.
@@ -34,11 +33,11 @@ namespace SEViz.Integration
         private readonly Package package;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewerWindowCommand"/> class.
+        /// Initializes a new instance of the <see cref="ShowInSEVizCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private ViewerWindowCommand(Package package)
+        private ShowInSEVizCommand(Package package)
         {
             if (package == null)
             {
@@ -51,7 +50,7 @@ namespace SEViz.Integration
             if (commandService != null)
             {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
-                var menuItem = new MenuCommand(this.ShowToolWindow, menuCommandID);
+                var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
                 commandService.AddCommand(menuItem);
             }
         }
@@ -59,7 +58,7 @@ namespace SEViz.Integration
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static ViewerWindowCommand Instance
+        public static ShowInSEVizCommand Instance
         {
             get;
             private set;
@@ -68,7 +67,7 @@ namespace SEViz.Integration
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
-        internal IServiceProvider ServiceProvider
+        private IServiceProvider ServiceProvider
         {
             get
             {
@@ -82,27 +81,33 @@ namespace SEViz.Integration
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(Package package)
         {
-            Instance = new ViewerWindowCommand(package);
+            Instance = new ShowInSEVizCommand(package);
         }
 
         /// <summary>
-        /// Shows the tool window when the menu item is clicked.
+        /// This function is the callback used to execute the command when the menu item is clicked.
+        /// See the constructor to see how the menu item is associated with this function using
+        /// OleMenuCommandService service and MenuCommand class.
         /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event args.</param>
-        private void ShowToolWindow(object sender, EventArgs e)
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Event args.</param>
+        private void MenuItemCallback(object sender, EventArgs e)
         {
-            // Get the instance number 0 of this tool window. This window is single instance so this instance
-            // is actually the only one.
-            // The last flag is set to true so that if the tool window does not exists it will be created.
-            ToolWindowPane window = this.package.FindToolWindow(typeof(ViewerWindow), 0, true);
-            if ((null == window) || (null == window.Frame))
+            var window = package.FindToolWindow(typeof(ViewerWindow), 0, true) as ViewerWindow;
+            var content = window.Content as ViewerWindowControl;
+            
+            EnvDTE.DTE app = (EnvDTE.DTE)this.ServiceProvider.GetService(typeof(SDTE));
+            if (app.ActiveDocument != null && app.ActiveDocument.Type == "Text")
             {
-                throw new NotSupportedException("Cannot create tool window");
+                EnvDTE.TextDocument text = (EnvDTE.TextDocument)app.ActiveDocument.Object(String.Empty);
+                if (!text.Selection.IsEmpty)
+                {
+                    content.FindAndSelectNodesByLocation(text.Parent.FullName,text.Selection.TopPoint.Line,text.Selection.BottomPoint.Line);
+                }
             }
 
-            IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
-            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+                    
+            
         }
     }
 }

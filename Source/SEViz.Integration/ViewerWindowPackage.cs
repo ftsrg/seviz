@@ -72,6 +72,7 @@ namespace SEViz.Integration
         {
             ViewerWindowCommand.Initialize(this);
             base.Initialize();
+            SEViz.Integration.ShowInSEVizCommand.Initialize(this);
         }
 
         #endregion
