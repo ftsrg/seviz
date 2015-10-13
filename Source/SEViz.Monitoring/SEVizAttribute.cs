@@ -15,6 +15,13 @@ using SEViz.Monitoring.Helpers;
 using System.Management;
 using System.Diagnostics;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.ExtendedReflection.Reasoning.ExecutionNodes;
+using Microsoft.ExtendedReflection.Symbols;
+using Microsoft.ExtendedReflection.Metadata;
+using Microsoft.ExtendedReflection.Interpretation;
+using Microsoft.ExtendedReflection.Utilities.Safe.IO;
+using Microsoft.ExtendedReflection.Emit;
+using Microsoft.Pex.Engine.TestGeneration;
 
 namespace SEViz.Monitoring
 {
@@ -29,7 +36,10 @@ namespace SEViz.Monitoring
                 return "SEViz";
             }
         }
-        
+
+        private List<SENode> Vertices { get; set; }
+
+        private List<SEEdge> Edges { get; set; }
 
         public SEGraph Graph { get; private set; }
 
@@ -48,7 +58,7 @@ namespace SEViz.Monitoring
                                "" :
                                (problemEventArgs.FlippedLocation.Method.FullName + ":" + problemEventArgs.FlippedLocation.Offset);
                 SolverLocations.Add(location);
-
+                // TODO add location offset to node as metadata
             };
 
             // Subscribing to test emitting handler
@@ -58,10 +68,9 @@ namespace SEViz.Monitoring
                 var run = generatedTestEventArgs.GeneratedTest.Run;
 
                 // Finding the corresponding leaf node of the run
-                foreach(var node in Graph.Vertices.Where(v => v.Runs.Split(';').Contains(run.ToString())))
+                foreach(var node in Vertices.Where(v => v.Runs.Split(';').Contains(run.ToString())))
                 {
-                    IEnumerable<SEEdge> edges = null;
-                    Graph.TryGetOutEdges(node, out edges);
+                    IEnumerable<SEEdge> edges = Edges.Where(e => e.Source == node);
                     if(edges.Count() == 0)
                     {
                         
@@ -126,18 +135,65 @@ namespace SEViz.Monitoring
 
         public object BeforeRun(IPexPathComponent host)
         {
-            using (var w = new StreamWriter(@"D:\debug.txt", true))
-            {
-                w.WriteLine("before_run");
-            }
             return null;
         }
 
         public void AfterRun(IPexPathComponent host, object data)
         {
-            using (var w = new StreamWriter(@"D:\debug.txt", true))
+            // Getting the executions nodes in the current path
+            var nodesInPath = host.PathServices.CurrentExecutionNodeProvider.ReversedNodes.Reverse().ToArray();
+
+            // Getting the sequence id of the current run
+            var runId = host.ExplorationServices.Driver.Runs;
+            
+            // Iterating over the nodes in the path
+            foreach(var node in nodesInPath)
             {
-                w.WriteLine("after_run");
+                var vertex = new SENode(node.UniqueIndex,null,null,null,null,null,false);
+
+                if (Vertices.Where(v => v.Id == node.UniqueIndex).Count() > 0)
+                {
+                    vertex = Vertices.Where(v => v.Id == node.UniqueIndex).FirstOrDefault();
+
+                    var nodeIndex = nodesInPath.ToList().IndexOf(node);
+                    if (nodeIndex > 0)
+                    {
+                        var prevNode = nodesInPath[nodeIndex - 1];
+                        // If there is no edge between the previous and the current node
+                        if (Edges.Where(e => e.Source.Id == prevNode.UniqueIndex && e.Target.Id == node.UniqueIndex).Count() == 0)
+                        {
+                            var prevVertex = Vertices.Where(v => v.Id == prevNode.UniqueIndex).FirstOrDefault();
+                            Edges.Add(new SEEdge(new Random().Next(), prevVertex, vertex));
+
+                            // TODO add edge coloring based on unit border detection algorithm
+                        }
+                    }
+                } else // If the node is new then it is added to the list and the metadata is filled
+                {
+                    Vertices.Add(vertex);
+
+                    // Adding source code mapping
+                    vertex.SourceCodeMappingString = MapToSourceCodeLocationString(host,node);
+
+                    // Adding the method name
+                    string methodName = null;
+                    if (node.CodeLocation.Method == null) {
+                        if (node.InCodeBranch.Method != null) methodName = node.InCodeBranch.Method.FullName;
+                    } else
+                    {
+                        methodName = node.CodeLocation.Method.FullName;
+                    }
+
+                    // Adding path condition
+                    vertex.PathCondition = PrettyPrintPathCondition(host,node);
+
+                    // TODO add other node apperance metadata as derived property -> modify SENode properties to use the other properties they are based on
+                }
+
+                // Adding the Id of the run
+                vertex.Runs += (runId + ";");
+
+
             }
         }
 
@@ -147,6 +203,8 @@ namespace SEViz.Monitoring
         {
             Graph = new SEGraph();
             SolverLocations = new List<string>();
+            Vertices = new List<SENode>();
+            Edges = new List<SEEdge>();
         }
 
         public void Load(IContainer pathContainer)
@@ -158,5 +216,82 @@ namespace SEViz.Monitoring
             host.AddExplorationPackage(location, this);
             host.AddPathPackage(location, this);
         }
+
+        #region Private methods 
+
+        /// <summary>
+        /// Maps the execution node to source code location string.
+        /// </summary>
+        /// <param name="host">Host of the Pex Path Component</param>
+        /// <param name="node">The execution node to map</param>
+        /// <returns>The source code location string in the form of [documentlocation]:[linenumber]</returns>
+        private string MapToSourceCodeLocationString(IPexPathComponent host, IExecutionNode node)
+        {
+            try
+            {
+                var symbolManager = host.GetService<ISymbolManager>();
+                var sourceManager = host.GetService<ISourceManager>();
+                MethodDefinitionBodyInstrumentationInfo nfo;
+                if (node.CodeLocation.Method == null)
+                {
+                    if (node.InCodeBranch.Method == null) { return null; }
+                    else { node.InCodeBranch.Method.TryGetBodyInstrumentationInfo(out nfo); }
+                }
+                else { node.CodeLocation.Method.TryGetBodyInstrumentationInfo(out nfo); }
+                SequencePoint point;
+                int targetOffset;
+                nfo.TryGetTargetOffset(node.InCodeBranch.BranchLabel, out targetOffset);
+                if (symbolManager.TryGetSequencePoint(node.CodeLocation.Method == null ? node.InCodeBranch.Method : node.CodeLocation.Method, node.CodeLocation.Method == null ? targetOffset : node.CodeLocation.Offset, out point))
+                {
+                    return point.Document + ":" + point.Line;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                // TODO Exception handling
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Pretty prints the path condition of the execution node.
+        /// </summary>
+        /// <param name="host">Host of the Pex Path Component</param>
+        /// <param name="node">The execution node to map</param>
+        /// <returns>The pretty printed path condition string</returns>
+        private string PrettyPrintPathCondition(IPexPathComponent host, IExecutionNode node)
+        {
+            string output = null;
+            try
+            {
+                if (node.GetPathCondition().Conjuncts.Count != 0)
+                {
+                    TermEmitter termEmitter = new TermEmitter(host.GetService<TermManager>());
+                    SafeStringWriter safeStringWriter = new SafeStringWriter();
+                    IMethodBodyWriter methodBodyWriter = host.GetService<IPexTestManager>().Language.CreateBodyWriter(safeStringWriter, VisibilityContext.Private, 2000);
+                    if (termEmitter.TryEvaluate(node.GetPathCondition().Conjuncts, 2000, methodBodyWriter))
+                    {
+                        for (int i = 0; i < node.GetPathCondition().Conjuncts.Count - 1; i++)
+                        {
+                            methodBodyWriter.ShortCircuitAnd();
+                        }
+
+                        methodBodyWriter.Statement();
+                        output = safeStringWriter.ToString().Remove(safeStringWriter.ToString().Count() - 3);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // TODO Exception handling
+            }
+            return output;
+
+        }
+        #endregion
     }
 }
