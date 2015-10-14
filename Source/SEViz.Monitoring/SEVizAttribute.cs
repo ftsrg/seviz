@@ -22,6 +22,7 @@ using Microsoft.ExtendedReflection.Interpretation;
 using Microsoft.ExtendedReflection.Utilities.Safe.IO;
 using Microsoft.ExtendedReflection.Emit;
 using Microsoft.Pex.Engine.TestGeneration;
+using System.Text.RegularExpressions;
 
 namespace SEViz.Monitoring
 {
@@ -59,6 +60,8 @@ namespace SEViz.Monitoring
                                (problemEventArgs.FlippedLocation.Method.FullName + ":" + problemEventArgs.FlippedLocation.Offset);
                 SolverLocations.Add(location);
                 // TODO add location offset to node as metadata
+
+                Vertices.Where(v => (v.MethodName + ":" + v.ILOffset) == location).FirstOrDefault().Shape = SENode.NodeShape.Ellipse;
             };
 
             // Subscribing to test emitting handler
@@ -175,19 +178,49 @@ namespace SEViz.Monitoring
                     // Adding source code mapping
                     vertex.SourceCodeMappingString = MapToSourceCodeLocationString(host,node);
 
+                    // Setting the border based on mapping existence
+                    vertex.Border = vertex.SourceCodeMappingString == null ? SENode.NodeBorder.Single : SENode.NodeBorder.Double;
+
                     // Adding the method name
                     string methodName = null;
+                    int offset = 0;
                     if (node.CodeLocation.Method == null) {
-                        if (node.InCodeBranch.Method != null) methodName = node.InCodeBranch.Method.FullName;
+                        if (node.InCodeBranch.Method != null)
+                        {
+                            methodName = node.InCodeBranch.Method.FullName;
+                        }
                     } else
                     {
                         methodName = node.CodeLocation.Method.FullName;
+                        offset = node.CodeLocation.Offset;
                     }
+
+                    // Setting the color
+                    vertex.Color = SENode.NodeColor.White;
+                    
+                    // Setting the shape
+                    vertex.Shape = SENode.NodeShape.Rectangle;
+
+                    // Setting the method name
+                    vertex.MethodName = methodName;
+
+                    // Setting the offset
+                    vertex.ILOffset = offset;
 
                     // Adding path condition
                     vertex.PathCondition = PrettyPrintPathCondition(host,node);
 
-                    // TODO add other node apperance metadata as derived property -> modify SENode properties to use the other properties they are based on
+                    // Calculating the incremental path condition based on the full
+                    var nodeIndex = nodesInPath.ToList().IndexOf(node);
+                    if (nodeIndex > 0)
+                    {
+                        var prevNode = Vertices.Where(v => v.Id == nodesInPath[nodeIndex - 1].UniqueIndex).FirstOrDefault();
+                        vertex.IncrementalPathCondition = CalculateIncrementalPathCondition(vertex.PathCondition, prevNode.PathCondition);
+                    } else
+                    {
+                        // If the node is the first one, then the incremental equals the full PC
+                        vertex.IncrementalPathCondition = vertex.PathCondition;
+                    }
                 }
 
                 // Adding the Id of the run
@@ -291,6 +324,49 @@ namespace SEViz.Monitoring
             }
             return output;
 
+        }
+
+        /// <summary>
+        /// Calculates the incremental path condition of a node
+        /// </summary>
+        /// <param name="pc">The path condition of the current node</param>
+        /// <param name="prevPc">The path condition of the previous node</param>
+        /// <returns>The incremental path condition of the node</returns>
+        private string CalculateIncrementalPathCondition(string pc, string prevPc)
+        {
+            var remainedLiterals = new List<string>();
+
+            var splittedCondition = pc.Split(new string[] { "&& " },StringSplitOptions.None);
+            var prevSplittedCondition = prevPc.Split(new string[] { "&&" }, StringSplitOptions.None);
+            
+            var currentOrdered = splittedCondition.OrderBy(c => c);
+            var prevOrdered = prevSplittedCondition.OrderBy(c => c);
+
+            foreach(var c in currentOrdered)
+            {
+                if(!prevOrdered.Contains(c))
+                {
+                    remainedLiterals.Add(c);
+                }
+            }
+
+            for(int i = 1; i <= 3; i++)
+            {
+                foreach(var c in prevOrdered)
+                {
+                    var incrementedLiteral = Regex.Replace(c, "s\\d+", n => "s" + (int.Parse(n.Value.TrimStart('s')) + i).ToString());
+                    remainedLiterals.Remove(incrementedLiteral);
+                }
+            }
+
+            var remainedBuilder = new StringBuilder();
+            foreach(var literal in remainedLiterals)
+            {
+                if(remainedLiterals.IndexOf(literal) != 0)
+                    remainedBuilder.Append(" && ");
+                remainedBuilder.Append(literal);
+            }
+            return remainedBuilder.ToString();
         }
         #endregion
     }

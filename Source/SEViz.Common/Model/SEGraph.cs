@@ -12,8 +12,28 @@ namespace SEViz.Common.Model
 {
     public class SEGraph : SoftMutableBidirectionalGraph<SENode, SEEdge>
     {
+        private static void ReplaceLineBreaks(SEGraph graph, bool serialize)
+        {
+            if(serialize)
+            {
+                foreach(var v in graph.Vertices)
+                {
+                    v.PathCondition = v.PathCondition.Replace(Environment.NewLine, "[LB]");
+                    v.IncrementalPathCondition = v.IncrementalPathCondition.Replace(Environment.NewLine, "[LB]");
+                }
+            } else
+            {
+                foreach(var v in graph.Vertices)
+                {
+                    v.PathCondition = v.PathCondition.Replace("[LB]", Environment.NewLine);
+                    v.IncrementalPathCondition = v.IncrementalPathCondition.Replace("[LB]", Environment.NewLine);
+                }
+            }
+        }
+
         public static void Serialize(SEGraph graph, string path)
         {
+            ReplaceLineBreaks(graph, true);
             var ser = new GraphMLSerializer<SENode, SEEdge, SEGraph>();
             using (var writer = XmlWriter.Create(path, new XmlWriterSettings { Indent = true, WriteEndDocumentOnClose = false }))
             {
@@ -31,6 +51,7 @@ namespace SEViz.Common.Model
             {
                 deser.Deserialize(reader, graph, ivf, ief);
             }
+            ReplaceLineBreaks(graph, false);
             return graph;
         }
     }
