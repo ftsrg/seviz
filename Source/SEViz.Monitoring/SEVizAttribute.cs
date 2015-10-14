@@ -44,8 +44,6 @@ namespace SEViz.Monitoring
 
         public SEGraph Graph { get; private set; }
 
-        public List<string> SolverLocations { get; private set; }
-
         #endregion
 
         #region Exploration package
@@ -58,8 +56,6 @@ namespace SEViz.Monitoring
                 var location = problemEventArgs.FlippedLocation.Method == null ?
                                "" :
                                (problemEventArgs.FlippedLocation.Method.FullName + ":" + problemEventArgs.FlippedLocation.Offset);
-                SolverLocations.Add(location);
-                // TODO add location offset to node as metadata
 
                 Vertices.Where(v => (v.MethodName + ":" + v.ILOffset) == location).FirstOrDefault().Shape = SENode.NodeShape.Ellipse;
             };
@@ -94,6 +90,11 @@ namespace SEViz.Monitoring
 
         public void AfterExploration(IPexExplorationComponent host, object data)
         {
+
+            // Adding vertices and edges to the graph
+            Graph.AddVertexRange(Vertices);
+            Graph.AddEdgeRange(Edges);
+
             // Checking if temporary SEViz folder exists
             if(!Directory.Exists(Path.GetTempPath()+"SEViz"))
             {
@@ -235,7 +236,6 @@ namespace SEViz.Monitoring
         public void Initialize(IPexExplorationEngine host)
         {
             Graph = new SEGraph();
-            SolverLocations = new List<string>();
             Vertices = new List<SENode>();
             Edges = new List<SEEdge>();
         }
