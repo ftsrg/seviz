@@ -213,6 +213,9 @@ namespace GraphSharp.Controls
                 SetVertexControl(vertex,_hiddenVertexControls[vertex]);
                 _hiddenVertexControls.Remove(vertex);
                 DoNotificationLayout();
+            } else
+            {
+                OnMutableGraphVertexAdded(vertex);
             }
         }
 

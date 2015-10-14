@@ -112,6 +112,7 @@ namespace SEViz.Monitoring
             SEGraph.Serialize(Graph, tempDir);
 
             // Getting the process id of the parent devenv.exe instance
+            /*
             var myId = Process.GetCurrentProcess().Id;
             var query = string.Format("SELECT ParentProcessId FROM Win32_Process WHERE ProcessId = {0}", myId);
             var search = new ManagementObjectSearcher("root\\CIMV2", query);
@@ -135,7 +136,7 @@ namespace SEViz.Monitoring
 
             // Opening the SEViz window
             if (frame != null) frame.Show();
-            
+            */
         }
 
         #endregion

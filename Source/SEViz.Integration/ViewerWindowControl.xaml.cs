@@ -27,6 +27,7 @@ namespace SEViz.Integration
     using Common;
     using Common.Model;
     using EnvDTE;
+    using System.IO;
 
     /// <summary>
     /// Interaction logic for ViewerWindowControl.
