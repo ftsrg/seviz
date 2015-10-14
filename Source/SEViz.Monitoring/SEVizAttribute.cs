@@ -50,59 +50,63 @@ namespace SEViz.Monitoring
 
         public object BeforeExploration(IPexExplorationComponent host)
         {
+
             // Subscribing to constraint problem handler
             host.Log.ProblemHandler += (problemEventArgs) =>
             {
                 var location = problemEventArgs.FlippedLocation.Method == null ?
-                               "" :
-                               (problemEventArgs.FlippedLocation.Method.FullName + ":" + problemEventArgs.FlippedLocation.Offset);
+                                "" :
+                                (problemEventArgs.FlippedLocation.Method.FullName + ":" + problemEventArgs.FlippedLocation.Offset);
 
-                Vertices.Where(v => (v.MethodName + ":" + v.ILOffset) == location).FirstOrDefault().Shape = SENode.NodeShape.Ellipse;
+                // TODO NullRefException
+                //Vertices.Where(v => (v.MethodName + ":" + v.ILOffset) == location).FirstOrDefault().Shape = SENode.NodeShape.Ellipse;
             };
 
             // Subscribing to test emitting handler
             host.Log.GeneratedTestHandler += (generatedTestEventArgs) =>
             {
-                // Getting the number of the corresponding run
-                var run = generatedTestEventArgs.GeneratedTest.Run;
+            // Getting the number of the corresponding run
+            var run = generatedTestEventArgs.GeneratedTest.Run;
 
-                // Finding the corresponding leaf node of the run
-                foreach(var node in Vertices.Where(v => v.Runs.Split(';').Contains(run.ToString())))
+            // Finding the corresponding leaf node of the run
+            foreach (var node in Vertices.Where(v => v.Runs.Split(';').Contains(run.ToString())))
                 {
                     IEnumerable<SEEdge> edges = Edges.Where(e => e.Source == node);
-                    if(edges.Count() == 0)
+                    if (edges.Count() == 0)
                     {
-                        
-                        // Adding the source code of the generated test
-                        node.GenerateTestCode = generatedTestEventArgs.GeneratedTest.MethodCode;
 
-                        // Modifying the color based on the outcome of the test
-                        node.Color = (generatedTestEventArgs.GeneratedTest.IsFailure) ? SENode.NodeColor.Red : SENode.NodeColor.Green;
+                    // Adding the source code of the generated test
+                    node.GenerateTestCode = generatedTestEventArgs.GeneratedTest.MethodCode;
 
-                        // This is the leaf node, there is nothing more to search
-                        break;
+                    // Modifying the color based on the outcome of the test
+                    node.Color = (generatedTestEventArgs.GeneratedTest.IsFailure) ? SENode.NodeColor.Red : SENode.NodeColor.Green;
+
+                    // This is the leaf node, there is nothing more to search
+                    break;
                     }
                 }
             };
+
 
             return null;
         }
 
         public void AfterExploration(IPexExplorationComponent host, object data)
         {
-
+            
             // Adding vertices and edges to the graph
             Graph.AddVertexRange(Vertices);
             Graph.AddEdgeRange(Edges);
 
             // Checking if temporary SEViz folder exists
-            if(!Directory.Exists(Path.GetTempPath()+"SEViz"))
+            if (!Directory.Exists(Path.GetTempPath() + "SEViz"))
             {
-                Directory.CreateDirectory(Path.GetTempPath() + "SEViz");
+                var dir = Directory.CreateDirectory(Path.GetTempPath() + "SEViz");
+
             }
 
             // Getting the temporary folder
-            var tempDir = Path.GetTempPath() + "SEViz";
+            var tempDir = Path.GetTempPath() + "SEViz\\";
 
             // Serializing the graph into graphml
             SEGraph.Serialize(Graph, tempDir);
@@ -131,6 +135,7 @@ namespace SEViz.Monitoring
 
             // Opening the SEViz window
             if (frame != null) frame.Show();
+            
         }
 
         #endregion
@@ -149,35 +154,33 @@ namespace SEViz.Monitoring
 
             // Getting the sequence id of the current run
             var runId = host.ExplorationServices.Driver.Runs;
-            
+
             // Iterating over the nodes in the path
-            foreach(var node in nodesInPath)
+            foreach (var node in nodesInPath)
             {
-                var vertex = new SENode(node.UniqueIndex,null,null,null,null,null,false);
+                var vertex = new SENode(node.UniqueIndex, null, null, null, null, null, false);
 
-                if (Vertices.Where(v => v.Id == node.UniqueIndex).Count() > 0)
+                var nodeIndex = nodesInPath.ToList().IndexOf(node);
+                if (nodeIndex > 0)
                 {
-                    vertex = Vertices.Where(v => v.Id == node.UniqueIndex).FirstOrDefault();
-
-                    var nodeIndex = nodesInPath.ToList().IndexOf(node);
-                    if (nodeIndex > 0)
+                    var prevNode = nodesInPath[nodeIndex - 1];
+                    // If there is no edge between the previous and the current node
+                    if (Edges.Where(e => e.Source.Id == prevNode.UniqueIndex && e.Target.Id == node.UniqueIndex).Count() == 0)
                     {
-                        var prevNode = nodesInPath[nodeIndex - 1];
-                        // If there is no edge between the previous and the current node
-                        if (Edges.Where(e => e.Source.Id == prevNode.UniqueIndex && e.Target.Id == node.UniqueIndex).Count() == 0)
-                        {
-                            var prevVertex = Vertices.Where(v => v.Id == prevNode.UniqueIndex).FirstOrDefault();
-                            Edges.Add(new SEEdge(new Random().Next(), prevVertex, vertex));
+                        var prevVertex = Vertices.Where(v => v.Id == prevNode.UniqueIndex).FirstOrDefault();
+                        Edges.Add(new SEEdge(new Random().Next(), prevVertex, vertex));
 
-                            // TODO add edge coloring based on unit border detection algorithm
-                        }
+                        // TODO add edge coloring based on unit border detection algorithm
                     }
-                } else // If the node is new then it is added to the list and the metadata is filled
+                }
+
+                // If the node is new then it is added to the list and the metadata is filled
+                if (Vertices.Where(v => v.Id == node.UniqueIndex).Count() == 0)
                 {
                     Vertices.Add(vertex);
 
                     // Adding source code mapping
-                    vertex.SourceCodeMappingString = MapToSourceCodeLocationString(host,node);
+                    vertex.SourceCodeMappingString = MapToSourceCodeLocationString(host, node);
 
                     // Setting the border based on mapping existence
                     vertex.Border = vertex.SourceCodeMappingString == null ? SENode.NodeBorder.Single : SENode.NodeBorder.Double;
@@ -198,7 +201,7 @@ namespace SEViz.Monitoring
 
                     // Setting the color
                     vertex.Color = SENode.NodeColor.White;
-                    
+
                     // Setting the shape
                     vertex.Shape = SENode.NodeShape.Rectangle;
 
@@ -209,10 +212,9 @@ namespace SEViz.Monitoring
                     vertex.ILOffset = offset;
 
                     // Adding path condition
-                    vertex.PathCondition = PrettyPrintPathCondition(host,node);
+                    vertex.PathCondition = PrettyPrintPathCondition(host, node);
 
                     // Calculating the incremental path condition based on the full
-                    var nodeIndex = nodesInPath.ToList().IndexOf(node);
                     if (nodeIndex > 0)
                     {
                         var prevNode = Vertices.Where(v => v.Id == nodesInPath[nodeIndex - 1].UniqueIndex).FirstOrDefault();
@@ -226,8 +228,6 @@ namespace SEViz.Monitoring
 
                 // Adding the Id of the run
                 vertex.Runs += (runId + ";");
-
-
             }
         }
 
@@ -298,7 +298,7 @@ namespace SEViz.Monitoring
         /// <returns>The pretty printed path condition string</returns>
         private string PrettyPrintPathCondition(IPexPathComponent host, IExecutionNode node)
         {
-            string output = null;
+            string output = "";
             try
             {
                 if (node.GetPathCondition().Conjuncts.Count != 0)
@@ -318,10 +318,7 @@ namespace SEViz.Monitoring
                     }
                 }
             }
-            catch (Exception)
-            {
-                // TODO Exception handling
-            }
+            catch (Exception) { }
             return output;
 
         }

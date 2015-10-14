@@ -35,7 +35,7 @@ namespace SEViz.Common.Model
         {
             ReplaceLineBreaks(graph, true);
             var ser = new GraphMLSerializer<SENode, SEEdge, SEGraph>();
-            using (var writer = XmlWriter.Create(path, new XmlWriterSettings { Indent = true, WriteEndDocumentOnClose = false }))
+            using (var writer = XmlWriter.Create(path+"temp.graphml", new XmlWriterSettings { Indent = true, WriteEndDocumentOnClose = false }))
             {
                 ser.Serialize(writer, graph, v => v.Id.ToString(), e => e.Id.ToString());
             }
