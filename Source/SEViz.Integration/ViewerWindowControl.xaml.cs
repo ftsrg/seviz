@@ -45,13 +45,24 @@ namespace SEViz.Integration
         {
             _parent = parent;
             InitializeComponent();
-            
-            DataContext = new SEGraphViewModel();
+
+            var vm = new SEGraphViewModel();
+            vm.Callback = Relayout;
+
+            DataContext = vm;
 
             GraphControl.LayoutAlgorithmType = "EfficientSugiyama";
             GraphControl.HighlightAlgorithmType = "Simple";
             GraphControl.Graph = ((SEGraphViewModel)DataContext).Graph;
 
+            DecorateVerticesBackground();
+        }
+
+        public void Relayout()
+        {
+            GraphControl.Graph = ((SEGraphViewModel)DataContext).Graph;            
+            GraphControl.RecreateGraphElements(false);
+            GraphControl.Relayout();
             DecorateVerticesBackground();
         }
 

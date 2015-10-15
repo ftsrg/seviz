@@ -29,7 +29,7 @@ namespace GraphSharp.Controls
         /// <summary>
         /// If the graph has been changed, the elements will be regenerated.
         /// </summary>
-        protected void RecreateGraphElements(bool tryKeepControls)
+        public void RecreateGraphElements(bool tryKeepControls)
         {
             if (Graph == null)
             {

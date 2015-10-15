@@ -62,7 +62,7 @@ namespace SEViz.Common.Model
 
         [XmlAttribute("color")]
         [Browsable(false)]
-        public int sColor { get { return (int)Color; } set { Color = (NodeColor)Enum.ToObject(typeof(NodeColor), value); } }
+        public int sColor { get { return (int)Color; } set { Color = (NodeColor)Enum.ToObject(typeof(NodeColor), value); originalColors.Push(Color); } }
 
         [XmlAttribute("border")]
         [Browsable(false)]
@@ -153,8 +153,8 @@ namespace SEViz.Common.Model
             Id = id;
             CollapsedSubtreeNodes = new HashSet<SENode>();
             CollapsedSubtreeEdges = new HashSet<SEEdge>();
-            Color = NodeColor.White;
-            originalColors.Push(NodeColor.White);
+            //Color = NodeColor.White;
+            
             IsSelected = false;
             Shape = (solverCall) ?  NodeShape.Ellipse : NodeShape.Rectangle;
             Border = (sourceCodeMapping == null) ? NodeBorder.Single : NodeBorder.Double;

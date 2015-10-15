@@ -44,6 +44,8 @@ namespace SEViz.Monitoring
 
         public SEGraph Graph { get; private set; }
 
+        private Dictionary<int,Tuple<bool,string>> EmittedTestResult { get; set; }
+
         #endregion
 
         #region Exploration package
@@ -65,26 +67,20 @@ namespace SEViz.Monitoring
             // Subscribing to test emitting handler
             host.Log.GeneratedTestHandler += (generatedTestEventArgs) =>
             {
-            // Getting the number of the corresponding run
-            var run = generatedTestEventArgs.GeneratedTest.Run;
+                // Getting the number of the corresponding run
+                var run = generatedTestEventArgs.GeneratedTest.Run;
 
-            // Finding the corresponding leaf node of the run
-            foreach (var node in Vertices.Where(v => v.Runs.Split(';').Contains(run.ToString())))
+                // DEBUG
+                using (var w = new StreamWriter(@"D:\sevizdebug.txt", true))
                 {
-                    IEnumerable<SEEdge> edges = Edges.Where(e => e.Source == node);
-                    if (edges.Count() == 0)
+                    foreach(var v in Vertices)
                     {
-
-                    // Adding the source code of the generated test
-                    node.GenerateTestCode = generatedTestEventArgs.GeneratedTest.MethodCode;
-
-                    // Modifying the color based on the outcome of the test
-                    node.Color = (generatedTestEventArgs.GeneratedTest.IsFailure) ? SENode.NodeColor.Red : SENode.NodeColor.Green;
-
-                    // This is the leaf node, there is nothing more to search
-                    break;
+                        w.WriteLine(v.Id + " - Runs: " + v.Runs + " - Current run: " + run);
                     }
                 }
+
+                // Storing the result of the test (this is called before AfterRun)
+                EmittedTestResult.Add(run, new Tuple<bool, string>(generatedTestEventArgs.GeneratedTest.IsFailure,generatedTestEventArgs.GeneratedTest.MethodCode));
             };
 
 
@@ -111,32 +107,6 @@ namespace SEViz.Monitoring
             // Serializing the graph into graphml
             SEGraph.Serialize(Graph, tempDir);
 
-            // Getting the process id of the parent devenv.exe instance
-            /*
-            var myId = Process.GetCurrentProcess().Id;
-            var query = string.Format("SELECT ParentProcessId FROM Win32_Process WHERE ProcessId = {0}", myId);
-            var search = new ManagementObjectSearcher("root\\CIMV2", query);
-            var results = search.Get().GetEnumerator();
-            results.MoveNext();
-            var queryObj = results.Current;
-            var parentId = (uint)queryObj["ParentProcessId"];
-            var dte = CommunicationHelper.GetDTEByProcessId(Convert.ToInt32(parentId));
-
-            // Getting the Visual Studio Service Provider and the shell
-            var prov = new ServiceProvider(dte as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
-            var shell = (IVsUIShell)prov.GetService(typeof(SVsUIShell));
-
-            IVsWindowFrame frame = null;
-            if (shell != null)
-            {
-                // Finding the SEViz window
-                var guidSeviz = new Guid("531b782e-c65a-44c8-a902-1a43ae3f568a");
-                shell.FindToolWindow((uint)__VSFINDTOOLWIN.FTW_fForceCreate, ref guidSeviz, out frame);
-            }
-
-            // Opening the SEViz window
-            if (frame != null) frame.Show();
-            */
         }
 
         #endregion
@@ -201,7 +171,31 @@ namespace SEViz.Monitoring
                     }
 
                     // Setting the color
-                    vertex.Color = SENode.NodeColor.White;
+
+                    if (nodesInPath.LastOrDefault() == node)
+                    {
+                        if (!EmittedTestResult.ContainsKey(runId))
+                        {
+                            vertex.Color = SENode.NodeColor.Orange;
+                        }
+                        else
+                        {
+                            if (EmittedTestResult[runId].Item1)
+                            {
+                                vertex.Color = SENode.NodeColor.Red;
+                            }
+                            else
+                            {
+                                vertex.Color = SENode.NodeColor.Green;
+                            }
+                            vertex.GenerateTestCode = EmittedTestResult[runId].Item2;
+                        }
+                    }
+                    else
+                    {
+                        vertex.Color = SENode.NodeColor.White;
+                        
+                    }
 
                     // Setting the shape
                     vertex.Shape = SENode.NodeShape.Rectangle;
@@ -228,7 +222,7 @@ namespace SEViz.Monitoring
                 }
 
                 // Adding the Id of the run
-                vertex.Runs += (runId + ";");
+                Vertices.Where(v => v.Id == node.UniqueIndex).FirstOrDefault().Runs += (runId + ";");
             }
         }
 
@@ -239,6 +233,7 @@ namespace SEViz.Monitoring
             Graph = new SEGraph();
             Vertices = new List<SENode>();
             Edges = new List<SEEdge>();
+            EmittedTestResult = new Dictionary<int, Tuple<bool,string>>();
         }
 
         public void Load(IContainer pathContainer)

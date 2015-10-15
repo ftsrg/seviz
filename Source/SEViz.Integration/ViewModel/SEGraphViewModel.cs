@@ -31,6 +31,8 @@ namespace SEViz.Integration.ViewModel
             set { _graph = value; }
         }
 
+        public Action Callback { get; set; }
+
         private FileSystemWatcher fsw;
 
         #endregion
@@ -64,6 +66,7 @@ namespace SEViz.Integration.ViewModel
             if (result == MessageBoxResult.Yes)
             {
                 LoadGraph(SEGraph.Deserialize(Path.GetTempPath() + "SEViz/" + "temp.graphml"));
+                Callback.Invoke();
                 ViewerWindowCommand.Instance.ShowToolWindow(null, null);
             }
             
