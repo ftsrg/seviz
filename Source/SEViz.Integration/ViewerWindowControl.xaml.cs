@@ -211,7 +211,7 @@ namespace SEViz.Integration
 
         public List<SENode> GetNodesOfRun(string runId)
         {
-            return GraphControl.Graph.Vertices.Where(v => v.Runs.Split(';').Contains(runId)).ToList();
+            return GraphControl.Graph.Vertices.Where(v => v.Runs.Split(';').Contains(runId.Split(';')[0])).ToList();
         }
 
         /// <summary>
