@@ -165,8 +165,7 @@ namespace SEViz.Integration
             {
                 foreach (var v in GraphControl.Graph.Vertices)
                 {
-                    if (v.IsSelected && !currentSubtreeRoot.CollapsedSubtreeNodes.Contains(v))
-                        v.Deselect();
+                    if (v.IsSelected) v.Deselect();
                 }
                 DecorateVerticesBackground();
             }
