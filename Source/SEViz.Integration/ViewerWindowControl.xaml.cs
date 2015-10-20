@@ -163,7 +163,12 @@ namespace SEViz.Integration
             }
             else
             {
-                DeselectAllVisually();
+                foreach (var v in GraphControl.Graph.Vertices)
+                {
+                    if (v.IsSelected && !currentSubtreeRoot.CollapsedSubtreeNodes.Contains(v))
+                        v.Deselect();
+                }
+                DecorateVerticesBackground();
             }
 
             
@@ -308,7 +313,7 @@ namespace SEViz.Integration
 
             if (!currentSubtreeRoot.Equals(vertex))
             {
-                vertex.Deselect();
+                if(vertex.IsSelected) vertex.Deselect();
                 currentSubtreeRoot.CollapsedSubtreeNodes.Add(vertex);
                 
             }
