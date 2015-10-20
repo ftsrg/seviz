@@ -46,6 +46,8 @@ namespace SEViz.Monitoring
 
         private Dictionary<int,Tuple<bool,string>> EmittedTestResult { get; set; }
 
+        private List<string> Z3CallLocations { get; set; }
+
         #endregion
 
         #region Exploration package
@@ -60,8 +62,7 @@ namespace SEViz.Monitoring
                                 "" :
                                 (problemEventArgs.FlippedLocation.Method.FullName + ":" + problemEventArgs.FlippedLocation.Offset);
 
-                // TODO NullRefException
-                //Vertices.Where(v => (v.MethodName + ":" + v.ILOffset) == location).FirstOrDefault().Shape = SENode.NodeShape.Ellipse;
+                Z3CallLocations.Add(location);
             };
 
             // Subscribing to test emitting handler
@@ -89,7 +90,12 @@ namespace SEViz.Monitoring
 
         public void AfterExploration(IPexExplorationComponent host, object data)
         {
-            
+            // Modifying shape based on Z3 calls
+            foreach (var vertex in Vertices)
+            {
+                if (Z3CallLocations.Contains(vertex.MethodName + ":" + vertex.ILOffset)) vertex.Shape = SENode.NodeShape.Ellipse;
+            }
+
             // Adding vertices and edges to the graph
             Graph.AddVertexRange(Vertices);
             Graph.AddEdgeRange(Edges);
@@ -197,14 +203,14 @@ namespace SEViz.Monitoring
                         
                     }
 
-                    // Setting the shape
-                    vertex.Shape = SENode.NodeShape.Rectangle;
-
                     // Setting the method name
                     vertex.MethodName = methodName;
 
                     // Setting the offset
                     vertex.ILOffset = offset;
+
+                    // Setting the default shape
+                    vertex.Shape = SENode.NodeShape.Rectangle;
 
                     // Adding path condition
                     vertex.PathCondition = PrettyPrintPathCondition(host, node);
@@ -234,6 +240,7 @@ namespace SEViz.Monitoring
             Vertices = new List<SENode>();
             Edges = new List<SEEdge>();
             EmittedTestResult = new Dictionary<int, Tuple<bool,string>>();
+            Z3CallLocations = new List<string>();
         }
 
         public void Load(IContainer pathContainer)
