@@ -61,7 +61,6 @@ namespace SEViz.Integration
 
         public void AfterRelayout()
         {
-            GraphControl.PurgeHiddenVertexControls();
             DecorateVerticesBackground();
         }
 

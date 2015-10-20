@@ -14,7 +14,6 @@ namespace GraphSharp.Controls
         where TEdge : IEdge<TVertex>
         where TGraph : class, IBidirectionalGraph<TVertex, TEdge>
     {
-        private Dictionary<TVertex, VertexControl> _hiddenVertexControls = new Dictionary<TVertex, VertexControl>();
 
         protected void RemoveAllGraphElement()
         {
@@ -24,14 +23,8 @@ namespace GraphSharp.Controls
                 RemoveEdgeControl(edge);
             VertexControls.Clear();
             EdgeControls.Clear();
-            _hiddenVertexControls.Clear();
         }
 
-        public void PurgeHiddenVertexControls()
-        {
-            _hiddenVertexControls.Clear();
-        }
-        
         /// <summary>
         /// If the graph has been changed, the elements will be regenerated.
         /// </summary>
@@ -97,10 +90,8 @@ namespace GraphSharp.Controls
                     var mutableGraph = Graph as IMutableBidirectionalGraph<TVertex, TEdge>;
                     if (mutableGraph != null)
                     {
-                        //mutableGraph.VertexAdded += OnMutableGraphVertexAdded;
-                        mutableGraph.VertexAdded += OnMutableGraphVertexAddedRestoredControl;
-                        //mutableGraph.VertexRemoved += OnMutableGraphVertexRemoved;
-                        mutableGraph.VertexRemoved += OnMutableGraphVertexRemovedPersistedControl;
+                        mutableGraph.VertexAdded += OnMutableGraphVertexAdded;
+                        mutableGraph.VertexRemoved += OnMutableGraphVertexRemoved;
                         mutableGraph.EdgeAdded += OnMutableGraphEdgeAdded;
                         mutableGraph.EdgeRemoved += OnMutableGraphEdgeRemoved;
                     }
@@ -205,40 +196,11 @@ namespace GraphSharp.Controls
                 DoNotificationLayout();
             }
         }
-
-        private void OnMutableGraphVertexRemovedPersistedControl(TVertex vertex)
-        {
-            if(VertexControls.ContainsKey(vertex))
-            {
-                if (_hiddenVertexControls.ContainsKey(vertex))
-                {
-                    _hiddenVertexControls[vertex] = VertexControls[vertex];
-                }
-                else
-                {
-                    _hiddenVertexControls.Add(vertex, VertexControls[vertex]);
-                }
-                OnMutableGraphVertexRemoved(vertex);
-            }
-        }
-
+        
         private void OnMutableGraphVertexAdded(TVertex vertex)
         {
             _verticesAdded.Enqueue(vertex);
             DoNotificationLayout();
-        }
-
-        private void OnMutableGraphVertexAddedRestoredControl(TVertex vertex)
-        {
-            if(_hiddenVertexControls.ContainsKey(vertex))
-            {
-                SetVertexControl(vertex,_hiddenVertexControls[vertex]);
-                _hiddenVertexControls.Remove(vertex);
-                DoNotificationLayout();
-            } else
-            {
-                OnMutableGraphVertexAdded(vertex);
-            }
         }
 
         public VertexControl GetVertexControl(TVertex vertex)
@@ -254,16 +216,6 @@ namespace GraphSharp.Controls
                 CreateVertexControl(vertex);
 
             return VertexControls[vertex];
-        }
-
-        private void SetVertexControl(TVertex vertex, VertexControl control)
-        {
-            VertexControls[vertex] = control;
-            control.RootCanvas = this;
-            if (!Children.Contains(control)) { Children.Add(control); }
-            control.InvalidateMeasure();
-            SetHighlightProperties(vertex, control);
-            RunCreationTransition(control);
         }
 
         protected virtual void CreateVertexControl(TVertex vertex)
