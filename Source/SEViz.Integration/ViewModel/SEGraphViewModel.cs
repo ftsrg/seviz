@@ -18,6 +18,35 @@ namespace SEViz.Integration.ViewModel
 {
     public class SEGraphLayout : GraphLayout<SENode, SEEdge, SEGraph>
     {
+        public Dictionary<SEEdge,EdgeControl> GetEdgeControls()
+        {
+            return EdgeControls;
+        }
+
+        public Dictionary<SENode,VertexControl> GetVertexControls()
+        {
+            return VertexControls;
+        }
+
+        public void DeleteVertexControl(SENode node)
+        {
+            RemoveVertexControl(node);
+        }
+
+        public void AddVertexControl(SENode node)
+        {
+            CreateVertexControl(node);
+        }
+
+        public void DeleteEdgeControl(SEEdge edge)
+        {
+            RemoveEdgeControl(edge);
+        }
+
+        public void AddEdgeControl(SEEdge edge)
+        {
+            CreateEdgeControl(edge);
+        }
     }
 
     public class SEGraphViewModel
@@ -30,8 +59,6 @@ namespace SEViz.Integration.ViewModel
             get { return _graph; }
             set { _graph = value; }
         }
-
-        public Action Callback { get; set; }
 
         private FileSystemWatcher fsw;
 
@@ -50,14 +77,10 @@ namespace SEViz.Integration.ViewModel
 
                 // Getting the dispatcher to modify the UI
                 var dispatcher = Application.Current.Dispatcher;
-                dispatcher.BeginInvoke((Action)LoadGraphFromTemp);  
+                dispatcher.Invoke((Action)LoadGraphFromTemp);  
             };
             fsw.NotifyFilter = NotifyFilters.LastWrite;
             fsw.EnableRaisingEvents = true;
-
-            LoadGraph(null);
-            // Adding runs and pcs to a set of nodes
-            //Graph.Vertices.ElementAt(3).Runs = "1";  Graph.Vertices.ElementAt(2).Runs = "1";  Graph.Vertices.ElementAt(1).Runs = "1"; Graph.Vertices.ElementAt(0).Runs = "1";
         }
 
         private void LoadGraphFromTemp()
@@ -66,7 +89,6 @@ namespace SEViz.Integration.ViewModel
             if (result == MessageBoxResult.Yes)
             {
                 LoadGraph(SEGraph.Deserialize(Path.GetTempPath() + "SEViz/" + "temp.graphml"));
-                Callback.Invoke();
                 ViewerWindowCommand.Instance.ShowToolWindow(null, null);
             }
             
@@ -75,31 +97,21 @@ namespace SEViz.Integration.ViewModel
 
         public void LoadGraph(SEGraph graph)
         {
-            // TODO starting sample graph
-
-            if(graph == null)
-                Graph = new SEGraph();
-
-            if(graph != null)
-                Graph = graph;
-            /*
-            for (int i = 0; i < 8; i++)
+            if (graph == null)
             {
-                var n = new SENode(i, null, null, null, null, null, (i==4 || i==1) ? true : false);
-                graph.AddVertex(n);
+                Graph = new SEGraph();
             }
+            else
+            {
+                foreach (var e in Graph.Edges.ToList()) Graph.RemoveEdge(e);
+                foreach (var e in Graph.HiddenEdges.ToList()) ((List<SEEdge>)Graph.HiddenEdges).Remove(e);
+                foreach (var v in Graph.Vertices.ToList()) Graph.RemoveVertex(v);
+                foreach (var v in Graph.HiddenVertices.ToList()) ((List<SENode>)Graph.HiddenVertices).Remove(v);
 
-            graph.AddEdge(new SEEdge(0, graph.Vertices.ElementAt(0), graph.Vertices.ElementAt(1)) { Color = SEEdge.EdgeColor.Red });
-            graph.AddEdge(new SEEdge(1, graph.Vertices.ElementAt(1), graph.Vertices.ElementAt(2)));
-            graph.AddEdge(new SEEdge(2, graph.Vertices.ElementAt(2), graph.Vertices.ElementAt(3)));
-            graph.AddEdge(new SEEdge(3, graph.Vertices.ElementAt(2), graph.Vertices.ElementAt(4)));
-            graph.AddEdge(new SEEdge(4, graph.Vertices.ElementAt(0), graph.Vertices.ElementAt(5)));
-            graph.AddEdge(new SEEdge(5, graph.Vertices.ElementAt(1), graph.Vertices.ElementAt(7)));
-            graph.AddEdge(new SEEdge(6, graph.Vertices.ElementAt(4), graph.Vertices.ElementAt(6)));*/
-            // TODO ending sample graph
-            
-           
-            //Graph = SEGraph.Deserialize(@"D:\graph.graphml");
+                foreach (var v in graph.Vertices) Graph.AddVertex(v);
+                foreach (var e in graph.Edges) Graph.AddEdge(e);
+
+            }
         }
     }
 }

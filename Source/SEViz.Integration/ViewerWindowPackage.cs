@@ -17,6 +17,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
 using SEViz.Integration.Helpers;
 using System.IO;
+using System.Windows;
 
 namespace SEViz.Integration
 {

@@ -24,8 +24,14 @@ namespace GraphSharp.Controls
                 RemoveEdgeControl(edge);
             VertexControls.Clear();
             EdgeControls.Clear();
+            _hiddenVertexControls.Clear();
         }
 
+        public void PurgeHiddenVertexControls()
+        {
+            _hiddenVertexControls.Clear();
+        }
+        
         /// <summary>
         /// If the graph has been changed, the elements will be regenerated.
         /// </summary>
@@ -104,6 +110,13 @@ namespace GraphSharp.Controls
             Sizes = null;
         }
 
+        public Action AfterLayoutCallback { get; set; }
+
+        public void AfterLayout()
+        {
+            if(AfterLayoutCallback != null) AfterLayoutCallback.Invoke();
+        }
+
         private void DoNotificationLayout()
         {
             lock (_notificationSyncRoot)
@@ -134,6 +147,7 @@ namespace GraphSharp.Controls
                 ContinueLayout();
                 if (HighlightAlgorithm != null)
                     HighlightAlgorithm.ResetHighlight();
+                AfterLayout();
             };
             Worker.RunWorkerAsync();
         }
@@ -180,6 +194,7 @@ namespace GraphSharp.Controls
         {
             _edgesAdded.Enqueue(edge);
             DoNotificationLayout();
+           
         }
 
         private void OnMutableGraphVertexRemoved(TVertex vertex)
@@ -195,7 +210,14 @@ namespace GraphSharp.Controls
         {
             if(VertexControls.ContainsKey(vertex))
             {
-                _hiddenVertexControls.Add(vertex, VertexControls[vertex]);
+                if (_hiddenVertexControls.ContainsKey(vertex))
+                {
+                    _hiddenVertexControls[vertex] = VertexControls[vertex];
+                }
+                else
+                {
+                    _hiddenVertexControls.Add(vertex, VertexControls[vertex]);
+                }
                 OnMutableGraphVertexRemoved(vertex);
             }
         }
