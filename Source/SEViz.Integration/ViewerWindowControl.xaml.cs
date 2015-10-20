@@ -209,7 +209,8 @@ namespace SEViz.Integration
                 VisuallySelectNode(node);
             } else
             {
-                MapNodesToSourceLinesBookmarks(node);
+                if(!node.SourceCodeMappingString.Equals(""))
+                    MapNodesToSourceLinesBookmarks(node);
             }
         }
 

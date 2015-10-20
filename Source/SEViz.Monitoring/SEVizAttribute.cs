@@ -330,7 +330,7 @@ namespace SEViz.Monitoring
             var remainedLiterals = new List<string>();
 
             var splittedCondition = pc.Split(new string[] { "&& " },StringSplitOptions.None);
-            var prevSplittedCondition = prevPc.Split(new string[] { "&&" }, StringSplitOptions.None);
+            var prevSplittedCondition = prevPc.Split(new string[] { "&& " }, StringSplitOptions.None);
             
             var currentOrdered = splittedCondition.OrderBy(c => c);
             var prevOrdered = prevSplittedCondition.OrderBy(c => c);

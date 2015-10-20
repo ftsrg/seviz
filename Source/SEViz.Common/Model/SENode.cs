@@ -161,9 +161,9 @@ namespace SEViz.Common.Model
 
             Runs = "";
             PathCondition = "";
-            IncrementalPathCondition = "a > 0";
-            MethodName = "Mymethod.Foo";
-            SourceCodeMappingString = @"D:\debug.cs:5";
+            IncrementalPathCondition = "";
+            MethodName = "";
+            SourceCodeMappingString = "";
         }
 
         #region Public methods
