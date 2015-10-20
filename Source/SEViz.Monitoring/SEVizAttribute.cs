@@ -71,15 +71,6 @@ namespace SEViz.Monitoring
                 // Getting the number of the corresponding run
                 var run = generatedTestEventArgs.GeneratedTest.Run;
 
-                // DEBUG
-                using (var w = new StreamWriter(@"D:\sevizdebug.txt", true))
-                {
-                    foreach(var v in Vertices)
-                    {
-                        w.WriteLine(v.Id + " - Runs: " + v.Runs + " - Current run: " + run);
-                    }
-                }
-
                 // Storing the result of the test (this is called before AfterRun)
                 EmittedTestResult.Add(run, new Tuple<bool, string>(generatedTestEventArgs.GeneratedTest.IsFailure,generatedTestEventArgs.GeneratedTest.MethodCode));
             };
