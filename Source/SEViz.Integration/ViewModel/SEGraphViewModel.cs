@@ -18,35 +18,6 @@ namespace SEViz.Integration.ViewModel
 {
     public class SEGraphLayout : GraphLayout<SENode, SEEdge, SEGraph>
     {
-        public Dictionary<SEEdge,EdgeControl> GetEdgeControls()
-        {
-            return EdgeControls;
-        }
-
-        public Dictionary<SENode,VertexControl> GetVertexControls()
-        {
-            return VertexControls;
-        }
-
-        public void DeleteVertexControl(SENode node)
-        {
-            RemoveVertexControl(node);
-        }
-
-        public void AddVertexControl(SENode node)
-        {
-            CreateVertexControl(node);
-        }
-
-        public void DeleteEdgeControl(SEEdge edge)
-        {
-            RemoveEdgeControl(edge);
-        }
-
-        public void AddEdgeControl(SEEdge edge)
-        {
-            CreateEdgeControl(edge);
-        }
     }
 
     public class SEGraphViewModel
