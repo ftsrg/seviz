@@ -48,6 +48,28 @@ namespace SEViz.Monitoring
 
         private List<string> Z3CallLocations { get; set; }
 
+        private string UnitNamespace { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Visualizes symbolic execution.
+        /// </summary>
+        public SEVizAttribute()
+        {
+        }
+
+        /// <summary>
+        /// Visualizes symbolic execution and marks edges that are pointing in and out of the unit borders.
+        /// </summary>
+        /// <param name="unitNamespace">The namespace of the unit to use.</param>
+        public SEVizAttribute(string unitNamespace)
+        {
+            UnitNamespace = unitNamespace;
+        }
+
         #endregion
 
         #region Exploration package
@@ -128,6 +150,27 @@ namespace SEViz.Monitoring
             {
                 var vertex = new SENode(node.UniqueIndex, null, null, null, null, null, false);
 
+                // Adding the method name this early in order to color edges
+                string methodName = null;
+                int offset = 0;
+                if (node.CodeLocation.Method == null)
+                {
+                    if (node.InCodeBranch.Method != null)
+                    {
+                        methodName = node.InCodeBranch.Method.FullName;
+                    }
+                }
+                else
+                {
+                    methodName = node.CodeLocation.Method.FullName;
+                    offset = node.CodeLocation.Offset;
+                }
+                // Setting the method name
+                vertex.MethodName = methodName;
+
+                // Setting the offset
+                vertex.ILOffset = offset;
+
                 var nodeIndex = nodesInPath.ToList().IndexOf(node);
                 if (nodeIndex > 0)
                 {
@@ -136,9 +179,24 @@ namespace SEViz.Monitoring
                     if (Edges.Where(e => e.Source.Id == prevNode.UniqueIndex && e.Target.Id == node.UniqueIndex).Count() == 0)
                     {
                         var prevVertex = Vertices.Where(v => v.Id == prevNode.UniqueIndex).FirstOrDefault();
-                        Edges.Add(new SEEdge(new Random().Next(), prevVertex, vertex));
+                        var edge = new SEEdge(new Random().Next(), prevVertex, vertex);
+                        Edges.Add(edge);
 
-                        // TODO add edge coloring based on unit border detection algorithm
+                        // Edge coloring based on unit border detection
+                        if (UnitNamespace != null)
+                        {
+                            // Checking if pointing into the unit from outside
+                            if(!prevVertex.MethodName.StartsWith(UnitNamespace) && vertex.MethodName.StartsWith(UnitNamespace))
+                            {
+                                edge.Color = SEEdge.EdgeColor.Green;
+                            }
+
+                            // Checking if pointing outside the unit from inside
+                            if(prevVertex.MethodName.StartsWith(UnitNamespace) && !vertex.MethodName.StartsWith(UnitNamespace))
+                            {
+                                edge.Color = SEEdge.EdgeColor.Red;
+                            }
+                        }
                     }
                 }
 
@@ -153,22 +211,7 @@ namespace SEViz.Monitoring
                     // Setting the border based on mapping existence
                     vertex.Border = vertex.SourceCodeMappingString == null ? SENode.NodeBorder.Single : SENode.NodeBorder.Double;
 
-                    // Adding the method name
-                    string methodName = null;
-                    int offset = 0;
-                    if (node.CodeLocation.Method == null) {
-                        if (node.InCodeBranch.Method != null)
-                        {
-                            methodName = node.InCodeBranch.Method.FullName;
-                        }
-                    } else
-                    {
-                        methodName = node.CodeLocation.Method.FullName;
-                        offset = node.CodeLocation.Offset;
-                    }
-
                     // Setting the color
-
                     if (nodesInPath.LastOrDefault() == node)
                     {
                         if (!EmittedTestResult.ContainsKey(runId))
@@ -191,14 +234,7 @@ namespace SEViz.Monitoring
                     else
                     {
                         vertex.Color = SENode.NodeColor.White;
-                        
                     }
-
-                    // Setting the method name
-                    vertex.MethodName = methodName;
-
-                    // Setting the offset
-                    vertex.ILOffset = offset;
 
                     // Setting the default shape
                     vertex.Shape = SENode.NodeShape.Rectangle;

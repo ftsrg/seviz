@@ -21,6 +21,8 @@ namespace SEViz.Integration.Helpers.Converters
                     return "Silver";
                 case SEEdge.EdgeColor.Red:
                     return "Red";
+                case SEEdge.EdgeColor.Green:
+                    return "Green";
                 default:
                     return "Silver";
             }

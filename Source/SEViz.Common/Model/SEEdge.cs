@@ -14,7 +14,8 @@ namespace SEViz.Common.Model
         public enum EdgeColor
         {
             Black,
-            Red
+            Red,
+            Green
         }
 
         public int Id { get; private set; }
