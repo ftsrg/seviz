@@ -69,7 +69,7 @@ namespace SEViz.Integration
             var foundedNodes = new List<SENode>();
             for (int i = startLine; i <= endLine; i++)
             {
-                var match = GraphControl.Graph.Vertices.Where(v => v.PathCondition.Contains(location + ":" + i.ToString())).FirstOrDefault();
+                var match = GraphControl.Graph.Vertices.Where(v => v.SourceCodeMappingString.Contains(location + ":" + i.ToString())).FirstOrDefault();
                 if(match != null) foundedNodes.Add(match);
             }
             if(foundedNodes.Count > 0)
