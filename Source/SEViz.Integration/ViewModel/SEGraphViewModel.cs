@@ -79,8 +79,17 @@ namespace SEViz.Integration.ViewModel
             // Loading the graph
             LoadGraph(SEGraph.Deserialize(fileUri));
 
-            // Setting the caption of the tool window
-            ViewerWindowCommand.Instance.FindToolWindow().Caption = Graph.Vertices.Where(v => v.Id == 0).FirstOrDefault().MethodName + " - SEViz";
+            // Setting the caption of the tool window (making sure with the loop that the node has a method)
+            for (int i = 0; i < 10; i++)
+            {
+                var methodName = Graph.Vertices.Where(v => v.Id == i).FirstOrDefault().MethodName;
+                if (methodName != "")
+                {
+                    ViewerWindowCommand.Instance.FindToolWindow().Caption = methodName + " - SEViz";
+                    break;
+                }
+            }
+            
         }
 
         public void LoadGraph(SEGraph graph)
