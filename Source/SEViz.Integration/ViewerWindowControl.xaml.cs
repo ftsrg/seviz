@@ -77,13 +77,7 @@ namespace SEViz.Integration
                 SelectNodesVisually(foundedNodes);
             } else
             {
-                VsShellUtilities.ShowMessageBox(
-                    ViewerWindowCommand.Instance.ServiceProvider,
-                    "No nodes found for the selected source lines.",
-                    "SEViz information",
-                    OLEMSGICON.OLEMSGICON_INFO,
-                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                MessageBox.Show("No nodes found for the selected source lines.", "SEViz notification", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
