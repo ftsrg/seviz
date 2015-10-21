@@ -54,6 +54,8 @@ namespace SEViz.Integration
                 var menuItem = new MenuCommand(this.ShowToolWindow, menuCommandID);
                 commandService.AddCommand(menuItem);
             }
+
+            this.package.FindToolWindow(typeof(ViewerWindow), 0, true);
         }
 
         /// <summary>

@@ -43,6 +43,7 @@ namespace SEViz.Integration
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(ViewerWindow))]
     [Guid(ViewerWindowPackage.PackageGuidString)]
+    [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class ViewerWindowPackage : Package
     {
