@@ -242,6 +242,9 @@ namespace SEViz.Monitoring
                     // Adding path condition
                     vertex.PathCondition = PrettyPrintPathCondition(host, node);
 
+                    // Setting the status
+                    vertex.Status = node.ExhaustedReason.ToString();
+
                     // Calculating the incremental path condition based on the full
                     if (nodeIndex > 0)
                     {

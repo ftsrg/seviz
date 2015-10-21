@@ -65,13 +65,22 @@ namespace SEViz.Integration.ViewModel
                 LoadGraph(SEGraph.Deserialize(Path.GetTempPath() + "SEViz/" + "temp.graphml"));
 
                 // Setting the caption of the tool window
-                ViewerWindowCommand.Instance.FindToolWindow().Caption = Graph.Vertices.FirstOrDefault().MethodName + " - SEViz";
+                ViewerWindowCommand.Instance.FindToolWindow().Caption = Graph.Vertices.Where(v => v.Id == 0).FirstOrDefault().MethodName + " - SEViz";
 
                 // Showing the tool window
                 ViewerWindowCommand.Instance.ShowToolWindow(null, null);
             }
             
             fsw.EnableRaisingEvents = true;
+        }
+
+        public void LoadGraphFromUri(string fileUri)
+        {
+            // Loading the graph
+            LoadGraph(SEGraph.Deserialize(fileUri));
+
+            // Setting the caption of the tool window
+            ViewerWindowCommand.Instance.FindToolWindow().Caption = Graph.Vertices.Where(v => v.Id == 0).FirstOrDefault().MethodName + " - SEViz";
         }
 
         public void LoadGraph(SEGraph graph)
