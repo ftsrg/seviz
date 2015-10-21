@@ -95,10 +95,6 @@
     <Reference Include="EnvDTE90, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="GraphSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=934323c81b53a6cc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\GraphSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.CommandBars, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -230,6 +226,10 @@
     <ProjectReference Include="..\Graph#.Controls\GraphSharp.Controls.csproj">
       <Project>{90d874f2-486e-477e-93a9-ffa6fc92a2f4}</Project>
       <Name>GraphSharp.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Graph#\GraphSharp.csproj">
+      <Project>{9c59c516-fca0-4fcf-ae11-e20f0f1b1949}</Project>
+      <Name>GraphSharp</Name>
     </ProjectReference>
     <ProjectReference Include="..\SEViz.Common\SEViz.Common.csproj">
       <Project>{2e7bb5b1-612c-495d-acff-701dc23c4059}</Project>

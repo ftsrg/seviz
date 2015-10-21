@@ -106,5 +106,10 @@ namespace SEViz.Integration
             IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
+
+        internal ToolWindowPane FindToolWindow()
+        {
+            return package.FindToolWindow(typeof(ViewerWindow), 0, true);
+        }
     }
 }

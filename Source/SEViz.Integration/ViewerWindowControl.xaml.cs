@@ -56,6 +56,7 @@ namespace SEViz.Integration
             vm.LoadGraph(null);
 
             GraphControl.Graph = vm.Graph;
+
             GraphControl.AfterLayoutCallback = AfterRelayout;
         }
 
@@ -165,6 +166,21 @@ namespace SEViz.Integration
             }
 
             
+            IVsStatusbar statusBar = (IVsStatusbar)_parent.GetVsService(typeof(SVsStatusbar));
+
+            // Make sure the status bar is not frozen
+            int frozen;
+            statusBar.IsFrozen(out frozen);
+
+            if (frozen != 0) statusBar.FreezeOutput(0);
+            
+            // Set the status bar text and make its display static.
+            statusBar.SetText(node.MethodName + " (" + node.SourceCodeMappingString + ")");
+
+            // Freeze the status bar.
+            statusBar.FreezeOutput(1);
+
+
         }
 
         private void VisuallySelectNode(SENode node)

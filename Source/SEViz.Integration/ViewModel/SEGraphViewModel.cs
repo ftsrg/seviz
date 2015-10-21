@@ -31,6 +31,8 @@ namespace SEViz.Integration.ViewModel
             set { _graph = value; }
         }
 
+        public string Caption { get; set; }
+
         private FileSystemWatcher fsw;
 
         #endregion
@@ -59,7 +61,13 @@ namespace SEViz.Integration.ViewModel
             var result = MessageBox.Show("New SEViz graph is available. Do you want to load it?", "SEViz notification", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
+                // Loading the graph
                 LoadGraph(SEGraph.Deserialize(Path.GetTempPath() + "SEViz/" + "temp.graphml"));
+
+                // Setting the caption of the tool window
+                ViewerWindowCommand.Instance.FindToolWindow().Caption = Graph.Vertices.FirstOrDefault().MethodName + " - SEViz";
+
+                // Showing the tool window
                 ViewerWindowCommand.Instance.ShowToolWindow(null, null);
             }
             
