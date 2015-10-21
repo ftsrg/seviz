@@ -186,13 +186,13 @@ namespace SEViz.Monitoring
                         if (UnitNamespace != null)
                         {
                             // Checking if pointing into the unit from outside
-                            if(!prevVertex.MethodName.StartsWith(UnitNamespace) && vertex.MethodName.StartsWith(UnitNamespace))
+                            if(!(prevVertex.MethodName.StartsWith(UnitNamespace+".") || prevVertex.MethodName.Equals(UnitNamespace)) && (vertex.MethodName.StartsWith(UnitNamespace+".") || vertex.MethodName.Equals(UnitNamespace)))
                             {
                                 edge.Color = SEEdge.EdgeColor.Green;
                             }
 
                             // Checking if pointing outside the unit from inside
-                            if(prevVertex.MethodName.StartsWith(UnitNamespace) && !vertex.MethodName.StartsWith(UnitNamespace))
+                            if((prevVertex.MethodName.StartsWith(UnitNamespace+".") || prevVertex.MethodName.Equals(UnitNamespace)) && !(vertex.MethodName.StartsWith(UnitNamespace+".") || vertex.MethodName.Equals(UnitNamespace)))
                             {
                                 edge.Color = SEEdge.EdgeColor.Red;
                             }
