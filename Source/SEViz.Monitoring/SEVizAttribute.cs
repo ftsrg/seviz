@@ -176,9 +176,9 @@ namespace SEViz.Monitoring
                 {
                     var prevNode = nodesInPath[nodeIndex - 1];
                     // If there is no edge between the previous and the current node
-                    if (Edges.Where(e => e.Source.Id == prevNode.UniqueIndex && e.Target.Id == node.UniqueIndex).Count() == 0)
+                    if (Edges.Where(e => e.Source.Id == prevNode.UniqueIndex && e.Target.Id == node.UniqueIndex).Count() == 0) // TODO Perf leak
                     {
-                        var prevVertex = Vertices.Where(v => v.Id == prevNode.UniqueIndex).FirstOrDefault();
+                        var prevVertex = Vertices.Where(v => v.Id == prevNode.UniqueIndex).FirstOrDefault(); // TODO Perf leak
                         var edge = new SEEdge(new Random().Next(), prevVertex, vertex);
                         Edges.Add(edge);
 
@@ -201,7 +201,7 @@ namespace SEViz.Monitoring
                 }
 
                 // If the node is new then it is added to the list and the metadata is filled
-                if (Vertices.Where(v => v.Id == node.UniqueIndex).Count() == 0)
+                if (Vertices.Where(v => v.Id == node.UniqueIndex).Count() == 0) // TODO Perf leak
                 {
                     Vertices.Add(vertex);
 
@@ -248,7 +248,7 @@ namespace SEViz.Monitoring
                     // Calculating the incremental path condition based on the full
                     if (nodeIndex > 0)
                     {
-                        var prevNode = Vertices.Where(v => v.Id == nodesInPath[nodeIndex - 1].UniqueIndex).FirstOrDefault();
+                        var prevNode = Vertices.Where(v => v.Id == nodesInPath[nodeIndex - 1].UniqueIndex).FirstOrDefault(); // TODO Perf leak
                         vertex.IncrementalPathCondition = CalculateIncrementalPathCondition(vertex.PathCondition, prevNode.PathCondition);
                     } else
                     {
@@ -258,7 +258,7 @@ namespace SEViz.Monitoring
                 }
 
                 // Adding the Id of the run
-                Vertices.Where(v => v.Id == node.UniqueIndex).FirstOrDefault().Runs += (runId + ";");
+                Vertices.Where(v => v.Id == node.UniqueIndex).FirstOrDefault().Runs += (runId + ";"); // TODO Perf leak
             }
         }
 
@@ -339,7 +339,7 @@ namespace SEViz.Monitoring
                     TermEmitter termEmitter = new TermEmitter(host.GetService<TermManager>());
                     SafeStringWriter safeStringWriter = new SafeStringWriter();
                     IMethodBodyWriter methodBodyWriter = host.GetService<IPexTestManager>().Language.CreateBodyWriter(safeStringWriter, VisibilityContext.Private, 2000);
-                    if (termEmitter.TryEvaluate(node.GetPathCondition().Conjuncts, 2000, methodBodyWriter))
+                    if (termEmitter.TryEvaluate(node.GetPathCondition().Conjuncts, 2000, methodBodyWriter)) // TODO Perf leak
                     {
                         for (int i = 0; i < node.GetPathCondition().Conjuncts.Count - 1; i++)
                         {
@@ -347,7 +347,7 @@ namespace SEViz.Monitoring
                         }
 
                         methodBodyWriter.Statement();
-                        output = safeStringWriter.ToString().Remove(safeStringWriter.ToString().Count() - 3);
+                        output = safeStringWriter.ToString().Remove(safeStringWriter.ToString().Count() - 3); // TODO Perf leak
                     }
                 }
             }
@@ -372,17 +372,19 @@ namespace SEViz.Monitoring
             var currentOrdered = splittedCondition.OrderBy(c => c);
             var prevOrdered = prevSplittedCondition.OrderBy(c => c);
 
+            remainedLiterals = currentOrdered.Except(prevOrdered).ToList(); // TODO Perf leak
+            /*
             foreach(var c in currentOrdered)
             {
                 if(!prevOrdered.Contains(c))
                 {
                     remainedLiterals.Add(c);
                 }
-            }
+            }*/
 
             for(int i = 1; i <= 3; i++)
             {
-                foreach(var c in prevOrdered)
+                foreach(var c in prevOrdered) // TODO Perf leak
                 {
                     var incrementedLiteral = Regex.Replace(c, "s\\d+", n => "s" + (int.Parse(n.Value.TrimStart('s')) + i).ToString());
                     remainedLiterals.Remove(incrementedLiteral);
