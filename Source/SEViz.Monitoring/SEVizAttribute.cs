@@ -38,9 +38,9 @@ namespace SEViz.Monitoring
             }
         }
 
-        private List<SENode> Vertices { get; set; }
+        private Dictionary<int,SENode> Vertices { get; set; }
 
-        private List<SEEdge> Edges { get; set; }
+        private Dictionary<int,Dictionary<int,SEEdge>> Edges { get; set; }
 
         public SEGraph Graph { get; private set; }
 
@@ -104,14 +104,14 @@ namespace SEViz.Monitoring
         public void AfterExploration(IPexExplorationComponent host, object data)
         {
             // Modifying shape based on Z3 calls
-            foreach (var vertex in Vertices)
+            foreach (var vertex in Vertices.Values)
             {
                 if (Z3CallLocations.Contains(vertex.MethodName + ":" + vertex.ILOffset)) vertex.Shape = SENode.NodeShape.Ellipse;
             }
 
             // Adding vertices and edges to the graph
-            Graph.AddVertexRange(Vertices);
-            Graph.AddEdgeRange(Edges);
+            Graph.AddVertexRange(Vertices.Values);
+            foreach(var edgeDictionary in Edges.Values) Graph.AddEdgeRange(edgeDictionary.Values);
 
             // Checking if temporary SEViz folder exists
             if (!Directory.Exists(Path.GetTempPath() + "SEViz"))
@@ -176,11 +176,21 @@ namespace SEViz.Monitoring
                 {
                     var prevNode = nodesInPath[nodeIndex - 1];
                     // If there is no edge between the previous and the current node
-                    if (Edges.Where(e => e.Source.Id == prevNode.UniqueIndex && e.Target.Id == node.UniqueIndex).Count() == 0) // TODO Perf leak
-                    {
-                        var prevVertex = Vertices.Where(v => v.Id == prevNode.UniqueIndex).FirstOrDefault(); // TODO Perf leak
+                    if(!(Edges.ContainsKey(prevNode.UniqueIndex) && Edges[prevNode.UniqueIndex].ContainsKey(node.UniqueIndex))) {
+
+                        var prevVertex = Vertices[prevNode.UniqueIndex];
+
                         var edge = new SEEdge(new Random().Next(), prevVertex, vertex);
-                        Edges.Add(edge);
+
+                        Dictionary<int, SEEdge> outEdges = null;
+                        if(Edges.TryGetValue(prevNode.UniqueIndex,out outEdges))
+                        {
+                            outEdges.Add(node.UniqueIndex, edge);
+                        } else
+                        {
+                            Edges.Add(prevNode.UniqueIndex, new Dictionary<int, SEEdge>());
+                            Edges[prevNode.UniqueIndex].Add(node.UniqueIndex, edge);
+                        }
 
                         // Edge coloring based on unit border detection
                         if (UnitNamespace != null)
@@ -201,9 +211,9 @@ namespace SEViz.Monitoring
                 }
 
                 // If the node is new then it is added to the list and the metadata is filled
-                if (Vertices.Where(v => v.Id == node.UniqueIndex).Count() == 0) // TODO Perf leak
-                {
-                    Vertices.Add(vertex);
+                if(!Vertices.ContainsKey(node.UniqueIndex)) {
+                
+                    Vertices.Add(node.UniqueIndex,vertex);
 
                     // Adding source code mapping
                     vertex.SourceCodeMappingString = MapToSourceCodeLocationString(host, node);
@@ -248,7 +258,7 @@ namespace SEViz.Monitoring
                     // Calculating the incremental path condition based on the full
                     if (nodeIndex > 0)
                     {
-                        var prevNode = Vertices.Where(v => v.Id == nodesInPath[nodeIndex - 1].UniqueIndex).FirstOrDefault(); // TODO Perf leak
+                        var prevNode = Vertices[nodesInPath[nodeIndex - 1].UniqueIndex];
                         vertex.IncrementalPathCondition = CalculateIncrementalPathCondition(vertex.PathCondition, prevNode.PathCondition);
                     } else
                     {
@@ -258,7 +268,7 @@ namespace SEViz.Monitoring
                 }
 
                 // Adding the Id of the run
-                Vertices.Where(v => v.Id == node.UniqueIndex).FirstOrDefault().Runs += (runId + ";"); // TODO Perf leak
+                Vertices[node.UniqueIndex].Runs += (runId + ";");
             }
         }
 
@@ -267,8 +277,8 @@ namespace SEViz.Monitoring
         public void Initialize(IPexExplorationEngine host)
         {
             Graph = new SEGraph();
-            Vertices = new List<SENode>();
-            Edges = new List<SEEdge>();
+            Vertices = new Dictionary<int, SENode>();
+            Edges = new Dictionary<int, Dictionary<int,SEEdge>>();
             EmittedTestResult = new Dictionary<int, Tuple<bool,string>>();
             Z3CallLocations = new List<string>();
         }
@@ -373,14 +383,6 @@ namespace SEViz.Monitoring
             var prevOrdered = prevSplittedCondition.OrderBy(c => c);
 
             remainedLiterals = currentOrdered.Except(prevOrdered).ToList(); // TODO Perf leak
-            /*
-            foreach(var c in currentOrdered)
-            {
-                if(!prevOrdered.Contains(c))
-                {
-                    remainedLiterals.Add(c);
-                }
-            }*/
 
             for(int i = 1; i <= 3; i++)
             {
