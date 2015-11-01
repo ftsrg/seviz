@@ -58,6 +58,7 @@ namespace SEViz.Integration
             GraphControl.Graph = vm.Graph;
 
             GraphControl.AfterLayoutCallback = AfterRelayout;
+            GraphControl.AfterLoadingCallback = vm.LoadingFinishedCallback;
         }
 
         public void AfterRelayout()

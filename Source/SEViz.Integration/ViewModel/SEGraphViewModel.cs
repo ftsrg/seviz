@@ -1,4 +1,6 @@
 ﻿using GraphSharp.Controls;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
 using SEViz.Common;
 using SEViz.Common.Model;
 using SEViz.Integration.Resources;
@@ -10,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -32,6 +35,8 @@ namespace SEViz.Integration.ViewModel
         }
 
         public string Caption { get; set; }
+
+        private BackgroundWorker bw;
 
         private FileSystemWatcher fsw;
 
@@ -56,19 +61,51 @@ namespace SEViz.Integration.ViewModel
             fsw.EnableRaisingEvents = true;
         }
 
+        public void LoadingFinishedCallback()
+        {
+            if (bw != null) bw.CancelAsync();
+        }
+
         private void LoadGraphFromTemp()
         {
             var result = MessageBox.Show("New SEViz graph is available. Do you want to load it?", "SEViz notification", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                // Loading the graph
-                LoadGraph(SEGraph.Deserialize(Path.GetTempPath() + "SEViz/" + "temp.graphml"));
+                var dialogFactory = ViewerWindowCommand.Instance.ServiceProvider.GetService(typeof(SVsThreadedWaitDialogFactory)) as IVsThreadedWaitDialogFactory;
 
-                // Setting the caption of the tool window
-                ViewerWindowCommand.Instance.FindToolWindow().Caption = Graph.Vertices.Where(v => v.Id == 0).FirstOrDefault().MethodName + " - SEViz";
+                IVsThreadedWaitDialog2 dialog = null;
+                if (dialogFactory != null)
+                {
+                    dialogFactory.CreateInstance(out dialog);
+                }
+                if (dialog != null)
+                {
+                    
+                    bw = new BackgroundWorker();
+                    bw.WorkerSupportsCancellation = true;
+                    bw.DoWork += (p1,p2) =>
+                    {
+                        dialog.StartWaitDialog("SEViz", "SEViz is loading", "Please wait while SEViz loads the graph...", null, "Waiting status bar text", 0, false, true);
+                        while (true) if (!bw.CancellationPending) Thread.Sleep(500); else break;
+                    };
+                    bw.RunWorkerCompleted += (p1, p2) =>
+                    {
+                        int isCanceled = -1;
+                        dialog.EndWaitDialog(out isCanceled);
+                    };
+                    bw.RunWorkerAsync();
 
-                // Showing the tool window
-                ViewerWindowCommand.Instance.ShowToolWindow(null, null);
+                    // Loading the graph
+                    LoadGraph(SEGraph.Deserialize(Path.GetTempPath() + "SEViz/" + "temp.graphml"));
+
+                    // Setting the caption of the tool window
+                    ViewerWindowCommand.Instance.FindToolWindow().Caption = Graph.Vertices.Where(v => v.Id == 0).FirstOrDefault().MethodName + " - SEViz";
+
+                    // Showing the tool window
+                    ViewerWindowCommand.Instance.ShowToolWindow(null, null);
+
+                    
+                }
             }
             
             fsw.EnableRaisingEvents = true;

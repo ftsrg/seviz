@@ -102,10 +102,12 @@ namespace GraphSharp.Controls
         }
 
         public Action AfterLayoutCallback { get; set; }
+        public Action AfterLoadingCallback { get; set; }
 
         public void AfterLayout()
         {
             if(AfterLayoutCallback != null) AfterLayoutCallback.Invoke();
+            if (AfterLoadingCallback != null) AfterLoadingCallback.Invoke();
         }
 
         private void DoNotificationLayout()
