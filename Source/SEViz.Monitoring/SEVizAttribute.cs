@@ -357,7 +357,8 @@ namespace SEViz.Monitoring
                         }
 
                         methodBodyWriter.Statement();
-                        output = safeStringWriter.ToString().Remove(safeStringWriter.ToString().Count() - 3); // TODO Perf leak
+                        var safeString = safeStringWriter.ToString();
+                        output = safeString.Remove(safeStringWriter.Length - 3);
                     }
                 }
             }
@@ -384,14 +385,14 @@ namespace SEViz.Monitoring
 
             remainedLiterals = currentOrdered.Except(prevOrdered).ToList(); // TODO Perf leak
 
-            for(int i = 1; i <= 3; i++)
+            Parallel.For(1, 3, (i) =>
             {
-                foreach(var c in prevOrdered) // TODO Perf leak
+                Parallel.ForEach(prevOrdered, c =>
                 {
                     var incrementedLiteral = Regex.Replace(c, "s\\d+", n => "s" + (int.Parse(n.Value.TrimStart('s')) + i).ToString());
                     remainedLiterals.Remove(incrementedLiteral);
-                }
-            }
+                });
+            });
 
             var remainedBuilder = new StringBuilder();
             foreach(var literal in remainedLiterals)
