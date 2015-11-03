@@ -48,6 +48,10 @@ namespace SEViz.Monitoring
 
         private List<string> Z3CallLocations { get; set; }
 
+        private Dictionary<int,System.Threading.Tasks.Task<string>> PrettyPathConditionTasks { get; set; }
+
+        private Dictionary<int,int> ParentNodes { get; set; }
+
         private string UnitNamespace { get; set; }
 
         #endregion
@@ -103,10 +107,29 @@ namespace SEViz.Monitoring
 
         public void AfterExploration(IPexExplorationComponent host, object data)
         {
-            // Modifying shape based on Z3 calls
+            
             foreach (var vertex in Vertices.Values)
             {
+                // Modifying shape based on Z3 calls
                 if (Z3CallLocations.Contains(vertex.MethodName + ":" + vertex.ILOffset)) vertex.Shape = SENode.NodeShape.Ellipse;
+
+                // Adding the path condition
+                var t = PrettyPathConditionTasks[vertex.Id];
+                t.Wait();
+                vertex.PathCondition = t.Result;
+            }
+
+            foreach (var vertex in Vertices.Values)
+            {
+                // Adding the incremental path condition
+                if (ParentNodes.ContainsKey(vertex.Id))
+                {
+                    vertex.IncrementalPathCondition = CalculateIncrementalPathCondition(vertex.PathCondition, Vertices[ParentNodes[vertex.Id]].PathCondition);
+                } else
+                {
+                    // If the node is the first one (has no parents), then the incremental equals the full PC
+                    vertex.IncrementalPathCondition = vertex.PathCondition;
+                }
             }
 
             // Adding vertices and edges to the graph
@@ -249,21 +272,19 @@ namespace SEViz.Monitoring
                     // Setting the default shape
                     vertex.Shape = SENode.NodeShape.Rectangle;
 
-                    // Adding path condition
-                    vertex.PathCondition = PrettyPrintPathCondition(host, node);
+                    // Adding path condition tasks and getting the required services
+                    TermEmitter termEmitter = new TermEmitter(host.GetService<TermManager>());
+                    SafeStringWriter safeStringWriter = new SafeStringWriter();
+                    IMethodBodyWriter methodBodyWriter = host.GetService<IPexTestManager>().Language.CreateBodyWriter(safeStringWriter, VisibilityContext.Private, 2000);
+                    PrettyPathConditionTasks.Add(vertex.Id, PrettyPrintPathCondition(termEmitter, methodBodyWriter, safeStringWriter, node));
 
                     // Setting the status
                     vertex.Status = node.ExhaustedReason.ToString();
 
-                    // Calculating the incremental path condition based on the full
+                    // Collecting the parent nodes for the later incremental path condition calculation
                     if (nodeIndex > 0)
                     {
-                        var prevNode = Vertices[nodesInPath[nodeIndex - 1].UniqueIndex];
-                        vertex.IncrementalPathCondition = CalculateIncrementalPathCondition(vertex.PathCondition, prevNode.PathCondition);
-                    } else
-                    {
-                        // If the node is the first one, then the incremental equals the full PC
-                        vertex.IncrementalPathCondition = vertex.PathCondition;
+                        ParentNodes.Add(vertex.Id, nodesInPath[nodeIndex - 1].UniqueIndex);
                     }
                 }
 
@@ -281,6 +302,8 @@ namespace SEViz.Monitoring
             Edges = new Dictionary<int, Dictionary<int,SEEdge>>();
             EmittedTestResult = new Dictionary<int, Tuple<bool,string>>();
             Z3CallLocations = new List<string>();
+            PrettyPathConditionTasks = new Dictionary<int, System.Threading.Tasks.Task<string>>();
+            ParentNodes = new Dictionary<int, int>();
         }
 
         public void Load(IContainer pathContainer)
@@ -339,31 +362,33 @@ namespace SEViz.Monitoring
         /// <param name="host">Host of the Pex Path Component</param>
         /// <param name="node">The execution node to map</param>
         /// <returns>The pretty printed path condition string</returns>
-        private string PrettyPrintPathCondition(IPexPathComponent host, IExecutionNode node)
+        private System.Threading.Tasks.Task<string> PrettyPrintPathCondition(TermEmitter emitter, IMethodBodyWriter mbw, SafeStringWriter ssw, IExecutionNode node)
         {
-            string output = "";
-            try
+            var task = System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
-                if (node.GetPathCondition().Conjuncts.Count != 0)
+                string output = "";
+                try
                 {
-                    TermEmitter termEmitter = new TermEmitter(host.GetService<TermManager>());
-                    SafeStringWriter safeStringWriter = new SafeStringWriter();
-                    IMethodBodyWriter methodBodyWriter = host.GetService<IPexTestManager>().Language.CreateBodyWriter(safeStringWriter, VisibilityContext.Private, 2000);
-                    if (termEmitter.TryEvaluate(node.GetPathCondition().Conjuncts, 2000, methodBodyWriter)) // TODO Perf leak
+                    if (node.GetPathCondition().Conjuncts.Count != 0)
                     {
-                        for (int i = 0; i < node.GetPathCondition().Conjuncts.Count - 1; i++)
-                        {
-                            methodBodyWriter.ShortCircuitAnd();
-                        }
 
-                        methodBodyWriter.Statement();
-                        var safeString = safeStringWriter.ToString();
-                        output = safeString.Remove(safeStringWriter.Length - 3);
+                        if (emitter.TryEvaluate(node.GetPathCondition().Conjuncts, 2000, mbw)) // TODO Perf leak
+                        {
+                            for (int i = 0; i < node.GetPathCondition().Conjuncts.Count - 1; i++)
+                            {
+                                mbw.ShortCircuitAnd();
+                            }
+
+                            mbw.Statement();
+                            var safeString = ssw.ToString();
+                            output = safeString.Remove(ssw.Length - 3);
+                        }
                     }
                 }
-            }
-            catch (Exception) { }
-            return output;
+                catch (Exception) { }
+                return output;
+            });
+            return task;
 
         }
 
