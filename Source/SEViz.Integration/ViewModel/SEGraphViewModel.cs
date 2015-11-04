@@ -44,6 +44,11 @@ namespace SEViz.Integration.ViewModel
 
         public SEGraphViewModel()
         {
+            // Create temp/SEViz dir if does not exist
+            if (!Directory.Exists(Path.GetTempPath() + "SEViz")) {
+                Directory.CreateDirectory(Path.GetTempPath() + "SEViz");
+            }
+
             fsw = new FileSystemWatcher(Path.GetTempPath()+"SEViz");
             fsw.Changed += (p1, p2) =>
             {
