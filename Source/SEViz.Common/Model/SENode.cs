@@ -105,10 +105,11 @@ namespace SEViz.Common.Model
         [XmlAttribute("method")]
         public string MethodName { get; set; }
 
-        [Category("Node details")]
-        [DisplayName("IL offset")]
-        [Description("The IL offset starting from the entry point of the current method.")]
-        [ReadOnly(true)]
+        //[Category("Node details")]
+        //[DisplayName("IL offset")]
+        //[Description("The IL offset starting from the entry point of the current method.")]
+        //[ReadOnly(true)]
+        [Browsable(false)]
         [XmlAttribute("iloffset")]
         public int ILOffset { get; set; }
 
