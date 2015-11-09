@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>SEViz - Visualizing symbolic execution</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+
+        <h1>
+          <img src="images/seviz-logo.png" alt="SEViz - Visualizing symbolic execution" style="width:272px;height:240px;"/>
+        </h1>
+
+        <p>SEViz (Symbolic Execution VisualIZer) is a tool for visualizing symbolic execution-based test generation</p>
+<hr>
+          <p><a href="index.html"><strong>Home</strong></a></p>
+          <p><a href="manual.html"><strong>User manual</strong></a></p>
+          <p><a href="examples.html"><strong>Examples</strong></a></p>
+          <p><a href="contact.html"><strong>Contact</strong></a></p>
+
+<hr>
+
+
+        <ul>
+          <li><a href="https://github.com/FTSRG/seviz/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/FTSRG/seviz/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/FTSRG/seviz">View On <strong>GitHub</strong></a></li>
+        </ul>
+
+        <p class="view"><a href="https://github.com/FTSRG/seviz">View the Project on GitHub <small>FTSRG/seviz</small></a></p>
+
+      </header>
+      <section>
+
+        <h1>User manual</h1>
+        <h2>Requirements</h2>
+          <ul>
+            <li>.NET version 4.5 or later [<a href="http://www.microsoft.com/en-us/download/details.aspx?id=30653">Download</a>]</li>
+            <li>Visual Studio 2015 Enterprise (with IntelliTest) [<a href="http://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs.aspx">Download</a>]</li>
+          </ul>
+        <h2>Building</h2>
+          <ol>
+            <li>Download or clone the repository.</li>
+            <li>Start VS2015 Enterprise as Administrator.</li>
+            <li>Open Visual Studio solution found in the Source folder.</li>
+            <li>Build the whole solution. This triggers two pre-build events:
+              <ul>
+                <li>Downloading the required NuGet packages.</li>
+                <li>Invoking the PowerShell script that copies the necessary Pex assemblies into the corresponding folder.</li>
+              </ul>
+            </li>
+          </ol>
+        <h2>Installation</h2>
+        <ul>
+          <li><strong>Viewer:</strong> Search for the <i>SEViz.Integration.vsix</i> file and install the Visual Studio extension to the desired VS2015 Enterprise installation.</li>
+          <li><strong>Monitoring:</strong> Add the <i>SEViz.Monitoring.dll</i> as reference to a Unit Test project, where IntelliTest PUTs are created.</li>
+        </ul>
+        <h2>Tutorial</h2>
+        <p><strong><a href="https://github.com/FTSRG/seviz/releases/download/v0.8/SEViz.Examples.Tutorial.zip">Download example solution</a></strong></p>
+        <h3>1. Opening the solution</h3>
+        <p>In the first step, you have to unpack the downloaded zip file, which contains the project <strong>SEViz.Examples.Tutorials</strong>.</p>
+        <p>Open the solution in Visual Studio. The solution contains a Unit Test project and the necessary parameterized unit tests.</p>
+        <p>In this tutorial, the method <i>Foo</i> of class <i>A</i> is the unit under test.</p>
+        <h3>2. Attributing the parameterized test</h3>
+        <p>Our tool is working with .NET attributes, which can be added to parameterized test methods. To make SEViz able to monitor the execution, you have to put the <strong>[SEViz]</strong> attribute to the method.</p>
+        <p>In the current example, the namespace of method under test is <i>SEViz.Examples.Tutorial.A.Foo</i>. SEViz features indicating exits/entries from/to the unit under test by coloring the edges. <span style="color:red;">Red</span> edges indicate exits, while <span style="color:green;">green</span> edges mark entries into the unit</p>
+        <h3>3. Running IntelliTest</h3>
+        <p>Right-click in the parameterized unit test and select Run IntelliTest. This triggers the symbolic execution-based test generation and its monitoring by SEViz.</p>
+        <p>When the execution of IntelliTest finishes, an alert window will pop up, indicating that a new symbolic execution graph is available for visualization.</p>
+        <h3>4. Visualizing the execution</h3>
+        <p>Clicking on OK in the popup window will trigger the SEViz window to appear loaded with the symbolic execution graph.</p>
+        <p align="center"><img src="images/tutorial.png" alt="SEViz Viewer window" /></p>
+        <h3>5. Features of SEViz</h3>
+        <ul>
+          <li>Clicking on a node will show its details in the Properties window.</li>
+          <li>Double-clicking on a node will select the corresponding source code line.</li>
+          <li>Right-clicking on a leaf node will select the nodes involved in the execution which was ended in that leaf.</li>
+          <li>Right-clicking on a non-leaf node will collapse the subtree under the node.</li>
+          <li>Right-clicking on a collapsed node will expand the subtree.</li>
+          <li>Selecting a source code line, and selecting Tools -> Show in SEViz will select the corresponding node in the symbolic execution tree.</li>
+        </ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/FTSRG">FTSRG</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-69898803-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
