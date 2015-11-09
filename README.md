@@ -1,3 +1,4 @@
+<img src="http://docs.inf.mit.bme.hu/seviz/images/seviz-logo.png" width="200" />
 # Symbolic Execution VisualiZer (SEViz)
 
 ## Description
