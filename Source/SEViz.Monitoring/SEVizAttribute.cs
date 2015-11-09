@@ -11,7 +11,6 @@ using Microsoft.ExtendedReflection.Metadata.Names;
 using System.IO;
 using SEViz.Common.Model;
 using Microsoft.VisualStudio.Shell.Interop;
-using SEViz.Monitoring.Helpers;
 using System.Management;
 using System.Diagnostics;
 using Microsoft.VisualStudio.Shell;

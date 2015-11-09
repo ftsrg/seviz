@@ -38,18 +38,18 @@
     </Reference>
     <Reference Include="Microsoft.ExtendedReflection, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.ExtendedReflection.dll</HintPath>
+      <HintPath>Lib\Microsoft.ExtendedReflection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ExtendedReflection.Reasoning">
-      <HintPath>..\..\..\..\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.ExtendedReflection.Reasoning.dll</HintPath>
+      <HintPath>Lib\Microsoft.ExtendedReflection.Reasoning.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Pex, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.Pex.exe</HintPath>
+      <HintPath>Lib\Microsoft.Pex.exe</HintPath>
     </Reference>
     <Reference Include="Microsoft.Pex.Framework, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.Pex.Framework.dll</HintPath>
+      <HintPath>Lib\Microsoft.Pex.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -105,10 +105,13 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Scripts\Get-PexAssemblies.ps1" />
+    <None Include="Lib\Get-PexAssemblies.ps1" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>powershell -File "$(ProjectDir)\Lib\Get-PexAssemblies.ps1"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
