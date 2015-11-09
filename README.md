@@ -1,26 +1,16 @@
-# Important information on current status
-SEViz is currently under development, which includes the integration into Visual Studio 2015 in order to have seamless collaboration and functionality. The project `SEViz.Integration` contains the Visual Studio extension that is currently under development. This means that the information described below will be outdated soon, since the `Viewer` and the `VSExtension` projects are merged into this integration project. More information is coming very soon.
-
 # Symbolic Execution VisualiZer (SEViz)
 
-SEViz is a tool for visualizing symbolic execution-based test generation.
+SEViz is a tool for visualizing symbolic execution-based test generation carried out by IntelliTest.
 
 SEViz can enhance test generation for *complex programs* by visually presenting the information required to quickly identify modifications that enable the generation of further test inputs and increase coverage.
 
 SEViz can also be used in *education* and training by showing the process and result of symbolic execution in a step-by-step manner on simpler programs.
 
-The source code of the project consists of the following three projects:
+The source code of the project consists of the following projects:
 
 * `SEViz.Monitoring`: captures information about the test generation of Visual Studio's [IntelliTest](https://msdn.microsoft.com/en-us/library/dn823749.aspx) (formerly [Pex](http://research.microsoft.com/en-us/projects/pex/)),
-* `SEViz.VSExtension`: an extension for Visual Studio that links source code instructions to the visualization,
-* `SEViz.Viewer`: a program to interactively visualize the captured test generation process.
+* `SEViz.Integration`: an extension for Visual Studio that is able to interactively visualize the test generation process and links source code instructions to the visualization,
+* `SEViz.Common`: contains common data structures used by the previous two projects,
+* `GraphSharp` and `GraphSharp.Controls`: a fork of the GitHub project [GrapSharp](https://github.com/andypelzer/GraphSharp/tree/c9c2c8d9070e3c541f2cf60ec0b6213e0235e727), modified for the needs of SEViz.
 
 For more information see the [tool's website](http://ftsrg.github.io/seviz).
-
----
-
-SeViz uses the following components and libraries:
-
-* [Dot2WPF](http://www.codeproject.com/Articles/18870/Dot-WPF-a-WPF-control-for-viewing-Dot-graphs): a WPF control for viewing Dot graphs, licensed under The Code Project License (CPOL),
-* [CircularLoadingPanel](http://huydinhpham.blogspot.hu/2011/07/wpf-loading-panel.html): a WPF loading panel with a progress bar, licensed under the Microsoft Public License (MS-PL),
-* [DotNetZip](http://dotnetzip.codeplex.com/): a class library for manipulating zip files, licensed under the Microsoft Public License (MS-PL).
