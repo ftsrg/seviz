@@ -1,13 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="refresh" content="0; URL=http://docs.inf.mit.bme.hu/seviz/out/">
-	<title></title>
-</head>
-<body>
- 
-	
- 
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>SEViz - Visualizing symbolic execution by FTSRG</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>SEViz - Visualizing symbolic execution</h1>
+        <p>SEViz (Symbolic Execution VisualIZer) is a tool for visualizing symbolic execution-based test generation</p>
+
+        <p class="view"><a href="https://github.com/FTSRG/seviz">View the Project on GitHub <small>FTSRG/seviz</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/FTSRG/seviz/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/FTSRG/seviz/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/FTSRG/seviz">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="symbolic-execution-visualizer-seviz" class="anchor" href="#symbolic-execution-visualizer-seviz" aria-hidden="true"><span class="octicon octicon-link"></span></a>Symbolic Execution VisualiZer (SEViz)</h1>
+
+<h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
+
+<p>SEViz is a tool for visualizing symbolic execution-based test generation carried out by <a href="https://msdn.microsoft.com/en-us/library/dn823749.aspx">IntelliTest</a>.</p>
+
+<p>SEViz can enhance test generation for <em>complex programs</em> by visually presenting the information required to quickly identify modifications that enable the generation of further test inputs and increase coverage.</p>
+
+<p>SEViz can also be used in <em>education</em> and training by showing the process and result of symbolic execution in a step-by-step manner on simpler programs.</p>
+
+<p>The source code of the project consists of the following projects:</p>
+
+<ul>
+<li>
+<code>SEViz.Monitoring</code>: captures information about the test generation of Visual Studio's IntelliTest (formerly <a href="http://research.microsoft.com/en-us/projects/pex/">Pex</a>),</li>
+<li>
+<code>SEViz.Integration</code>: an extension for Visual Studio that is able to interactively visualize the test generation process and links source code instructions to the visualization,</li>
+<li>
+<code>SEViz.Common</code>: contains common data structures used by the previous two projects,</li>
+<li>
+<code>GraphSharp</code> and <code>GraphSharp.Controls</code>: a fork of the GitHub project <a href="https://github.com/andypelzer/GraphSharp/tree/c9c2c8d9070e3c541f2cf60ec0b6213e0235e727">GrapSharp</a>, modified for the needs of SEViz.</li>
+</ul>
+
+<p>For more information see the <a href="http://ftsrg.github.io/seviz">tool's website</a> (with user manual and examples).</p>
+
+<h2>
+<a id="building-the-project" class="anchor" href="#building-the-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building the project</h2>
+
+<ol>
+<li>Prerequisites for the build:
+
+<ul>
+<li>.NET framework v4.5</li>
+<li>Visual Studio 2015 Enterprise (includes IntelliTest)</li>
+</ul>
+</li>
+<li>Download the zip or clone the repository.</li>
+<li>Open the Visual Studio solution found in the Source folder as Administrator.</li>
+<li>Build the whole solution. This triggers two pre-build events:
+
+<ul>
+<li>Downloading the required NuGet packages.</li>
+<li>Invoking the PowerShell script that copies the necessary Pex assemblies into the corresponding folder.</li>
+</ul>
+</li>
+</ol>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/FTSRG">FTSRG</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-69898803-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
 </html>
