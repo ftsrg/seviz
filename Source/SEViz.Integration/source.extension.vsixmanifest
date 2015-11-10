@@ -9,7 +9,7 @@ SEViz can enhance test generation for complex programs by visually presenting th
 
 SEViz can also be used in education and training by showing the process and result of symbolic execution in a step-by-step manner on simpler programs.</Description>
     <MoreInfo>http://ftsrg.github.io/seviz</MoreInfo>
-    <License>Apache License, Version 2.0</License>
+    <License>Resources\LICENSE.txt</License>
     <Icon>Resources\seviz-logo-icon.png</Icon>
   </Metadata>
   <Installation>
