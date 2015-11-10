@@ -90,8 +90,11 @@ namespace SEViz.Integration
             var foundedNodes = new List<SENode>();
             for (int i = startLine; i <= endLine; i++)
             {
-                var match = GraphControl.Graph.Vertices.Where(v => v.SourceCodeMappingString.Contains(location + ":" + i.ToString())).FirstOrDefault();
-                if(match != null) foundedNodes.Add(match);
+                var matches = GraphControl.Graph.Vertices.Where(v => v.SourceCodeMappingString.Contains(location + ":" + i.ToString()));
+                foreach (var node in matches)
+                {
+                    if(!foundedNodes.Contains(node)) foundedNodes.Add(node);
+                }
             }
             if(foundedNodes.Count > 0)
             {
