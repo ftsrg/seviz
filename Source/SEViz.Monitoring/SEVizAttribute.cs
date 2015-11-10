@@ -68,7 +68,7 @@ namespace SEViz.Monitoring
 
         private List<string> Z3CallLocations { get; set; }
 
-        private Dictionary<int,System.Threading.Tasks.Task<string>> PrettyPathConditionTasks { get; set; }
+        private Dictionary<int, Task<string>> PrettyPathConditionTasks { get; set; }
 
         private Dictionary<int,int> ParentNodes { get; set; }
 
@@ -322,7 +322,7 @@ namespace SEViz.Monitoring
             Edges = new Dictionary<int, Dictionary<int,SEEdge>>();
             EmittedTestResult = new Dictionary<int, Tuple<bool,string>>();
             Z3CallLocations = new List<string>();
-            PrettyPathConditionTasks = new Dictionary<int, System.Threading.Tasks.Task<string>>();
+            PrettyPathConditionTasks = new Dictionary<int, Task<string>>();
             ParentNodes = new Dictionary<int, int>();
         }
 
@@ -382,9 +382,9 @@ namespace SEViz.Monitoring
         /// <param name="host">Host of the Pex Path Component</param>
         /// <param name="node">The execution node to map</param>
         /// <returns>The pretty printed path condition string</returns>
-        private System.Threading.Tasks.Task<string> PrettyPrintPathCondition(TermEmitter emitter, IMethodBodyWriter mbw, SafeStringWriter ssw, IExecutionNode node)
+        private Task<string> PrettyPrintPathCondition(TermEmitter emitter, IMethodBodyWriter mbw, SafeStringWriter ssw, IExecutionNode node)
         {
-            var task = System.Threading.Tasks.Task.Factory.StartNew(() =>
+            var task = Task.Factory.StartNew(() =>
             {
                 string output = "";
                 try
