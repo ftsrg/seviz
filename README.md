@@ -1,4 +1,6 @@
 <img src="http://docs.inf.mit.bme.hu/seviz/images/seviz-logo.png" width="200" />
+<img src="https://seviz.visualstudio.com/DefaultCollection/_apis/public/build/definitions/f0992fd0-b212-4fd9-b74b-4be525d6556f/2/badge" />
+
 # Symbolic Execution VisualiZer (SEViz)
 
 ## Description
