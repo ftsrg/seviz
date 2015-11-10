@@ -46,7 +46,7 @@
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>SEViz</ButtonText>
+          <ButtonText>SEViz Window</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidViewerWindowPackageCmdSet1" id="cmdidShowInSEVizCommand" priority="0x0100" type="Button">
@@ -65,8 +65,8 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\ViewerWindowCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
-      <Bitmap guid="guidImages1" href="Resources\ShowInSEVizCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages" href="Resources\seviz-logo-wo-text.png" />
+      <Bitmap guid="guidImages1" href="Resources\seviz-logo-wo-text.png" />
     </Bitmaps>
     <Groups>
       <Group guid="guidViewerWindowPackageCmdSet1" id="SEVizMenuGroup" priority="0x0600">

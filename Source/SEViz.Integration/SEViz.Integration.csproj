@@ -79,8 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
-    <Content Include="Resources\ShowInSEVizCommand.png" />
-    <Content Include="Resources\ViewerWindowCommand.png" />
+    <Content Include="Resources\seviz-logo-wo-text.png" />
     <Content Include="Resources\ViewerWindowPackage.ico" />
     <Content Include="stylesheet.css" />
     <VSCTCompile Include="ViewerWindowPackage.vsct">

@@ -1,9 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="SEViz.Integration.Dávid Honfi.f4b1246e-622a-40e0-9285-2d4caa6f3300" Version="1.0" Language="en-US" Publisher="Dávid Honfi" />
+    <Identity Id="SEViz.Integration.Dávid Honfi.f4b1246e-622a-40e0-9285-2d4caa6f3300" Version="0.8" Language="en-US" Publisher="Dávid Honfi" />
     <DisplayName>SEViz.Integration</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Description xml:space="preserve">SEViz is a tool for visualizing symbolic execution-based test generation carried out by IntelliTest.
+
+SEViz can enhance test generation for complex programs by visually presenting the information required to quickly identify modifications that enable the generation of further test inputs and increase coverage.
+
+SEViz can also be used in education and training by showing the process and result of symbolic execution in a step-by-step manner on simpler programs.</Description>
+    <MoreInfo>http://ftsrg.github.io/seviz</MoreInfo>
+    <License>Apache License, Version 2.0</License>
+    <Icon>Resources\seviz-logo-icon.png</Icon>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
