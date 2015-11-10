@@ -50,5 +50,33 @@ namespace SEViz.Demos
                 }
             }
         }
+
+        public int SwitchAndFor(int type, bool b, int bound)
+        {
+            switch (type)
+            {
+                case 0:
+                    int sum = 0;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        sum += i;
+                        if (i == bound)
+                        {
+                            break;
+                        }
+                    }
+                    return sum;
+                case 1:
+                    if (b)
+                    {
+                        return 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return -1;
+        }
     }
 }
