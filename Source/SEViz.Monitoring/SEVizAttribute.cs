@@ -23,30 +23,26 @@
  * 
  */
 
-using Microsoft.Pex.Engine.Packages;
-using Microsoft.Pex.Framework.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.ExtendedReflection.ComponentModel;
-using Microsoft.Pex.Engine.ComponentModel;
+using Microsoft.ExtendedReflection.Emit;
+using Microsoft.ExtendedReflection.Interpretation;
+using Microsoft.ExtendedReflection.Metadata;
 using Microsoft.ExtendedReflection.Metadata.Names;
-using System.IO;
-using SEViz.Common.Model;
-using Microsoft.VisualStudio.Shell.Interop;
-using System.Management;
-using System.Diagnostics;
-using Microsoft.VisualStudio.Shell;
 using Microsoft.ExtendedReflection.Reasoning.ExecutionNodes;
 using Microsoft.ExtendedReflection.Symbols;
-using Microsoft.ExtendedReflection.Metadata;
-using Microsoft.ExtendedReflection.Interpretation;
 using Microsoft.ExtendedReflection.Utilities.Safe.IO;
-using Microsoft.ExtendedReflection.Emit;
+using Microsoft.Pex.Engine.ComponentModel;
+using Microsoft.Pex.Engine.Packages;
 using Microsoft.Pex.Engine.TestGeneration;
+using Microsoft.Pex.Framework.ComponentModel;
+using SEViz.Common.Model;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace SEViz.Monitoring
 {

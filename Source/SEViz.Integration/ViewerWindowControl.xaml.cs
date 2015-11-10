@@ -25,28 +25,21 @@
 
 namespace SEViz.Integration
 {
-    using ViewModel;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Reflection;
-    using System.Windows;
-    using System.Linq;
-    using System.Windows.Controls;
-    using System.Windows.Media;
-    using GraphSharp.Controls;
-    using QuickGraph.Algorithms.Search;
-    using System.Collections.Generic;
-    using Resources;
-    using System.Threading;
-    using System.ComponentModel;
-    using System;
-    using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Shell.Interop;
-    using System.Windows.Media.Effects;
-    using System.Windows.Input;
-    using Common;
     using Common.Model;
     using EnvDTE;
-    using System.IO;
+    using GraphSharp.Controls;
+    using Microsoft.VisualStudio.Shell.Interop;
+    using QuickGraph.Algorithms.Search;
+    using Resources;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using ViewModel;
 
     /// <summary>
     /// Interaction logic for ViewerWindowControl.
