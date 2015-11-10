@@ -52,9 +52,11 @@
       <Button guid="guidViewerWindowPackageCmdSet1" id="cmdidShowInSEVizCommand" priority="0x0100" type="Button">
         <Parent guid="guidViewerWindowPackageCmdSet1" id="SEVizMenuGroup" />
         <Icon guid="guidImages1" id="bmpPic1" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
-          <ButtonText>Show in SEViz</ButtonText>
+          <ButtonText>Show Selected Lines in SEViz</ButtonText>
         </Strings>
+        
       </Button>
     </Buttons>
 
@@ -70,11 +72,12 @@
     </Bitmaps>
     <Groups>
       <Group guid="guidViewerWindowPackageCmdSet1" id="SEVizMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
-      </Group>
+        <!--<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />-->
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+        </Group>
     </Groups>
   </Commands>
-
+  
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidViewerWindowPackage" value="{9eb934d0-0423-4cf8-9eb9-0fd0a25a1d5a}" />
