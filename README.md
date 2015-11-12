@@ -1,7 +1,7 @@
-<img src="http://docs.inf.mit.bme.hu/seviz/images/seviz-logo.png" width="200" />
-<img src="https://seviz.visualstudio.com/DefaultCollection/_apis/public/build/definitions/f0992fd0-b212-4fd9-b74b-4be525d6556f/2/badge" />
+<a href="http://ftsrg.github.io/seviz" title="ftsrg.github.io/seviz"><img src="http://docs.inf.mit.bme.hu/seviz/images/seviz-logo.png" width="200" /></a>
+<a href="http://ftsrg.github.io/seviz" title="ftsrg.github.io/seviz"><img src="https://seviz.visualstudio.com/DefaultCollection/_apis/public/build/definitions/f0992fd0-b212-4fd9-b74b-4be525d6556f/2/badge" /></a>
 
-# Symbolic Execution VisualiZer (SEViz)
+# [Symbolic Execution VisualiZer (SEViz)](http://ftsrg.github.io/seviz)
 
 ## Description
 
