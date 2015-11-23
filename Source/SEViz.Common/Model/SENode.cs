@@ -81,6 +81,8 @@ namespace SEViz.Common.Model
         
         internal bool IsSelected { get; set; }
 
+        internal bool IsCollapsed { get; set; }
+
         [XmlAttribute("color")]
         [Browsable(false)]
         public int sColor { get { return (int)Color; } set { Color = (NodeColor)Enum.ToObject(typeof(NodeColor), value); originalColors.Push(Color); } }
@@ -178,6 +180,7 @@ namespace SEViz.Common.Model
             //Color = NodeColor.White;
             
             IsSelected = false;
+            IsCollapsed = false;
             Shape = (solverCall) ?  NodeShape.Ellipse : NodeShape.Rectangle;
             Border = (sourceCodeMapping == null) ? NodeBorder.Single : NodeBorder.Double;
 

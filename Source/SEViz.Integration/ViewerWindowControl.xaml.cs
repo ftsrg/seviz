@@ -256,7 +256,9 @@ namespace SEViz.Integration
         {
             
             currentSubtreeRoot = ((sender as VertexControl).Vertex as SENode);
-            
+
+            if (currentSubtreeRoot.IsCollapsed) return;
+
             if (currentSubtreeRoot.CollapsedSubtreeNodes.Count == 0)
             {
                 // In order to revert to original color!
@@ -308,6 +310,7 @@ namespace SEViz.Integration
                 foreach (var vertex in ((sender as VertexControl).Vertex as SENode).CollapsedSubtreeNodes)
                 {
                     GraphControl.Graph.UnhideVertex(vertex);
+                    vertex.IsCollapsed = false;
                 }
                 currentSubtreeRoot.CollapsedSubtreeNodes.Clear();
 
@@ -340,6 +343,7 @@ namespace SEViz.Integration
             if (!currentSubtreeRoot.Equals(vertex))
             {
                 if(vertex.IsSelected) vertex.Deselect();
+                vertex.IsCollapsed = true;
                 currentSubtreeRoot.CollapsedSubtreeNodes.Add(vertex);
                 
             }
