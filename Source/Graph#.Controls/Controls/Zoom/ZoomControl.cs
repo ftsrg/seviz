@@ -385,8 +385,30 @@ namespace GraphSharp.Controls.Zoom
             Presenter = GetTemplateChild(PartPresenter) as ZoomContentPresenter;
             if (Presenter != null)
             {
-                Presenter.SizeChanged += (s, a) => DoZoomToFill();
-                Presenter.ContentSizeChanged += (s, a) => DoZoomToFill();
+                Presenter.SizeChanged += (s, a) =>
+                {
+                    if (Mode == ZoomControlModes.Fill)
+                    {
+                        DoZoomToFill();
+                    }
+                    else if(Mode == ZoomControlModes.Original)
+                    {
+                        var initialTranslate = GetInitialTranslate();
+                        DoZoomAnimation(Zoom, initialTranslate.X * Zoom, initialTranslate.Y * Zoom);
+                    }
+                };
+                Presenter.ContentSizeChanged += (s, a) =>
+                {
+                    if (Mode == ZoomControlModes.Fill)
+                    {
+                        DoZoomToFill();
+                    }
+                    else if (Mode == ZoomControlModes.Original)
+                    {
+                        var initialTranslate = GetInitialTranslate();
+                        DoZoomAnimation(Zoom, initialTranslate.X * Zoom, initialTranslate.Y * Zoom);
+                    }
+                };
             }
             ZoomToFill();
         }
